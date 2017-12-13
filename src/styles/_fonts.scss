@@ -1,0 +1,32 @@
+//-----------------------//
+//     Tablet Gothic     //
+//-----------------------//
+
+/* Tablet Gothic Regular */
+@font-face {
+    font-family: 'Tablet Gothic';
+    src: url('../fonts/tabletgothic/TabletGothic-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+/* Tablet Gothic Oblique */
+@font-face {
+    font-family: 'Tablet Gothic';
+    src: url('../fonts/tabletgothic/TabletGothic-Oblique.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+/* Tablet Gothic Bold */
+@font-face {
+    font-family: 'Tablet Gothic';
+    src: url('../fonts/tabletgothic/TabletGothic-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+/* Tablet Gothic Bold Oblique */
+@font-face {
+    font-family: 'Tablet Gothic';
+    src: url('../fonts/tabletgothic/TabletGothic-BoldOblique.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+}

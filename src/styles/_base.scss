@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+    letter-spacing: .01em;
+}
+
+body {
+    color: #252525;
+    font-family: "Tablet Gothic", sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    min-width: 320px;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+
+    @include hover {
+        text-decoration: underline;
+    }
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: normal;
+    line-height: 1.2;
+    margin: 48px 0;
+}
+
+summary {
+    cursor: pointer;
+}
+
+svg {
+    use {
+        fill: currentColor;
+        pointer-events: none;
+    }
+}

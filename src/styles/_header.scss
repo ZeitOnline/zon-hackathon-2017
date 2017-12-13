@@ -1,0 +1,13 @@
+.header {
+    padding: 10px;
+}
+
+$logo-width: 346px;
+$logo-height: 37px;
+$logo-scale: 200px;
+
+.header_logo {
+    height: ceil(($logo-scale / $logo-width) * $logo-height);
+    max-width: 100%;
+    width: $logo-scale;
+}

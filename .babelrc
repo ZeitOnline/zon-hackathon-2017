@@ -1,0 +1,29 @@
+{
+    "presets": [
+        [
+            "env",
+            {
+                "modules": false,
+                "debug": true,
+                "targets": {
+                    "browsers": [
+                        "last 1 versions",
+                        "not Explorer 11"
+                    ]
+                }
+            }
+        ],
+        "react"
+    ],
+    "plugins": [
+        ["babel-plugin-module-resolver", {
+            "alias": {
+                "app": "./src"
+            }
+        }],
+        "transform-object-rest-spread",
+        "transform-export-extensions",
+        "transform-class-properties",
+        [ "transform-runtime", { "polyfill": false, "regenerator": true, }, ]
+    ]
+}

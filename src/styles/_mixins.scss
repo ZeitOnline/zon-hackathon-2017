@@ -1,0 +1,65 @@
+@mixin for-phone-only {
+    @include respond-max($min-width-tablet) {
+        @content;
+    }
+}
+
+@mixin for-tablet-down {
+    @include respond-max($min-width-desktop) {
+        @content;
+    }
+}
+
+@mixin for-tablet-up {
+    @include respond-min($min-width-tablet) {
+        @content;
+    }
+}
+
+@mixin for-desktop-up {
+    @include respond-min($min-width-desktop) {
+        @content;
+    }
+}
+
+@mixin respond-min($width) {
+    @media screen and (min-width: $width) {
+        @content;
+    }
+}
+
+@mixin respond-max($width, $exclusive: true) {
+    @if $exclusive {
+        $width: $width - 0.001;
+    }
+
+    @media screen and (max-width: $width) {
+        @content;
+    }
+}
+
+@mixin font-smoothing() {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+@mixin clearfix() {
+    // display: flow-root; // browser support is bad :(
+    overflow: hidden;
+}
+
+@mixin pie-clearfix() {
+    &::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+}
+
+@mixin hover() {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
