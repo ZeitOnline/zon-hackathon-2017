@@ -64,5 +64,7 @@
     "webpack": "webpack --env.development --display-optimization-bailout",
     "start": "yarn dev"
   },
-  "dependencies": {}
+  "dependencies": {
+    "dotenv-webpack": "^1.5.4"
+  }
 }

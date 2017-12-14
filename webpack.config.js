@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const Dotenv = require('dotenv-webpack');
 
 const config = (env) => {
     const isProduction = !!env.production;
@@ -114,6 +115,10 @@ const config = (env) => {
             new SpriteLoaderPlugin(),
             bundleCss,
             htmlSinglePage,
+            new Dotenv({
+                path: './.env', // Path to .env file (this is the default) 
+                // safe: true // load .env.example (defaults to "false" which does not use dotenv-safe) 
+            }),
         ],
         devServer: {
             contentBase: publicPath,
