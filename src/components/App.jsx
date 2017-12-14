@@ -8,7 +8,7 @@ const App = () => (
         <header className="header">
             <svg className="header_logo"><use xlinkHref={logo.url} /></svg>
         </header>
-        <TeaserList />
+        <TeaserList headline="Schrott" />
     </div>
 );
 

@@ -1,0 +1,2 @@
+export fetchData from './fetchData';
+
