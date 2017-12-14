@@ -8,21 +8,29 @@ export default class TeaserList extends Component {
         headline: PropTypes.string.isRequired,
     }
 
+    state = {
+        teaser: [],
+    }
+
     async componentDidMount() {
         const result = await fetchData();
         console.log(result);
+        this.receiveTeaser(result.matches);
     }
 
     render() {
         return (
             <div>
                 <h1>{this.props.headline}</h1>
-                <div>Hallo</div>
+                <div>{ this.state.teaser.map(teaser => (
+                    <div key={teaser.uuid}>{teaser.title}</div>
+                )) }
+                </div>
             </div>
         );
     }
 
-    dummy() {
-        return this.props.children;
+    receiveTeaser(teaser) {
+        this.setState({ teaser });
     }
 }
