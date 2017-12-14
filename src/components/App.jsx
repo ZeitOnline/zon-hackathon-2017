@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { TeaserList } from 'app/components';
 import logo from 'app/svg/logo.svg';
 
 const App = () => (
@@ -7,9 +8,7 @@ const App = () => (
         <header className="header">
             <svg className="header_logo"><use xlinkHref={logo.url} /></svg>
         </header>
-        <main>
-            Main
-        </main>
+        <TeaserList />
     </div>
 );
 
