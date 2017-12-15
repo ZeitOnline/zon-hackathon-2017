@@ -1,13 +1,14 @@
 .teaser {
+    padding: 16px 0;
+
     p {
         margin: .5em 0 0;
     }
+
     h2 {
         font-size: inherit;
         margin: 0;
     }
-    margin: 1em 0;
-    padding: .5em 0;
 }
 
 .teaser + .teaser {
