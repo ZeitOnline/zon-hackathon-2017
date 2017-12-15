@@ -5,10 +5,12 @@ import { TEASER } from 'app/shapes';
 
 const Teaser = ({ teaser, toggleSpeech }) => (
     <article className="teaser">
-        <h2>
-            <span className="teaser__kicker">{teaser.supertitle}</span>
-            <span className="teaser__title">{teaser.teaser_title || teaser.title}</span>
-        </h2>
+        <a href={teaser.href}>
+            <h2>
+                <span className="teaser__kicker">{teaser.supertitle}</span>
+                <span className="teaser__title">{teaser.teaser_title || teaser.title}</span>
+            </h2>
+        </a>
         <p>{teaser.teaser_text}</p>
         <button className="teaser__playbutton" onClick={toggleSpeech}>PLAY</button>
     </article>
