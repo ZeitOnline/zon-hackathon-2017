@@ -16,7 +16,6 @@ export default class TeaserList extends Component {
 
     async componentDidMount() {
         const result = await fetchData();
-        console.log(result);
         this.receiveTeaser(result.matches);
     }
 
