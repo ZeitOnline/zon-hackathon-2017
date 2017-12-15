@@ -1,0 +1,24 @@
+.teaser {
+    p {
+        margin: .5em 0 0;
+    }
+    h2 {
+        font-size: inherit;
+        margin: 0;
+    }
+    margin: 1em 0;
+    padding: .5em 0;
+}
+
+.teaser + .teaser {
+    border-top: 1px solid #eee;
+}
+
+.teaser__kicker {
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+}
+.teaser__title {
+    font-size: 16px;
+}

@@ -23,7 +23,13 @@ export default class TeaserList extends Component {
             <div>
                 <h1>{this.props.headline}</h1>
                 <div>{ this.state.teaser.map(teaser => (
-                    <div key={teaser.uuid}>{teaser.title}</div>
+                    <article className="teaser" key={teaser.uuid}>
+                        <h2>
+                            <span className="teaser__kicker">{teaser.supertitle}</span>
+                            <span className="teaser__title">{teaser.teaser_title || teaser.title}</span>
+                        </h2>
+                        <p>{teaser.teaser_text}</p>
+                    </article>
                 )) }
                 </div>
             </div>
