@@ -16,7 +16,7 @@ const Teaser = ({ teaser, toggleSpeech }) => (
             {distanceToNow(teaser.release_date)}
         </div>
         <p>{teaser.teaser_text}</p>
-        <button className="teaser__playbutton" onClick={toggleSpeech}>PLAY</button>
+        <button className="teaser__playbutton" onClick={toggleSpeech}>▶</button>
     </article>
 );
 

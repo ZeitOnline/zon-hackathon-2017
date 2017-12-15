@@ -32,17 +32,19 @@
     margin-top: .5em;
 }
 
+$play-button-size: 40px;
+
 .teaser__playbutton {
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 50%;
     border: 2px solid #ddd;
     color: inherit;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: .03em;
-    line-height: inherit;
-    padding: 7px 1em 5px;
-    transition-property: border-color, color;
+    font-size: 16px;
+    height: $play-button-size;
+    line-height: $play-button-size;
+    text-align: center;
     transition-duration: .15s;
+    transition-property: border-color, color;
     transition-timing-function: ease-in-out;
+    width: $play-button-size;
 }
