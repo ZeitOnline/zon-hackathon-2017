@@ -18,11 +18,18 @@
 .teaser__kicker {
     color: #252525;
     font-size: 13px;
-    font-weight: 400;
+    letter-spacing: .05em;
 }
 
 .teaser__title {
     display: block;
+    letter-spacing: .03em;
+}
+
+.teaser__date {
+    color: #707070;
+    font-size: 13px;
+    margin-top: .5em;
 }
 
 .teaser__playbutton {

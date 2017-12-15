@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { TEASER } from 'app/shapes';
+import { distanceToNow } from 'app/utilities';
 
 const Teaser = ({ teaser, toggleSpeech }) => (
     <article className="teaser">
@@ -11,6 +12,9 @@ const Teaser = ({ teaser, toggleSpeech }) => (
                 <span className="teaser__title">{teaser.teaser_title || teaser.title}</span>
             </h2>
         </a>
+        <div className="teaser__date">
+            {distanceToNow(teaser.release_date)}
+        </div>
         <p>{teaser.teaser_text}</p>
         <button className="teaser__playbutton" onClick={toggleSpeech}>PLAY</button>
     </article>
