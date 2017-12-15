@@ -10,6 +10,7 @@ export default class TeaserList extends Component {
 
     state = {
         teaser: [],
+        loading: true,
     }
 
     async componentDidMount() {
@@ -22,6 +23,7 @@ export default class TeaserList extends Component {
         return (
             <div>
                 <h1>{this.props.headline}</h1>
+                {this.state.loading && (<p>Laden ...</p>)}
                 <div>{ this.state.teaser.map(teaser => (
                     <article className="teaser" key={teaser.uuid}>
                         <h2>
@@ -37,6 +39,6 @@ export default class TeaserList extends Component {
     }
 
     receiveTeaser(teaser) {
-        this.setState({ teaser });
+        this.setState({ teaser, loading: false });
     }
 }
