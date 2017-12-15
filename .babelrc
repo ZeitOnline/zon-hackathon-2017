@@ -4,7 +4,7 @@
             "env",
             {
                 "modules": false,
-                "debug": true,
+                // "debug": true,
                 "targets": {
                     "browsers": [
                         "last 1 versions",
