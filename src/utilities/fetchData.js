@@ -1,3 +1,4 @@
+import { TEASER } from 'app/shapes';
 
 const headers = new Headers({
     'X-Authorization':
@@ -6,7 +7,9 @@ const headers = new Headers({
 
 
 const fetchData = async () => {
-    const response = await fetch('http://api.zeit.de/product/zede', { headers });
+    const fields = Object.keys(TEASER).join(',');
+    const uri = `http://api.zeit.de/product/zede?fields=${fields}`;
+    const response = await fetch(uri, { headers });
     return response.json();
 };
 export default fetchData;
