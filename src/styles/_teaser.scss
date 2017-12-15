@@ -1,13 +1,13 @@
 .teaser {
     padding: 16px 0;
 
-    p {
-        margin: .5em 0 0;
-    }
-
     h2 {
         font-size: inherit;
         margin: 0;
+    }
+
+    p {
+        margin: 8px 0 10px;
     }
 }
 
@@ -16,10 +16,26 @@
 }
 
 .teaser__kicker {
-    display: block;
+    color: #252525;
     font-size: 13px;
     font-weight: 400;
 }
+
 .teaser__title {
-    font-size: 16px;
+    display: block;
+}
+
+.teaser__playbutton {
+    background-color: #fff;
+    border-radius: 5px;
+    border: 2px solid #ddd;
+    color: inherit;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: .03em;
+    line-height: inherit;
+    padding: 7px 1em 5px;
+    transition-property: border-color, color;
+    transition-duration: .15s;
+    transition-timing-function: ease-in-out;
 }

@@ -13,6 +13,7 @@ body {
 }
 
 a {
+    color: #b91109;
     text-decoration: none;
 
     @include hover {
@@ -42,4 +43,11 @@ svg {
         fill: currentColor;
         pointer-events: none;
     }
+}
+
+button {
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
 }
