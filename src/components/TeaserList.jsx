@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { fetchData } from 'app/utilities';
+import { Teaser } from 'app/components';
 
 export default class TeaserList extends Component {
     static propTypes = {
@@ -25,13 +26,7 @@ export default class TeaserList extends Component {
                 <h1>{this.props.headline}</h1>
                 {this.state.loading && (<p>Laden ...</p>)}
                 <div>{ this.state.teaser.map(teaser => (
-                    <article className="teaser" key={teaser.uuid}>
-                        <h2>
-                            <span className="teaser__kicker">{teaser.supertitle}</span>
-                            <span className="teaser__title">{teaser.teaser_title || teaser.title}</span>
-                        </h2>
-                        <p>{teaser.teaser_text}</p>
-                    </article>
+                    <Teaser key={teaser.uuid} teaser={teaser} />
                 )) }
                 </div>
             </div>
