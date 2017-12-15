@@ -22,8 +22,8 @@ class SpeechSynth {
         this.synth.cancel();
     }
 
-    get playing() {
-        return this.synth.playing;
+    get speaking() {
+        return this.synth.speaking;
     }
 }
 
