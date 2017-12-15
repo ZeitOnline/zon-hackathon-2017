@@ -10,9 +10,21 @@ export default class TeaserItem extends Component {
         teaser: PropTypes.shape(TEASER).isRequired,
     };
 
-    state = {
-        isPlaying: false,
-        isPaused: false,
+    constructor(props) {
+        super(props);
+
+        const { teaser } = this.props;
+        const text = `${teaser.supertitle}:
+        ${teaser.title || teaser.teaser_title}.
+        ${teaser.body || teaser.teaser_text}`;
+
+        this.utterance = new SpeechSynthesisUtterance(text);
+        this.utterance.onend = this.stopPlaying;
+        this.utterance.onerror = this.stopPlaying;
+
+        this.state = {
+            isPlaying: false,
+        };
     }
 
     render() {
@@ -25,28 +37,23 @@ export default class TeaserItem extends Component {
         );
     }
 
-    // concatText() {
-    //     const { teaser } = this.props;
-    // }
     toggleSpeech = () => {
-        const { teaser } = this.props;
-        const text = `${teaser.supertitle} ${teaser.title || teaser.teaser_title} ${teaser.teaser_text}`;
+        const { uuid } = this.props.teaser;
 
-        if (SpeechSynth.speaking) {
-            if (this.state.isPaused) {
+        if (SpeechSynth.speaking && SpeechSynth.id === uuid) {
+            if (SpeechSynth.paused) {
                 SpeechSynth.resume();
-                this.setState({ isPaused: false, isPlaying: true });
-            } else if (this.state.isPlaying) {
-                SpeechSynth.pause();
-                this.setState({ isPaused: true, isPlaying: false });
             } else {
-                SpeechSynth.cancel();
-                SpeechSynth.play(text);
-                this.setState({ isPaused: false, isPlaying: true });
+                SpeechSynth.pause();
             }
         } else {
-            SpeechSynth.play(text);
-            this.setState({ isPlaying: true });
+            SpeechSynth.play(this.utterance, uuid);
         }
-    }
+
+        this.setState(prevState => ({ isPlaying: !prevState.isPlaying }));
+    };
+
+    stopPlaying = () => {
+        this.setState({ isPlaying: false });
+    };
 }

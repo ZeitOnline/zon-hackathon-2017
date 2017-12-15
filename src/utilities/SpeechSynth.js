@@ -3,8 +3,8 @@ class SpeechSynth {
         this.synth = window.speechSynthesis;
     }
 
-    play(content) {
-        const utterance = new SpeechSynthesisUtterance(content);
+    play(utterance, id) {
+        this.id = id;
         this.synth.cancel();
         this.synth.speak(utterance);
     }
@@ -19,6 +19,10 @@ class SpeechSynth {
 
     cancel() {
         this.synth.cancel();
+    }
+
+    get paused() {
+        return this.synth.paused;
     }
 
     get speaking() {
