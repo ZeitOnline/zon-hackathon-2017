@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { TEASER } from 'app/shapes';
+
 const Teaser = ({ teaser, toggleSpeech }) => (
     <article className="teaser">
         <h2>
@@ -13,12 +15,7 @@ const Teaser = ({ teaser, toggleSpeech }) => (
 );
 
 Teaser.propTypes = {
-    teaser: PropTypes.shape({
-        title: PropTypes.string,
-        supertitle: PropTypes.string,
-        teaser_title: PropTypes.string,
-        teaser_text: PropTypes.string,
-    }).isRequired,
+    teaser: PropTypes.shape(TEASER).isRequired,
     toggleSpeech: PropTypes.func.isRequired,
 };
 export default Teaser;
