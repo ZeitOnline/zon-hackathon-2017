@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 class SpeechSynth {
     constructor() {
         this.synth = window.speechSynthesis;
@@ -27,4 +26,4 @@ class SpeechSynth {
     }
 }
 
-export default new SpeechSynth(); // eslint-disable-line
+export default new SpeechSynth();
