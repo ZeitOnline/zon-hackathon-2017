@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 
 import { Teaser } from 'app/components';
 import { SpeechSynth } from 'app/utilities';
+import { TEASER } from 'app/shapes';
 
 export default class TeaserItem extends Component {
     static propTypes = {
-        teaser: PropTypes.shape({
-            title: PropTypes.string,
-            supertitle: PropTypes.string,
-            teaser_title: PropTypes.string,
-            teaser_text: PropTypes.string,
-        }).isRequired,
+        teaser: PropTypes.shape(TEASER).isRequired,
     };
 
     state = {

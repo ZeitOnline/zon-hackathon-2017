@@ -1,13 +1,14 @@
 .teaser {
-    p {
-        margin: .5em 0 0;
-    }
+    padding: 16px 0;
+
     h2 {
         font-size: inherit;
         margin: 0;
     }
-    margin: 1em 0;
-    padding: .5em 0;
+
+    p {
+        margin: 8px 0 10px;
+    }
 }
 
 .teaser + .teaser {
@@ -15,10 +16,35 @@
 }
 
 .teaser__kicker {
-    display: block;
+    color: #252525;
     font-size: 13px;
-    font-weight: 400;
+    letter-spacing: .05em;
 }
+
 .teaser__title {
+    display: block;
+    letter-spacing: .03em;
+}
+
+.teaser__date {
+    color: #707070;
+    font-size: 13px;
+    margin-top: .5em;
+}
+
+$play-button-size: 40px;
+
+.teaser__playbutton {
+    background-color: #fff;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    color: inherit;
     font-size: 16px;
+    height: $play-button-size;
+    line-height: $play-button-size;
+    text-align: center;
+    transition-duration: .15s;
+    transition-property: border-color, color;
+    transition-timing-function: ease-in-out;
+    width: $play-button-size;
 }
