@@ -22,14 +22,6 @@ export default class TeaserItem extends Component {
         ${teaser.title || teaser.teaser_title}.
         ${teaser.body || teaser.teaser_text}`;
 
-        this.utterance = new SpeechSynthesisUtterance(this.text);
-        this.utterance.onend = this.stopPlaying;
-        this.utterance.onerror = this.stopPlaying;
-        this.utterance.onpause = this.stopPlaying;
-        this.utterance.onresume = this.startPlaying;
-        this.utterance.onstart = this.startPlaying;
-        this.utterance.onboundary = this.setProgress;
-
         this.state = {
             isPlaying: false,
             charIndex: 0,
@@ -48,10 +40,17 @@ export default class TeaserItem extends Component {
         );
     }
 
-    updateUtterance() {
+    setUtterance() {
         const { name, rate, pitch, volume } = this.props;
         const voices = speechSynthesis.getVoices();
 
+        this.utterance = new SpeechSynthesisUtterance(this.text);
+        this.utterance.onend = this.stopPlaying;
+        this.utterance.onerror = this.stopPlaying;
+        this.utterance.onpause = this.stopPlaying;
+        this.utterance.onresume = this.startPlaying;
+        this.utterance.onstart = this.startPlaying;
+        this.utterance.onboundary = this.setProgress;
         this.utterance.voice = voices.find(voice => voice.name === name);
         this.utterance.pitch = parseFloat(pitch);
         this.utterance.rate = parseFloat(rate);
@@ -68,7 +67,7 @@ export default class TeaserItem extends Component {
                 SpeechSynth.pause();
             }
         } else {
-            this.updateUtterance();
+            this.setUtterance();
             SpeechSynth.play(this.utterance, uuid);
         }
     };
