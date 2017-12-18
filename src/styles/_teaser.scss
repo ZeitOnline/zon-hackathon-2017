@@ -49,3 +49,29 @@ $play-button-size: 40px;
     transition-timing-function: ease-in-out;
     width: $play-button-size;
 }
+
+.teaser__pause {
+    display: inline-block;
+    height: 1em;
+    position: relative;
+    width: 1em;
+
+    &::before,
+    &::after {
+        background-color: currentColor;
+        border-radius: 3px;
+        content: '';
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 6px;
+    }
+
+    &::before {
+        left: 0;
+    }
+
+    &::after {
+        right: 0;
+    }
+}

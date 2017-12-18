@@ -17,7 +17,7 @@ const Teaser = ({ teaser, charIndex, length, toggleSpeech, isPlaying }) => (
         </div>
         <p>{teaser.teaser_text}</p>
         <button className="teaser__playbutton" onClick={toggleSpeech}>
-            {isPlaying ? '⏸' : '▶'}
+            {isPlaying ? <span className="teaser__pause" /> : '▶'}
         </button>
         <progress value={charIndex} max={length} />
     </article>
