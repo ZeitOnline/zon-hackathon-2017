@@ -39,7 +39,6 @@ export default class AudioSettings extends Component {
                         { this.state.voices.map(voice => (
                             <option key={voice.voiceURI} value={voice.name}>
                                 { voice.name } ({ voice.lang })
-                                { voice.default && ' [default]'}
                             </option>
                         )) }
                     </select>
