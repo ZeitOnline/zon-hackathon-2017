@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { AudioSetting } from 'app/components';
+import { getVoices } from 'app/utilities';
 
 export default class AudioSettings extends Component {
     static propTypes = {
@@ -14,7 +15,7 @@ export default class AudioSettings extends Component {
     }
 
     state = {
-        voices: speechSynthesis.getVoices(),
+        voices: getVoices(),
     };
 
     componentDidMount() {
@@ -59,7 +60,7 @@ export default class AudioSettings extends Component {
     setVoices = () => {
         if (!this.state.voices.length) {
             this.setState({
-                voices: speechSynthesis.getVoices(),
+                voices: getVoices(),
             });
         }
     };

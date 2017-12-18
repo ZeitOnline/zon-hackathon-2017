@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { TeaserList, AudioSettings } from 'app/components';
 import logo from 'app/svg/logo.svg';
-import { defaultAudioSettings } from 'app/utilities';
+import { defaultAudioSettings, getDefaultName } from 'app/utilities';
 
 class App extends Component {
     state = {
@@ -11,6 +11,10 @@ class App extends Component {
         pitch: defaultAudioSettings.pitch,
         volume: defaultAudioSettings.volume,
     };
+
+    componentDidMount() {
+        speechSynthesis.addEventListener('voiceschanged', this.setDefaultName);
+    }
 
     render() {
         return (
@@ -43,6 +47,16 @@ class App extends Component {
             pitch: defaultAudioSettings.pitch,
             volume: defaultAudioSettings.volume,
         });
+    };
+
+    setDefaultName = () => {
+        if (!defaultAudioSettings.name) {
+            defaultAudioSettings.name = getDefaultName();
+
+            this.setState({
+                name: defaultAudioSettings.name,
+            });
+        }
     };
 }
 

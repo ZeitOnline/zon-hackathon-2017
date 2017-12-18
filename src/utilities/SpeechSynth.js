@@ -32,7 +32,7 @@ class SpeechSynth {
 
 export default new SpeechSynth();
 
-function getDefaultName() {
+export function getDefaultName() {
     const voices = speechSynthesis.getVoices();
     const defaultVoice = voices.find(voice => voice.default);
 
@@ -47,11 +47,15 @@ const defaultAudioSettings = {
     volume: utterance.volume.toString(),
 };
 
-// Fix Chrome - still cheesy
-if (!defaultAudioSettings.name) {
-    speechSynthesis.addEventListener('voiceschanged', () => {
-        defaultAudioSettings.name = getDefaultName();
-    });
+export { defaultAudioSettings };
+
+function sortVoices(a, b) {
+    return a.lang.localeCompare(b.lang);
 }
 
-export { defaultAudioSettings };
+export function getVoices() {
+    return speechSynthesis
+        .getVoices()
+        .filter(voice => voice.localService)
+        .sort(sortVoices);
+}
