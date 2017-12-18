@@ -25,6 +25,9 @@ export default class TeaserItem extends Component {
         this.utterance = new SpeechSynthesisUtterance(text);
         this.utterance.onend = this.stopPlaying;
         this.utterance.onerror = this.stopPlaying;
+        this.utterance.onpause = this.stopPlaying;
+        this.utterance.onresume = this.startPlaying;
+        this.utterance.onstart = this.startPlaying;
 
         this.state = {
             isPlaying: false,
@@ -63,8 +66,10 @@ export default class TeaserItem extends Component {
             this.updateUtterance();
             SpeechSynth.play(this.utterance, uuid);
         }
+    };
 
-        this.setState(prevState => ({ isPlaying: !prevState.isPlaying }));
+    startPlaying = () => {
+        this.setState({ isPlaying: true });
     };
 
     stopPlaying = () => {
