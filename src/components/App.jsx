@@ -32,12 +32,12 @@ class App extends Component {
     setAudioSetting = (event) => {
         const { name, value } = event.target;
 
-        window.speechSynthesis.cancel();
+        speechSynthesis.cancel();
         this.setState({ [name]: value });
     };
 
     setDefaultAudioSettings = () => {
-        window.speechSynthesis.cancel();
+        speechSynthesis.cancel();
         this.setState({
             lang: utterance.lang,
             rate: utterance.rate.toString(),

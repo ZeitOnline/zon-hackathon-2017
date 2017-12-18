@@ -65,6 +65,6 @@ export default class AudioSettings extends Component {
     };
 
     mute = () => {
-        window.speechSynthesis.cancel();
+        speechSynthesis.cancel();
     };
 }
