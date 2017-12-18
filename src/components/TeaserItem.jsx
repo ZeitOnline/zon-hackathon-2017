@@ -29,6 +29,21 @@ export default class TeaserItem extends Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        const props = ['name', 'rate', 'pitch', 'volume'];
+        const { speaking, paused } = speechSynthesis;
+
+        if (props.some(key => prevProps[key] !== this.props[key])) {
+            if (speaking && this.props.active) {
+                speechSynthesis.cancel();
+
+                if (!paused) {
+                    speechSynthesis.speak(this.getUtterance());
+                }
+            }
+        }
+    }
+
     render() {
         return (
             <Teaser

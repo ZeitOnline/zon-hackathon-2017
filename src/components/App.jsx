@@ -35,12 +35,10 @@ class App extends Component {
     setAudioSetting = (event) => {
         const { name, value } = event.target;
 
-        speechSynthesis.cancel();
         this.setState({ [name]: value });
     };
 
     resetAudioSettings = () => {
-        speechSynthesis.cancel();
         this.setState({
             name: defaultAudioSettings.name,
             rate: defaultAudioSettings.rate,
