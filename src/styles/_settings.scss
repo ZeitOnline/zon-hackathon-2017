@@ -3,6 +3,10 @@
     max-width: 320px;
 }
 
+.settings__summary {
+    margin-bottom: 8px;
+}
+
 .settings__label {
     display: grid;
     grid-column-gap: 16px;
@@ -13,4 +17,17 @@
 .settings__voices {
     font-size: 12px;
     grid-column: span 2;
+}
+
+.settings__button {
+    background-color: #fff;
+    border-radius: 5px;
+    border: 2px solid #ddd;
+    color: inherit;
+    font-size: 16px;
+    margin: 8px 8px 0 0;
+    padding: 7px 12px 5px;
+    transition-duration: .15s;
+    transition-property: border-color, color;
+    transition-timing-function: ease-in-out;
 }
