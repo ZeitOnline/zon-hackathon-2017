@@ -18,7 +18,7 @@ export default class AudioSettings extends Component {
     };
 
     componentDidMount() {
-        speechSynthesis.onvoiceschanged = this.setVoices;
+        speechSynthesis.addEventListener('voiceschanged', this.setVoices);
     }
 
     render() {
