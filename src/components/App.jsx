@@ -25,7 +25,7 @@ class App extends Component {
                 <AudioSettings
                     {...this.state}
                     onChange={this.setAudioSetting}
-                    reset={this.setDefaultAudioSettings}
+                    reset={this.resetAudioSettings}
                 />
                 <TeaserList {...this.state} />
             </div>
@@ -39,7 +39,7 @@ class App extends Component {
         this.setState({ [name]: value });
     };
 
-    setDefaultAudioSettings = () => {
+    resetAudioSettings = () => {
         speechSynthesis.cancel();
         this.setState({
             name: defaultAudioSettings.name,
