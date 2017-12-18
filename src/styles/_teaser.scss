@@ -42,6 +42,7 @@ $play-button-size: 40px;
     font-size: 16px;
     height: $play-button-size;
     line-height: $play-button-size;
+    margin: 0 16px 0 0;
     text-align: center;
     transition-duration: .15s;
     transition-property: border-color, color;
