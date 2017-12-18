@@ -79,8 +79,14 @@ export default class TeaserItem extends Component {
         this.setState({ isPlaying: true });
     };
 
-    stopPlaying = () => {
-        this.setState({ isPlaying: false });
+    stopPlaying = (event) => {
+        const state = { isPlaying: false };
+
+        if (event.type !== 'pause') {
+            state.charIndex = 0;
+        }
+
+        this.setState(state);
     };
 
     setProgress = (event) => {
