@@ -6,7 +6,7 @@ import { distanceToNow } from 'app/utilities';
 
 const Teaser = ({ teaser, charIndex, length, toggleSpeech, isPlaying }) => (
     <article className="teaser">
-        <a href={teaser.href}>
+        <a href={teaser.href} tabIndex="-1">
             <h2>
                 <span className="teaser__kicker">{teaser.supertitle}</span>
                 <span className="teaser__title">{teaser.teaser_title || teaser.title}</span>
