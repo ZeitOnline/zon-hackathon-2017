@@ -7,6 +7,10 @@ import { TEASER } from 'app/shapes';
 
 export default class TeaserItem extends Component {
     static propTypes = {
+        lang: PropTypes.string.isRequired,
+        rate: PropTypes.string.isRequired,
+        pitch: PropTypes.string.isRequired,
+        volume: PropTypes.string.isRequired,
         teaser: PropTypes.shape(TEASER).isRequired,
     };
 
@@ -37,6 +41,15 @@ export default class TeaserItem extends Component {
         );
     }
 
+    updateUtterance() {
+        const { lang, rate, pitch, volume } = this.props;
+
+        this.utterance.lang = lang;
+        this.utterance.pitch = parseFloat(pitch);
+        this.utterance.rate = parseFloat(rate);
+        this.utterance.volume = parseFloat(volume);
+    }
+
     toggleSpeech = () => {
         const { uuid } = this.props.teaser;
 
@@ -47,6 +60,7 @@ export default class TeaserItem extends Component {
                 SpeechSynth.pause();
             }
         } else {
+            this.updateUtterance();
             SpeechSynth.play(this.utterance, uuid);
         }
 
