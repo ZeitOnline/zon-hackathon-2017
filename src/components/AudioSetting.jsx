@@ -20,7 +20,7 @@ const AudioSetting = ({ name, value, min, max, step, onChange }) => (
 
 AudioSetting.propTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
+    value: PropTypes.string.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,
     step: PropTypes.number,

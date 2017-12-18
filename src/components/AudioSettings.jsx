@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { AudioSetting } from 'app/components';
 
-const utterance = new SpeechSynthesisUtterance('');
-
 export default class AudioSettings extends Component {
+    static propTypes = {
+        lang: PropTypes.string.isRequired,
+        rate: PropTypes.string.isRequired,
+        pitch: PropTypes.string.isRequired,
+        volume: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired,
+        reset: PropTypes.func.isRequired,
+    }
+
     state = {
         voices: speechSynthesis.getVoices(),
-        lang: utterance.lang,
-        rate: utterance.rate,
-        pitch: utterance.pitch,
-        volume: utterance.volume,
     };
 
     componentDidMount() {
@@ -19,16 +22,18 @@ export default class AudioSettings extends Component {
     }
 
     render() {
+        const { lang, rate, pitch, volume, onChange, reset } = this.props;
+
         return (
             <details className="settings" open>
-                <summary>Settings</summary>
+                <summary className="settings__summary">Settings</summary>
                 <label htmlFor="lang" className="settings__label">
                     <span>Voice</span>
                     <select
                         name="lang"
-                        value={this.state.lang}
+                        value={lang}
                         className="settings__voices"
-                        onChange={this.setAudioSettings}
+                        onChange={onChange}
                     >
                         { this.state.voices.map(voice => (
                             <option key={voice.voiceURI} value={voice.lang}>
@@ -38,22 +43,28 @@ export default class AudioSettings extends Component {
                         )) }
                     </select>
                 </label>
-                <AudioSetting name="rate" value={this.state.rate} min="0.1" max="10" onChange={this.setAudioSettings} />
-                <AudioSetting name="pitch" value={this.state.pitch} max="2" onChange={this.setAudioSettings} />
-                <AudioSetting name="volume" value={this.state.volume} onChange={this.setAudioSettings} />
+                <AudioSetting name="rate" value={rate} min={0.5} max={3.5} onChange={onChange} />
+                <AudioSetting name="pitch" value={pitch} max={2} onChange={onChange} />
+                <AudioSetting name="volume" value={volume} onChange={onChange} />
+                <button onClick={reset} className="settings__button">
+                    Default
+                </button>
+                <button onClick={this.mute} className="settings__button">
+                    Mute
+                </button>
             </details>
         );
     }
 
     setVoices = () => {
-        this.setState({
-            voices: speechSynthesis.getVoices(),
-        });
-    }
+        if (!this.state.voices.length) {
+            this.setState({
+                voices: speechSynthesis.getVoices(),
+            });
+        }
+    };
 
-    setAudioSettings = (event) => {
-        const { name, value } = event.target;
-
-        this.setState({ [name]: value });
-    }
+    mute = () => {
+        window.speechSynthesis.cancel();
+    };
 }
