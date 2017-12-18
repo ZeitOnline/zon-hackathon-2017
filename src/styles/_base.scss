@@ -45,9 +45,12 @@ svg {
     }
 }
 
-button {
-    cursor: pointer;
+button, input, select, textarea {
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
+}
+
+button {
+    cursor: pointer;
 }

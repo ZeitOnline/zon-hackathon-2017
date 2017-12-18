@@ -1,60 +1,59 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 
+import { AudioSetting } from 'app/components';
+
+const utterance = new SpeechSynthesisUtterance('');
+
 export default class AudioSettings extends Component {
     state = {
-        voices: window.speechSynthesis.getVoices(),
-        voice: '',
-        rate: 1,
-        pitch: 1,
+        voices: speechSynthesis.getVoices(),
+        lang: utterance.lang,
+        rate: utterance.rate,
+        pitch: utterance.pitch,
+        volume: utterance.volume,
+    };
+
+    componentDidMount() {
+        speechSynthesis.onvoiceschanged = this.setVoices;
     }
 
     render() {
         return (
-            <aside>
-                <pre>Settings</pre>
-                <button
-                    onClick={this.getVoicesList}
-                >
-                Load
-                </button>
-                <select name="voice" onChange={this.setFormValueToState}>
-                    { this.state.voices.map(voice => (
-                        <option key={voice.voiceURI}>
-                            { voice.name } ({ voice.lang })
-                        </option>
-                    )) }
-                </select>
-
-                <div>
-                    <label htmlFor="rate">Rate
-                        <input name="rate" onChange={this.setFormValueToState} type="range" min="0.5" max="2" value={this.state.rate} step="0.1" id="rate" />
-                    </label>
-                </div>
-                <div>
-                    <label htmlFor="pitch">Pitch
-                        <input name="pitch" onChange={this.setFormValueToState} type="range" min="0" max="2" value={this.state.pitch} step="0.1" id="pitch" />
-                    </label>
-                </div>
-
-                <ul>
-                    <li>- currentVoice: { this.state.voice }</li>
-                    <li>- currentPitch: { this.state.pitch }</li>
-                    <li>- currentRate: { this.state.rate }</li>
-                </ul>
-            </aside>
+            <details className="settings" open>
+                <summary>Settings</summary>
+                <label htmlFor="lang" className="settings__label">
+                    <span>Voice</span>
+                    <select
+                        name="lang"
+                        value={this.state.lang}
+                        className="settings__voices"
+                        onChange={this.setAudioSettings}
+                    >
+                        { this.state.voices.map(voice => (
+                            <option key={voice.voiceURI} value={voice.lang}>
+                                { voice.name } ({ voice.lang })
+                                { voice.default && ' [default]'}
+                            </option>
+                        )) }
+                    </select>
+                </label>
+                <AudioSetting name="rate" value={this.state.rate} min="0.1" max="10" onChange={this.setAudioSettings} />
+                <AudioSetting name="pitch" value={this.state.pitch} max="2" onChange={this.setAudioSettings} />
+                <AudioSetting name="volume" value={this.state.volume} onChange={this.setAudioSettings} />
+            </details>
         );
     }
 
-    getVoicesList = () => {
+    setVoices = () => {
         this.setState({
-            voices: window.speechSynthesis.getVoices(),
+            voices: speechSynthesis.getVoices(),
         });
     }
 
-    setFormValueToState = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
+    setAudioSettings = (event) => {
+        const { name, value } = event.target;
+
+        this.setState({ [name]: value });
     }
 }
