@@ -5,7 +5,7 @@ import { AudioSetting } from 'app/components';
 
 export default class AudioSettings extends Component {
     static propTypes = {
-        lang: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
         rate: PropTypes.string.isRequired,
         pitch: PropTypes.string.isRequired,
         volume: PropTypes.string.isRequired,
@@ -22,21 +22,21 @@ export default class AudioSettings extends Component {
     }
 
     render() {
-        const { lang, rate, pitch, volume, onChange, reset } = this.props;
+        const { name, rate, pitch, volume, onChange, reset } = this.props;
 
         return (
             <details className="settings" open>
                 <summary className="settings__summary">Settings</summary>
-                <label htmlFor="lang" className="settings__label">
+                <label htmlFor="name" className="settings__label">
                     <span>Voice</span>
                     <select
-                        name="lang"
-                        value={lang}
+                        name="name"
+                        value={name}
                         className="settings__voices"
                         onChange={onChange}
                     >
                         { this.state.voices.map(voice => (
-                            <option key={voice.voiceURI} value={voice.lang}>
+                            <option key={voice.voiceURI} value={voice.name}>
                                 { voice.name } ({ voice.lang })
                                 { voice.default && ' [default]'}
                             </option>

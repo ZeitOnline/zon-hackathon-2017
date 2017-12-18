@@ -32,25 +32,25 @@ class SpeechSynth {
 
 export default new SpeechSynth();
 
-function getDefaultLang() {
+function getDefaultName() {
     const voices = speechSynthesis.getVoices();
     const defaultVoice = voices.find(voice => voice.default);
 
-    return defaultVoice ? defaultVoice.lang : '';
+    return defaultVoice ? defaultVoice.name : '';
 }
 
 const utterance = new SpeechSynthesisUtterance('');
 const defaultAudioSettings = {
-    lang: getDefaultLang(),
+    name: getDefaultName(),
     rate: utterance.rate.toString(),
     pitch: utterance.pitch.toString(),
     volume: utterance.volume.toString(),
 };
 
 // Fix Chrome - still cheesy
-if (!defaultAudioSettings.lang) {
+if (!defaultAudioSettings.name) {
     speechSynthesis.addEventListener('voiceschanged', () => {
-        defaultAudioSettings.lang = getDefaultLang();
+        defaultAudioSettings.name = getDefaultName();
     });
 }
 

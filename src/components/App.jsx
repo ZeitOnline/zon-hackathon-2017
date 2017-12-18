@@ -6,7 +6,7 @@ import { defaultAudioSettings } from 'app/utilities';
 
 class App extends Component {
     state = {
-        lang: defaultAudioSettings.lang,
+        name: defaultAudioSettings.name,
         rate: defaultAudioSettings.rate,
         pitch: defaultAudioSettings.pitch,
         volume: defaultAudioSettings.volume,
@@ -38,7 +38,7 @@ class App extends Component {
     setDefaultAudioSettings = () => {
         speechSynthesis.cancel();
         this.setState({
-            lang: defaultAudioSettings.lang,
+            name: defaultAudioSettings.name,
             rate: defaultAudioSettings.rate,
             pitch: defaultAudioSettings.pitch,
             volume: defaultAudioSettings.volume,

@@ -7,7 +7,7 @@ import { TEASER } from 'app/shapes';
 
 export default class TeaserItem extends Component {
     static propTypes = {
-        lang: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
         rate: PropTypes.string.isRequired,
         pitch: PropTypes.string.isRequired,
         volume: PropTypes.string.isRequired,
@@ -49,9 +49,10 @@ export default class TeaserItem extends Component {
     }
 
     updateUtterance() {
-        const { lang, rate, pitch, volume } = this.props;
+        const { name, rate, pitch, volume } = this.props;
+        const voices = speechSynthesis.getVoices();
 
-        this.utterance.lang = lang;
+        this.utterance.voice = voices.find(voice => voice.name === name);
         this.utterance.pitch = parseFloat(pitch);
         this.utterance.rate = parseFloat(rate);
         this.utterance.volume = parseFloat(volume);

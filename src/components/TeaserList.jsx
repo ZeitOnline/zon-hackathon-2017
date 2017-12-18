@@ -6,7 +6,7 @@ import { TeaserItem } from 'app/components';
 
 export default class TeaserList extends Component {
     static propTypes = {
-        lang: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
         rate: PropTypes.string.isRequired,
         pitch: PropTypes.string.isRequired,
         volume: PropTypes.string.isRequired,
