@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 
 import { TeaserList, AudioSettings } from 'app/components';
 import logo from 'app/svg/logo.svg';
-
-const utterance = new SpeechSynthesisUtterance('');
+import { defaultAudioSettings } from 'app/utilities';
 
 class App extends Component {
     state = {
-        lang: utterance.lang,
-        rate: utterance.rate.toString(),
-        pitch: utterance.pitch.toString(),
-        volume: utterance.volume.toString(),
+        lang: defaultAudioSettings.lang,
+        rate: defaultAudioSettings.rate,
+        pitch: defaultAudioSettings.pitch,
+        volume: defaultAudioSettings.volume,
     };
 
     render() {
@@ -39,10 +38,10 @@ class App extends Component {
     setDefaultAudioSettings = () => {
         speechSynthesis.cancel();
         this.setState({
-            lang: utterance.lang,
-            rate: utterance.rate.toString(),
-            pitch: utterance.pitch.toString(),
-            volume: utterance.volume.toString(),
+            lang: defaultAudioSettings.lang,
+            rate: defaultAudioSettings.rate,
+            pitch: defaultAudioSettings.pitch,
+            volume: defaultAudioSettings.volume,
         });
     };
 }
