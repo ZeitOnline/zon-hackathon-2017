@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { TEASER } from 'app/shapes';
 import { distanceToNow } from 'app/utilities';
 
-const Teaser = ({ teaser, toggleSpeech, isPlaying }) => (
+const Teaser = ({ teaser, charIndex, length, toggleSpeech, isPlaying }) => (
     <article className="teaser">
         <a href={teaser.href}>
             <h2>
@@ -19,11 +19,14 @@ const Teaser = ({ teaser, toggleSpeech, isPlaying }) => (
         <button className="teaser__playbutton" onClick={toggleSpeech}>
             {isPlaying ? '⏸' : '▶'}
         </button>
+        <progress value={charIndex} max={length} />
     </article>
 );
 
 Teaser.propTypes = {
     teaser: PropTypes.shape(TEASER).isRequired,
+    charIndex: PropTypes.number.isRequired,
+    length: PropTypes.number.isRequired,
     toggleSpeech: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
 };

@@ -18,19 +18,21 @@ export default class TeaserItem extends Component {
         super(props);
 
         const { teaser } = this.props;
-        const text = `${teaser.supertitle}:
+        this.text = `${teaser.supertitle}:
         ${teaser.title || teaser.teaser_title}.
         ${teaser.body || teaser.teaser_text}`;
 
-        this.utterance = new SpeechSynthesisUtterance(text);
+        this.utterance = new SpeechSynthesisUtterance(this.text);
         this.utterance.onend = this.stopPlaying;
         this.utterance.onerror = this.stopPlaying;
         this.utterance.onpause = this.stopPlaying;
         this.utterance.onresume = this.startPlaying;
         this.utterance.onstart = this.startPlaying;
+        this.utterance.onboundary = this.setProgress;
 
         this.state = {
             isPlaying: false,
+            charIndex: 0,
         };
     }
 
@@ -38,6 +40,8 @@ export default class TeaserItem extends Component {
         return (
             <Teaser
                 teaser={this.props.teaser}
+                charIndex={this.state.charIndex}
+                length={this.text.length}
                 toggleSpeech={this.toggleSpeech}
                 isPlaying={this.state.isPlaying}
             />
@@ -74,5 +78,9 @@ export default class TeaserItem extends Component {
 
     stopPlaying = () => {
         this.setState({ isPlaying: false });
+    };
+
+    setProgress = (event) => {
+        this.setState({ charIndex: event.charIndex });
     };
 }
