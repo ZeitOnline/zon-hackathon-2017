@@ -41,21 +41,23 @@ export default class TeaserItem extends Component {
         );
     }
 
-    setUtterance() {
+    getUtterance() {
         const { name, rate, pitch, volume } = this.props;
         const voices = speechSynthesis.getVoices();
+        const utterance = new SpeechSynthesisUtterance(this.text);
 
-        this.utterance = new SpeechSynthesisUtterance(this.text);
-        this.utterance.onend = this.stopPlaying;
-        this.utterance.onerror = this.stopPlaying;
-        this.utterance.onpause = this.stopPlaying;
-        this.utterance.onresume = this.startPlaying;
-        this.utterance.onstart = this.startPlaying;
-        this.utterance.onboundary = this.setProgress;
-        this.utterance.voice = voices.find(voice => voice.name === name);
-        this.utterance.pitch = parseFloat(pitch);
-        this.utterance.rate = parseFloat(rate);
-        this.utterance.volume = parseFloat(volume);
+        utterance.onend = this.stopPlaying;
+        utterance.onerror = this.stopPlaying;
+        utterance.onpause = this.stopPlaying;
+        utterance.onresume = this.startPlaying;
+        utterance.onstart = this.startPlaying;
+        utterance.onboundary = this.setProgress;
+        utterance.voice = voices.find(voice => voice.name === name);
+        utterance.pitch = parseFloat(pitch);
+        utterance.rate = parseFloat(rate);
+        utterance.volume = parseFloat(volume);
+
+        return utterance;
     }
 
     toggleSpeech = () => {
@@ -68,10 +70,9 @@ export default class TeaserItem extends Component {
                 speechSynthesis.pause();
             }
         } else {
-            this.setUtterance();
             this.props.setActive(uuid);
             speechSynthesis.cancel();
-            speechSynthesis.speak(this.utterance);
+            speechSynthesis.speak(this.getUtterance());
         }
     };
 
