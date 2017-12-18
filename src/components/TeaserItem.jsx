@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Teaser } from 'app/components';
-import { SpeechSynth } from 'app/utilities';
 import { TEASER } from 'app/shapes';
 
 export default class TeaserItem extends Component {
@@ -11,7 +10,9 @@ export default class TeaserItem extends Component {
         rate: PropTypes.string.isRequired,
         pitch: PropTypes.string.isRequired,
         volume: PropTypes.string.isRequired,
+        active: PropTypes.bool.isRequired,
         teaser: PropTypes.shape(TEASER).isRequired,
+        setActive: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -60,15 +61,17 @@ export default class TeaserItem extends Component {
     toggleSpeech = () => {
         const { uuid } = this.props.teaser;
 
-        if (SpeechSynth.speaking && SpeechSynth.id === uuid) {
-            if (SpeechSynth.paused) {
-                SpeechSynth.resume();
+        if (speechSynthesis.speaking && this.props.active) {
+            if (speechSynthesis.paused) {
+                speechSynthesis.resume();
             } else {
-                SpeechSynth.pause();
+                speechSynthesis.pause();
             }
         } else {
             this.setUtterance();
-            SpeechSynth.play(this.utterance, uuid);
+            this.props.setActive(uuid);
+            speechSynthesis.cancel();
+            speechSynthesis.speak(this.utterance);
         }
     };
 

@@ -15,6 +15,7 @@ export default class TeaserList extends Component {
     state = {
         teaser: [],
         loading: true,
+        active: '',
     }
 
     async componentDidMount() {
@@ -34,11 +35,21 @@ export default class TeaserList extends Component {
 
     renderTeaser() {
         return this.state.teaser.map(teaser => (
-            <TeaserItem key={teaser.uuid} {...this.props} teaser={teaser} />
+            <TeaserItem
+                key={teaser.uuid}
+                {...this.props}
+                teaser={teaser}
+                active={this.state.active === teaser.uuid}
+                setActive={this.setActive}
+            />
         ));
     }
 
     receiveTeaser(teaser) {
         this.setState({ teaser, loading: false });
     }
+
+    setActive = (active) => {
+        this.setState({ active });
+    };
 }
