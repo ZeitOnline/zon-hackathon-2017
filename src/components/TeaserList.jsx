@@ -6,7 +6,10 @@ import { TeaserItem } from 'app/components';
 
 export default class TeaserList extends Component {
     static propTypes = {
-        headline: PropTypes.string.isRequired,
+        lang: PropTypes.string.isRequired,
+        rate: PropTypes.string.isRequired,
+        pitch: PropTypes.string.isRequired,
+        volume: PropTypes.string.isRequired,
     }
 
     state = {
@@ -22,14 +25,17 @@ export default class TeaserList extends Component {
     render() {
         return (
             <div>
-                <h1>{this.props.headline}</h1>
+                <h1>Audio Explorer</h1>
                 {this.state.loading && (<p>Laden ...</p>)}
-                <div>{ this.state.teaser.map(teaser => (
-                    <TeaserItem key={teaser.uuid} teaser={teaser} />
-                )) }
-                </div>
+                <div>{this.renderTeaser()}</div>
             </div>
         );
+    }
+
+    renderTeaser() {
+        return this.state.teaser.map(teaser => (
+            <TeaserItem key={teaser.uuid} {...this.props} teaser={teaser} />
+        ));
     }
 
     receiveTeaser(teaser) {
