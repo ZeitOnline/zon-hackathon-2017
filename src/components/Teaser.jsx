@@ -21,7 +21,7 @@ const Teaser = ({ teaser, charIndex, text, toggleSpeech, isPlaying }) => (
             {isPlaying ? <span className="teaser__pause" /> : '▶'}
         </button>
         <progress value={charIndex} max={text.length} />
-        {isPlaying && <TeaserText text={text} charIndex={charIndex} />}
+        <TeaserText text={text} charIndex={charIndex} hidden={!isPlaying} />
     </article>
 );
 

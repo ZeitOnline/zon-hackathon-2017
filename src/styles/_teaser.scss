@@ -1,14 +1,14 @@
 .teaser {
-    padding: 16px 0;
+    padding: 16px 0 0;
 
     h2 {
         font-size: inherit;
         margin: 0;
     }
+}
 
-    p {
-        margin: 8px 0 10px;
-    }
+.teaser__intro {
+    margin: 8px 0 10px;
 }
 
 .teaser + .teaser {
@@ -80,10 +80,16 @@ $play-button-size: 40px;
     font-family: monospace;
     font-size: 12px;
     letter-spacing: normal;
-    margin: 10px 0 0;
+    margin: 16px 0 0;
     max-height: 126px;
     overflow-y: auto;
+    transition: max-height .25s linear;
     white-space: pre-line;
+
+    &[hidden] {
+        display: block;
+        max-height: 0;
+    }
 
     mark {
         letter-spacing: inherit;
