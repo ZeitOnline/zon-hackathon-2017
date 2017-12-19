@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { TeaserText } from 'app/components';
 import { TEASER } from 'app/shapes';
 import { distanceToNow } from 'app/utilities';
 
-const Teaser = ({ teaser, charIndex, length, toggleSpeech, isPlaying }) => (
+const Teaser = ({ teaser, charIndex, text, toggleSpeech, isPlaying }) => (
     <article className="teaser">
         <a href={teaser.href} tabIndex="-1">
             <h2>
@@ -19,14 +20,15 @@ const Teaser = ({ teaser, charIndex, length, toggleSpeech, isPlaying }) => (
         <button className="teaser__playbutton" onClick={toggleSpeech}>
             {isPlaying ? <span className="teaser__pause" /> : '▶'}
         </button>
-        <progress value={charIndex} max={length} />
+        <progress value={charIndex} max={text.length} />
+        {isPlaying && <TeaserText text={text} charIndex={charIndex} />}
     </article>
 );
 
 Teaser.propTypes = {
     teaser: PropTypes.shape(TEASER).isRequired,
     charIndex: PropTypes.number.isRequired,
-    length: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
     toggleSpeech: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
 };

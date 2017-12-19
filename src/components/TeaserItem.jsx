@@ -49,7 +49,7 @@ export default class TeaserItem extends Component {
             <Teaser
                 teaser={this.props.teaser}
                 charIndex={this.state.charIndex}
-                length={this.text.length}
+                text={this.text}
                 toggleSpeech={this.toggleSpeech}
                 isPlaying={this.state.isPlaying}
             />

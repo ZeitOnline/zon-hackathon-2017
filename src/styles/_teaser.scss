@@ -75,3 +75,17 @@ $play-button-size: 40px;
         right: 0;
     }
 }
+
+.teaser__text {
+    font-family: monospace;
+    font-size: 12px;
+    letter-spacing: normal;
+    margin: 10px 0 0;
+    max-height: 126px;
+    overflow-y: auto;
+    white-space: pre-line;
+
+    mark {
+        letter-spacing: inherit;
+    }
+}
