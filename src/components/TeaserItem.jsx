@@ -26,6 +26,7 @@ export default class TeaserItem extends Component {
         this.state = {
             isPlaying: false,
             charIndex: 0,
+            elapsedTime: 0,
         };
     }
 
@@ -49,6 +50,7 @@ export default class TeaserItem extends Component {
             <Teaser
                 teaser={this.props.teaser}
                 charIndex={this.state.charIndex}
+                elapsedTime={this.state.elapsedTime}
                 text={this.text}
                 toggleSpeech={this.toggleSpeech}
                 isPlaying={this.state.isPlaying}
@@ -100,12 +102,14 @@ export default class TeaserItem extends Component {
 
         if (event.type !== 'pause') {
             state.charIndex = 0;
+            state.elapsedTime = 0;
         }
 
         this.setState(state);
     };
 
     setProgress = (event) => {
-        this.setState({ charIndex: event.charIndex });
+        const { charIndex, elapsedTime } = event;
+        this.setState({ charIndex, elapsedTime });
     };
 }

@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 
 import { TeaserText } from 'app/components';
 import { TEASER } from 'app/shapes';
-import { distanceToNow } from 'app/utilities';
+import { distanceToNow, formatDate } from 'app/utilities';
 
-const Teaser = ({ teaser, charIndex, text, toggleSpeech, isPlaying }) => (
+const Teaser = ({
+    teaser, charIndex, elapsedTime, text, toggleSpeech, isPlaying,
+}) => (
     <article className="teaser">
         <a href={teaser.href} tabIndex="-1">
             <h2>
@@ -16,11 +18,14 @@ const Teaser = ({ teaser, charIndex, text, toggleSpeech, isPlaying }) => (
         <div className="teaser__date">
             {distanceToNow(teaser.release_date)}
         </div>
-        <p>{teaser.teaser_text}</p>
-        <button className="teaser__playbutton" onClick={toggleSpeech}>
-            {isPlaying ? <span className="teaser__pause" /> : '▶'}
-        </button>
-        <progress value={charIndex} max={text.length} />
+        <p className="teaser__intro">{teaser.teaser_text}</p>
+        <div className="teaser__player">
+            <button className="teaser__playbutton" onClick={toggleSpeech}>
+                {isPlaying ? <span className="teaser__pause" /> : '▶'}
+            </button>
+            <progress className="teaser__progress-bar" value={charIndex} max={text.length} />
+            <time>{formatDate(elapsedTime, 'mm:ss')}</time>
+        </div>
         <TeaserText text={text} charIndex={charIndex} hidden={!isPlaying} />
     </article>
 );
@@ -28,6 +33,7 @@ const Teaser = ({ teaser, charIndex, text, toggleSpeech, isPlaying }) => (
 Teaser.propTypes = {
     teaser: PropTypes.shape(TEASER).isRequired,
     charIndex: PropTypes.number.isRequired,
+    elapsedTime: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
     toggleSpeech: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,

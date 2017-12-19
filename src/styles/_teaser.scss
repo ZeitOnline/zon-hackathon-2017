@@ -32,6 +32,11 @@
     margin-top: .5em;
 }
 
+.teaser__player {
+    align-items: center;
+    display: flex;
+}
+
 $play-button-size: 40px;
 
 .teaser__playbutton {
@@ -74,6 +79,10 @@ $play-button-size: 40px;
     &::after {
         right: 0;
     }
+}
+
+.teaser__progress-bar {
+    margin-right: 16px;
 }
 
 .teaser__text {
