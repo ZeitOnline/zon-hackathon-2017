@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { TeaserText } from 'app/components';
+import { TeaserText, Timer } from 'app/components';
 import { TEASER } from 'app/shapes';
 import { distanceToNow, formatDate } from 'app/utilities';
 
@@ -24,7 +24,10 @@ const Teaser = ({
                 {isPlaying ? <span className="teaser__pause" /> : '▶'}
             </button>
             <progress className="teaser__progress-bar" value={charIndex} max={text.length} />
-            <time>{formatDate(elapsedTime, 'mm:ss')}</time>
+            <div>
+                <Timer running={isPlaying} reset={!elapsedTime} />
+                <time>{formatDate(elapsedTime, 'mm:ss')}</time>
+            </div>
         </div>
         <TeaserText text={text} charIndex={charIndex} hidden={!isPlaying} />
     </article>

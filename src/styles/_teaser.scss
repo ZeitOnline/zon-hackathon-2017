@@ -35,6 +35,15 @@
 .teaser__player {
     align-items: center;
     display: flex;
+
+    time {
+        display: block;
+        font-size: 14px;
+    }
+
+    time + time {
+        color: #ccc;
+    }
 }
 
 $play-button-size: 40px;
