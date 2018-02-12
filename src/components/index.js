@@ -6,3 +6,4 @@ export TeaserItem from './TeaserItem';
 export TeaserList from './TeaserList';
 export TeaserText from './TeaserText';
 export Timer from './Timer';
+export Player from './Player';

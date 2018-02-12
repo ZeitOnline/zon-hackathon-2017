@@ -66,6 +66,8 @@
     "start": "yarn dev"
   },
   "dependencies": {
-    "dotenv-webpack": "^1.5.4"
+    "dotenv-webpack": "^1.5.4",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
   }
 }

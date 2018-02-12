@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { TeaserList, AudioSettings } from 'app/components';
+import { TeaserList, AudioSettings, Player } from 'app/components';
 import logo from 'app/svg/logo.svg';
 import { defaultAudioSettings, getDefaultName } from 'app/utilities';
 
@@ -10,6 +10,7 @@ class App extends Component {
         rate: defaultAudioSettings.rate,
         pitch: defaultAudioSettings.pitch,
         volume: defaultAudioSettings.volume,
+        currentTeaser: undefined,
     };
 
     componentDidMount() {
@@ -27,7 +28,10 @@ class App extends Component {
                     onChange={this.setAudioSetting}
                     reset={this.resetAudioSettings}
                 />
-                <TeaserList {...this.state} />
+                <TeaserList />
+                <Player
+                    {...this.state}
+                />
             </div>
         );
     }

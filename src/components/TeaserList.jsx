@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { fetchData } from 'app/utilities';
 import { TeaserItem } from 'app/components';
 
 export default class TeaserList extends Component {
-    static propTypes = {
-        name: PropTypes.string.isRequired,
-        rate: PropTypes.string.isRequired,
-        pitch: PropTypes.string.isRequired,
-        volume: PropTypes.string.isRequired,
-    }
-
     state = {
         teaser: [],
         loading: true,
-        active: '',
     }
 
     async componentDidMount() {
@@ -40,7 +31,6 @@ export default class TeaserList extends Component {
                 {...this.props}
                 teaser={teaser}
                 active={this.state.active === teaser.uuid}
-                setActive={this.setActive}
             />
         ));
     }
@@ -48,8 +38,4 @@ export default class TeaserList extends Component {
     receiveTeaser(teaser) {
         this.setState({ teaser, loading: false });
     }
-
-    setActive = (active) => {
-        this.setState({ active });
-    };
 }
