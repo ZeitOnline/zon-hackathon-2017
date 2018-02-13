@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { fetchTeasers, fetchTeasersSuccess, fetchTeasersError } from 'app/actions/teasers';
 import { fetchData } from 'app/utilities';
-import { TeaserItem } from 'app/components';
+import { Teaser } from 'app/components';
 
 class TeaserList extends Component {
     static propTypes = {
@@ -41,9 +41,8 @@ class TeaserList extends Component {
 
     renderTeaser() {
         return this.props.teaserList.map(teaser => (
-            <TeaserItem
+            <Teaser
                 key={teaser.uuid}
-                {...this.props}
                 teaser={teaser}
                 // active={this.state.active === teaser.uuid}
             />
