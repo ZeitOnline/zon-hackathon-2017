@@ -6,10 +6,15 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import { App } from 'app/components';
-import { audioExplorer } from './reducers';
+import rootReducer from './reducers';
 
-
-const store = createStore(audioExplorer);
+/* eslint-disable no-underscore-dangle */
+const store = createStore(
+    rootReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+/* eslint-enable */
 
 ReactDOM.render(
     <Provider store={store}>

@@ -50,7 +50,10 @@ class TeaserItem extends Component {
     }
 }
 
-const mapStateToProps = state => ({ isPlaying: state.isPlaying });
+const mapStateToProps = state => ({
+    isPlaying: state.isPlaying,
+});
+
 connect(mapStateToProps)(TeaserItem);
 
 export default TeaserItem;

@@ -12,5 +12,5 @@ const fetchData = async () => {
     const response = await fetch(uri, { headers });
     return response.json();
 };
-export default fetchData;
 
+export default fetchData;
