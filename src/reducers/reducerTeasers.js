@@ -2,7 +2,7 @@ import { FETCH_TEASERS, FETCH_TEASERS_ERROR, FETCH_TEASERS_SUCCESS } from '../ac
 
 const initialState = {
     loading: false,
-    error: null,
+    error: '',
     teaserList: [],
 };
 
@@ -12,14 +12,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 loading: true,
-                error: null,
+                error: '',
                 teaserList: [],
             };
         case FETCH_TEASERS_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                error: null,
+                error: '',
                 teaserList: action.payload,
             };
         case FETCH_TEASERS_ERROR:
