@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class AudioSetting extends Component {
     static propTypes = {
         name: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
         min: PropTypes.number,
         max: PropTypes.number,
         step: PropTypes.number,

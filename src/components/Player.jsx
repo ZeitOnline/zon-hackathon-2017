@@ -5,26 +5,17 @@ import { TEASER } from 'app/shapes';
 
 export default class Player extends Component {
     static propTypes = {
-        name: PropTypes.string.isRequired,
-        rate: PropTypes.string.isRequired,
-        pitch: PropTypes.string.isRequired,
-        volume: PropTypes.string.isRequired,
-        active: PropTypes.bool,
         teaser: PropTypes.shape(TEASER),
-        setActive: PropTypes.func,
     };
 
     static defaultProps = {
         teaser: undefined,
-        active: false,
-        setActive: undefined,
     };
 
     constructor(props) {
         super(props);
         this.state = {
             isPlaying: false,
-            // charIndex: 0,
             elapsedTime: 0,
         };
     }
@@ -52,58 +43,58 @@ export default class Player extends Component {
         );
     }
 
-    getUtterance() {
-        const { name, rate, pitch, volume } = this.props;
-        const voices = speechSynthesis.getVoices();
-        const utterance = new SpeechSynthesisUtterance(this.text);
+    // getUtterance() {
+    //     const { name, rate, pitch, volume } = this.props;
+    //     const voices = speechSynthesis.getVoices();
+    //     const utterance = new SpeechSynthesisUtterance(this.text);
 
-        utterance.onend = this.stopPlaying;
-        utterance.onerror = this.stopPlaying;
-        utterance.onpause = this.stopPlaying;
-        utterance.onresume = this.startPlaying;
-        utterance.onstart = this.startPlaying;
-        utterance.onboundary = this.setProgress;
-        utterance.voice = voices.find(voice => voice.name === name);
-        utterance.pitch = parseFloat(pitch);
-        utterance.rate = parseFloat(rate);
-        utterance.volume = parseFloat(volume);
+    //     utterance.onend = this.stopPlaying;
+    //     utterance.onerror = this.stopPlaying;
+    //     utterance.onpause = this.stopPlaying;
+    //     utterance.onresume = this.startPlaying;
+    //     utterance.onstart = this.startPlaying;
+    //     utterance.onboundary = this.setProgress;
+    //     utterance.voice = voices.find(voice => voice.name === name);
+    //     utterance.pitch = parseFloat(pitch);
+    //     utterance.rate = parseFloat(rate);
+    //     utterance.volume = parseFloat(volume);
 
-        return utterance;
-    }
+    //     return utterance;
+    // }
 
-    toggleSpeech = () => {
-        const { uuid } = this.props.teaser;
+    // toggleSpeech = () => {
+    //     const { uuid } = this.props.teaser;
 
-        if (speechSynthesis.speaking && this.props.active) {
-            if (speechSynthesis.paused) {
-                speechSynthesis.resume();
-            } else {
-                speechSynthesis.pause();
-            }
-        } else {
-            this.props.setActive(uuid);
-            speechSynthesis.cancel();
-            speechSynthesis.speak(this.getUtterance());
-        }
-    };
+    //     if (speechSynthesis.speaking && this.props.active) {
+    //         if (speechSynthesis.paused) {
+    //             speechSynthesis.resume();
+    //         } else {
+    //             speechSynthesis.pause();
+    //         }
+    //     } else {
+    //         this.props.setActive(uuid);
+    //         speechSynthesis.cancel();
+    //         speechSynthesis.speak(this.getUtterance());
+    //     }
+    // };
 
-    startPlaying = () => {
-        this.setState({ isPlaying: true });
-    };
+    // startPlaying = () => {
+    //     this.setState({ isPlaying: true });
+    // };
 
-    stopPlaying = (event) => {
-        const state = { isPlaying: false };
+    // stopPlaying = (event) => {
+    //     const state = { isPlaying: false };
 
-        if (event.type !== 'pause') {
-            state.charIndex = 0;
-            state.elapsedTime = 0;
-        }
+    //     if (event.type !== 'pause') {
+    //         state.charIndex = 0;
+    //         state.elapsedTime = 0;
+    //     }
 
-        this.setState(state);
-    };
+    //     this.setState(state);
+    // };
 
-    setProgress = (event) => {
-        const { elapsedTime } = event;
-        this.setState({ elapsedTime });
-    };
+    // setProgress = (event) => {
+    //     const { elapsedTime } = event;
+    //     this.setState({ elapsedTime });
+    // };
 }

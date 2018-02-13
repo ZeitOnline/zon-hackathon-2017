@@ -6,7 +6,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-    switch (action) {
+    switch (action.type) {
         case PLAYER_PLAY:
             return {
                 ...state,

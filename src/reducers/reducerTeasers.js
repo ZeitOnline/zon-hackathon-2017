@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-    switch (action) {
+    switch (action.type) {
         case FETCH_TEASERS:
             return {
                 ...state,
