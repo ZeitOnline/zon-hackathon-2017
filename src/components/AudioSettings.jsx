@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { resetAudioSettings, updateAudioSettings } from 'app/actions/audioSettings';
-import { AudioSetting } from 'app/components';
+import { AudioSettingSlider } from 'app/components';
 
 class AudioSettings extends Component {
     static propTypes = {
@@ -39,9 +39,9 @@ class AudioSettings extends Component {
                         )) }
                     </select>
                 </label>
-                <AudioSetting name="rate" value={this.props.rate} min={0.5} max={3.5} onChange={this.handleAudioSettingChange} />
-                <AudioSetting name="pitch" value={this.props.pitch} max={2} onChange={this.handleAudioSettingChange} />
-                <AudioSetting name="volume" value={this.props.volume} onChange={this.handleAudioSettingChange} />
+                <AudioSettingSlider name="rate" value={this.props.rate} min={0.5} max={3.5} onChange={this.handleAudioSettingChange} />
+                <AudioSettingSlider name="pitch" value={this.props.pitch} max={2} onChange={this.handleAudioSettingChange} />
+                <AudioSettingSlider name="volume" value={this.props.volume} onChange={this.handleAudioSettingChange} />
                 <button onClick={this.reset} className="settings__button">
                     Reset
                 </button>

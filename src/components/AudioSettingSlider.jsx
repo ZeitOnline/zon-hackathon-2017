@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class AudioSetting extends Component {
+export default class AudioSettingSlider extends Component {
     static propTypes = {
         name: PropTypes.string.isRequired,
         value: PropTypes.number.isRequired,
