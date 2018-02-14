@@ -1,6 +1,6 @@
 import { getVoices, defaultAudioSettings, getDefaultVoice } from 'app/utilities';
 
-export const UPDATE_AUDIO_SETTINGS = 'SET_AUDIO_SETTINGS';
+export const UPDATE_AUDIO_SETTINGS = 'UPDATE_AUDIO_SETTINGS';
 export const RESET_AUDIO_SETTINGS = 'RESET_AUDIO_SETTINGS';
 
 export function updateAudioSettings(settings) {
