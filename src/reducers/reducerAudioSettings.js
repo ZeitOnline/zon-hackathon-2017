@@ -11,10 +11,6 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case UPDATE_AUDIO_SETTINGS:
-            return {
-                ...state,
-                ...action.payload,
-            };
         case RESET_AUDIO_SETTINGS:
             return {
                 ...state,
