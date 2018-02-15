@@ -3,7 +3,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgb(71, 71, 71);
+    background-color: $color-player-bg;
 }
 
 .player {
@@ -21,15 +21,17 @@ $play-button-size: 40px;
     border-radius: 50%;
     border: 0;
     color: inherit;
-    font-size: 16px;
+    font-size: 1rem;
     height: $play-button-size;
     line-height: $play-button-size;
-    margin: 0 16px 0 0;
+    margin: 18px 16px 18px 0;
     text-align: center;
-    transition-duration: .15s;
-    transition-property: border-color, color;
-    transition-timing-function: ease-in-out;
     width: $play-button-size;
+    flex-shrink: 0;
+
+    &[disabled] {
+        background-color: $color-play-button-disabled;
+    }
 }
 
 .player__pause {
@@ -84,15 +86,39 @@ $play-button-size: 40px;
 
 .player__progress {
     display: flex;
+    position: relative;
+
+    .timer {
+        position: absolute;
+        right: 0;
+        bottom: 16px;
+        font-size: 14px;
+    }
 }
 
 .player__progress-bar {
-    flex: 1;
+    appearance: none;
+    width: 100%;
+    margin: 8px 0;
+    height: 4px;
 }
 
-.player__elapsed-time {
-    font-size: 14px;
-    margin-left: 1rem;
+// Using a mixin because listing the prefixed
+// progress-bar pseudo-elements does not work
+// (neither in Firefox, nor in Chrome)
+@mixin player-progress-bar {
+    background-color: $color-progress-background;
+}
+
+::-webkit-progress-bar {
+    @include player-progress-bar;
+}
+::-moz-progress-bar {
+    @include player-progress-bar;
+}
+
+::-webkit-progress-value {
+    background-color: $color-progress-value;
 }
 
 .player__playlist-button {

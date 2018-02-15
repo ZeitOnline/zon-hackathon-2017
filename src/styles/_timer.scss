@@ -1,0 +1,9 @@
+.timer {
+    font-size: 14px;
+    font-family: monospace;
+}
+
+.timer__elapsed::after {
+    content: '/';
+    margin: 0 2px;
+}
