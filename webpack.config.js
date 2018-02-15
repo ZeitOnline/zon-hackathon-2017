@@ -116,8 +116,8 @@ const config = (env) => {
             bundleCss,
             htmlSinglePage,
             new Dotenv({
-                path: './.env', // Path to .env file (this is the default) 
-                // safe: true // load .env.example (defaults to "false" which does not use dotenv-safe) 
+                path: './.env', // Path to .env file (this is the default)
+                // safe: true // load .env.example (defaults to "false" which does not use dotenv-safe)
             }),
         ],
         devServer: {
