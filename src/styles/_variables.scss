@@ -2,3 +2,29 @@
 $min-width-tablet:   600px;
 $min-width-desktop:  900px;
 
+// utility colors
+$yellow:         #ffe117 !default
+$red:            #b91109 !default
+$dark-red:       #7c0e14 !default
+$blue:           #355bde !default
+$midnight:       #1f2091 !default
+
+$white:          #fff !default
+$grey--bright:   #f9f9f9 !default
+$grey--light:    #eeeeee !default
+$gainsboro:      #dfdfdf !default
+$charcoal:       #aaaaaa !default
+$grey:           #777777 !default
+$grey--mid:      #444444 !default
+$grey--dark:     #333 !default
+$grey--mid-dark: #252525 !default
+$black:          #000 !default
+$greyish-white:  #e9e9e9 !default
+
+$color-link: $red;
+$color-text: $grey--mid-dark;
+$color-progress-value: lighten($red, 20%);
+$color-progress-background: $grey;
+$color-teaser-heading: $red;
+$color-player-bg: $grey--mid;
+$color-play-button-disabled: $charcoal;

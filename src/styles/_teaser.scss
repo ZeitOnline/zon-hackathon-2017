@@ -1,9 +1,40 @@
 .teaser {
-    padding: 16px 0 0;
+    padding: 16px 0;
 
     h2 {
         font-size: inherit;
         margin: 0;
+    }
+}
+
+.teaser__state {
+    display: none;
+    position: absolute;
+    left: -24px;
+    top: 12px;
+}
+
+.teaser__state--playing {
+    display: block;
+}
+
+.teaser__heading {
+    background: none;
+    border: 0;
+    text-align: left;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    font-weight: unset;
+    position: relative;
+    font-size: inherit;
+
+    &:hover {
+        text-decoration: underline;
+
+        .teaser__state {
+            display: block;
+        }
     }
 }
 
@@ -16,82 +47,22 @@
 }
 
 .teaser__kicker {
-    color: #252525;
+    color: $color-teaser-heading;
     font-size: 13px;
     letter-spacing: .05em;
 }
 
 .teaser__title {
+    color: $color-text;
     display: block;
     letter-spacing: .03em;
+    font-size: 20px;
 }
 
 .teaser__date {
     color: #707070;
     font-size: 13px;
     margin-top: .5em;
-}
-
-.teaser__player {
-    align-items: center;
-    display: flex;
-
-    time {
-        display: block;
-        font-size: 14px;
-    }
-
-    time + time {
-        color: #ccc;
-    }
-}
-
-$play-button-size: 40px;
-
-.teaser__playbutton {
-    background-color: #fff;
-    border-radius: 50%;
-    border: 2px solid #ddd;
-    color: inherit;
-    font-size: 16px;
-    height: $play-button-size;
-    line-height: $play-button-size;
-    margin: 0 16px 0 0;
-    text-align: center;
-    transition-duration: .15s;
-    transition-property: border-color, color;
-    transition-timing-function: ease-in-out;
-    width: $play-button-size;
-}
-
-.teaser__pause {
-    display: inline-block;
-    height: 1em;
-    position: relative;
-    width: 1em;
-
-    &::before,
-    &::after {
-        background-color: currentColor;
-        border-radius: 3px;
-        content: '';
-        height: 100%;
-        position: absolute;
-        top: 0;
-        width: 6px;
-    }
-
-    &::before {
-        left: 0;
-    }
-
-    &::after {
-        right: 0;
-    }
-}
-
-.teaser__progress-bar {
-    margin-right: 16px;
 }
 
 .teaser__text {
@@ -112,4 +83,8 @@ $play-button-size: 40px;
     mark {
         letter-spacing: inherit;
     }
+}
+
+.teaser__link {
+    font-size: 13px;
 }

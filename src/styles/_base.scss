@@ -4,17 +4,17 @@
 }
 
 body {
-    color: #252525;
+    color: $color-text;
     font-family: "Tablet Gothic", sans-serif;
     line-height: 1.5;
-    margin: auto;
+    margin: 0 auto 5rem;
     min-width: 320px;
     max-width: 900px;
     padding: 1em;
 }
 
 a {
-    color: #b91109;
+    color: $color-link;
     text-decoration: none;
 
     @include hover {
@@ -54,4 +54,8 @@ button, input, select, textarea {
 
 button {
     cursor: pointer;
+
+    &[disabled] {
+        cursor: default;
+    }
 }
