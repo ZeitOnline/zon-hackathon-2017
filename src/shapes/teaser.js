@@ -7,7 +7,6 @@ export default {
     release_date: PropTypes.string.isRequired,
     supertitle: PropTypes.string.isRequired,
     teaser_text: PropTypes.string.isRequired,
-    teaser_title: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
 };

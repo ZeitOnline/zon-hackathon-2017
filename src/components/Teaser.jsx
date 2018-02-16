@@ -32,7 +32,7 @@ class Teaser extends Component {
                     <button className="teaser__heading" onClick={this.playTeaser}>
                         <div className={`teaser__state ${this.state.currentlyPlaying ? 'teaser__state--playing' : ''}`}>▶</div>
                         <span className="teaser__kicker">{this.props.teaser.supertitle}</span>
-                        <span className="teaser__title">{this.props.teaser.teaser_title || this.props.teaser.title}</span>
+                        <span className="teaser__title">{this.props.teaser.title}</span>
                     </button>
                 </h2>
                 <div className="teaser__date">

@@ -26,7 +26,6 @@ const testJSON = {
             release_date: '2018-02-15T12:20:19Z',
             supertitle: 'Testkicker',
             teaser_text: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
-            teaser_title: 'Teasertitel',
         },
         {
             body: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
@@ -36,7 +35,6 @@ const testJSON = {
             release_date: '2018-02-15T12:20:19Z',
             supertitle: 'Testkicker',
             teaser_text: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
-            teaser_title: 'Teasertitel',
         },
         {
             body: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
@@ -46,7 +44,6 @@ const testJSON = {
             release_date: '2018-02-15T12:20:19Z',
             supertitle: 'Testkicker',
             teaser_text: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
-            teaser_title: 'Teasertitel',
         },
         {
             body: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
@@ -56,7 +53,6 @@ const testJSON = {
             release_date: '2018-02-15T12:20:19Z',
             supertitle: 'Testkicker',
             teaser_text: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
-            teaser_title: 'Teasertitel',
         },
     ],
 };

@@ -55,8 +55,7 @@ class Player extends Component {
                             </span>
                             <span className="player__title">
                                 {this.state.currentTeaser &&
-                                    (this.state.currentTeaser.teaser_title ||
-                                        this.state.currentTeaser.title)}
+                                        this.state.currentTeaser.title}
                             </span>
                         </h2>
                         <div className="player__progress" style={{ display: this.state.currentTeaser ? 'block' : 'none' }}>
@@ -95,7 +94,7 @@ class Player extends Component {
 
     getText = (teaser) => {
         if (teaser) {
-            return `${teaser.supertitle}: ${teaser.title || teaser.teaser_title}. ${teaser.body || teaser.teaser_text}`;
+            return `${teaser.supertitle}: ${teaser.title}. ${teaser.body || teaser.teaser_text}`;
         }
         return '';
     }
