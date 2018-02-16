@@ -41,10 +41,12 @@ class Player extends Component {
     }
 
     render() {
+        const hasTrack = !!this.state.currentTeaser;
+
         return (
             <div className="player-wrapper">
-                <div className="player">
-                    {this.renderPlayButton()}
+                <div className={`player ${hasTrack ? '' : 'player--inactive'}`}>
+                    {this.renderPlayButton(hasTrack)}
                     <div className="player__track-info">
                         <h2 className="player__track">
                             <span className="player__kicker">
@@ -78,8 +80,9 @@ class Player extends Component {
         );
     }
 
-    renderPlayButton() {
-        const disabled = this.state.currentTeaser ? '' : 'disabled';
+    renderPlayButton(hasTrack) {
+        const disabled = hasTrack ? '' : 'disabled';
+
         return (
             <button className="player__playbutton" onClick={this.handlePlayPause} disabled={disabled}>
                 {this.props.isPlaying ? <span className="player__pause" /> : '▶'}

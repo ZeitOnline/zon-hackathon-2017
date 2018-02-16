@@ -44,7 +44,6 @@ class TeaserList extends Component {
             <Teaser
                 key={teaser.uuid}
                 teaser={teaser}
-                // active={this.state.active === teaser.uuid}
             />
         ));
     }

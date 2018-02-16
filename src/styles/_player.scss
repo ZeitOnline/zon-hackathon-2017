@@ -10,6 +10,7 @@
     max-width: 900px;
     width: 100%;
     margin: 0 auto;
+    padding: 0 1em;
     display: flex;
     align-items: center;
 }
@@ -101,23 +102,23 @@ $play-button-size: 40px;
     width: 100%;
     margin: 8px 0;
     height: 4px;
-}
-
-// Using a mixin because listing the prefixed
-// progress-bar pseudo-elements does not work
-// (neither in Firefox, nor in Chrome)
-@mixin player-progress-bar {
     background-color: $color-progress-background;
+    border: 0;
+    border-radius: 2px;
 }
 
 ::-webkit-progress-bar {
-    @include player-progress-bar;
+    border-radius: 2px; // needed repetition
+    background-color: $color-progress-background;
 }
 ::-moz-progress-bar {
-    @include player-progress-bar;
+    // equivalent to webkit-progress-value
+    border-radius: 2px;
+    background-color: $color-progress-value;
 }
 
 ::-webkit-progress-value {
+    border-radius: 2px; // needed repetition
     background-color: $color-progress-value;
 }
 

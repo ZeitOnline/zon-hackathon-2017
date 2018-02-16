@@ -68,9 +68,9 @@ export default class Timer extends PureComponent {
     }
 
     getStaticEstimatedTime() {
-        // Avg. words per minute when reading aloud ≈ 150
+        // Avg. words per minute when reading aloud ≈ 150 words/min
         // See https://de.wikipedia.org/wiki/Lesegeschwindigkeit#Lesen_von_Texten
-        // 145 words/ms appeared to be a good estimate.
+        // 145 words/min appeared to be a good estimate.
         const avgWordsPerMs = 145 / 60 / 1000;
         return Math.ceil(this.props.wordCount /
             (avgWordsPerMs * this.props.speechRate));
