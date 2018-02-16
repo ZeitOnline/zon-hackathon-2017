@@ -32,8 +32,6 @@ export default class TimeEstimate extends Component {
             } else {
                 this.pausedAt = Date.now();
             }
-            console.log('running: ', running);
-            console.log(this.pausedAt, this.startTime);
         }
         if (readWords !== this.props.readWords) {
             this.estimatedTime = this.getEstimatedTime(readWords);
@@ -44,7 +42,7 @@ export default class TimeEstimate extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextState !== this.state;
+        return nextState.estimatedTime !== this.state.estimatedTime;
     }
 
     render() {
