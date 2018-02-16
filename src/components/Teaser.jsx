@@ -1,18 +1,33 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { play } from 'app/actions/player';
+import { updateTeaser } from 'app/actions/teasers';
 import { TEASER } from 'app/shapes';
-import { distanceToNow } from 'app/utilities';
+import { distanceToNow, countWords } from 'app/utilities';
 
-class Teaser extends Component {
+class Teaser extends PureComponent {
     static propTypes = {
         teaser: PropTypes.shape(TEASER).isRequired,
         isPlaying: PropTypes.bool.isRequired,
         currentUUID: PropTypes.string.isRequired,
         play: PropTypes.func.isRequired,
+        updateTeaser: PropTypes.func.isRequired,
     };
+
+    constructor(props) {
+        super(props);
+
+        const playerText = this.getPlayerText();
+        const wordCount = countWords(playerText);
+
+        props.updateTeaser({
+            ...props.teaser,
+            playerText,
+            wordCount,
+        });
+    }
 
     state = {
         currentlyPlaying: false,
@@ -49,7 +64,18 @@ class Teaser extends Component {
             this.props.play(this.props.teaser.uuid);
         }
     }
+
+    getPlayerText() {
+        const {
+            supertitle,
+            title,
+            body,
+            teaser_text: teaserText,
+        } = this.props.teaser;
+        return `${supertitle}: ${title}. ${body || teaserText}`;
+    }
 }
+
 
 const mapStateToProps = ({ player }) => ({
     isPlaying: player.isPlaying,
@@ -58,6 +84,7 @@ const mapStateToProps = ({ player }) => ({
 
 const mapDispatchToProps = {
     play,
+    updateTeaser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Teaser);

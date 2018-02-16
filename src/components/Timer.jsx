@@ -7,21 +7,16 @@ export default class Timer extends PureComponent {
     static propTypes = {
         running: PropTypes.bool.isRequired,
         reset: PropTypes.bool.isRequired,
-        wordCount: PropTypes.number.isRequired,
-        speechRate: PropTypes.number.isRequired,
-        readWords: PropTypes.number.isRequired,
     };
 
-    state = {
-        estimatedTime: 0,
-    }
+    constructor(props) {
+        super(props);
 
-    componentWillReceiveProps({ readWords }) {
-        if (readWords !== this.props.readWords) {
-            this.estimatedTime = this.getEstimatedTime(readWords);
-            this.setState({
-                estimatedTime: this.estimatedTime,
-            });
+        this.elapsedTime = 0;
+        this.interval = 200;
+
+        if (this.props.running) {
+            this.setInterval();
         }
     }
 
@@ -29,7 +24,6 @@ export default class Timer extends PureComponent {
         if (nextProps.running !== this.props.running) {
             if (nextProps.running) {
                 this.setInterval();
-                this.setStartTime();
             } else {
                 this.clearInterval();
             }
@@ -46,43 +40,9 @@ export default class Timer extends PureComponent {
 
     render() {
         return (
-            <div className="timer">
-                <time className="timer__elapsed">{formatDate(this.elapsedTime, 'mm:ss')}</time>
-                <span>~</span><time className="timer__estimated">{formatDate(this.state.estimatedTime, 'mm:ss')}</time>
-            </div>
+            <span className="timer">{formatDate(this.elapsedTime, 'mm:ss')}</span>
         );
     }
-
-    elapsedTime = 0;
-    interval = 200;
-    startTime = 0;
-
-    getEstimatedTime(readWords) {
-        const updateEvery = Math.floor(this.props.wordCount / 10);
-        if (readWords < updateEvery) {
-            return this.getStaticEstimatedTime();
-        } else if (readWords % updateEvery === 0) {
-            return this.getDynamicEstimatedTime(readWords);
-        }
-        return this.estimatedTime;
-    }
-
-    getStaticEstimatedTime() {
-        // Avg. words per minute when reading aloud ≈ 150 words/min
-        // See https://de.wikipedia.org/wiki/Lesegeschwindigkeit#Lesen_von_Texten
-        // 145 words/min appeared to be a good estimate.
-        const avgWordsPerMs = 145 / 60 / 1000;
-        return Math.ceil(this.props.wordCount /
-            (avgWordsPerMs * this.props.speechRate));
-    }
-
-    getDynamicEstimatedTime(readWords) {
-        const passedTime = Date.now() - this.startTime;
-        const wordsPerMsEstimate = readWords / passedTime;
-        return Math.ceil(this.props.wordCount / (wordsPerMsEstimate));
-    }
-
-    getIntAverage = (a, b) => Math.round((a + b) / 2)
 
     tick = () => {
         const seconds = this.getSeconds();
@@ -100,10 +60,6 @@ export default class Timer extends PureComponent {
 
     setInterval() {
         this.timerID = setInterval(this.tick, this.interval);
-    }
-
-    setStartTime() {
-        this.startTime = Date.now();
     }
 
     clearInterval() {

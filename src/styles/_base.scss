@@ -3,6 +3,13 @@
     letter-spacing: .01em;
 }
 
+html {
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+}
+
 body {
     color: $color-text;
     font-family: "Tablet Gothic", sans-serif;

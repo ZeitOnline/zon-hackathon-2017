@@ -9,4 +9,6 @@ export default {
     teaser_text: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
+    wordCount: PropTypes.number,
+    playerText: PropTypes.string,
 };

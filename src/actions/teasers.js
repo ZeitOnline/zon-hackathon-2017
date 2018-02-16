@@ -3,6 +3,7 @@ import fetchData from 'app/utilities/fetchData';
 export const FETCH_TEASERS = 'FETCH_TEASERS';
 export const FETCH_TEASERS_SUCCESS = 'FETCH_TEASERS_SUCCESS';
 export const FETCH_TEASERS_ERROR = 'FETCH_TEASERS_ERROR';
+export const UPDATE_TEASER = 'UPDATE_TEASER';
 
 export function fetchTeasers() {
     const request = fetchData();
@@ -24,5 +25,12 @@ export function fetchTeasersError(error) {
     return {
         type: FETCH_TEASERS_ERROR,
         payload: error,
+    };
+}
+
+export function updateTeaser(teaser) {
+    return {
+        type: UPDATE_TEASER,
+        payload: teaser,
     };
 }

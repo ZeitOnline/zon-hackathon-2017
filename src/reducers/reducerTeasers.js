@@ -1,4 +1,5 @@
-import { FETCH_TEASERS, FETCH_TEASERS_ERROR, FETCH_TEASERS_SUCCESS } from '../actions/teasers';
+import { FETCH_TEASERS, FETCH_TEASERS_ERROR,
+    FETCH_TEASERS_SUCCESS, UPDATE_TEASER } from '../actions/teasers';
 
 const initialState = {
     loading: false,
@@ -29,7 +30,27 @@ export default function (state = initialState, action) {
                 error: action.payload,
                 teaserList: [],
             };
+        case UPDATE_TEASER:
+            return {
+                ...state,
+                teaserList: updateTeaserInArray(
+                    state.teaserList,
+                    action.payload,
+                ),
+            };
         default:
             return state;
     }
+}
+
+function updateTeaserInArray(teaserList, teaser) {
+    const updatedTeaserList = teaserList.map((t) => {
+        if (t.uuid !== teaser.uuid) {
+            return t;
+        }
+        const updatedTeaser = { ...t, ...teaser };
+        return updatedTeaser;
+    });
+
+    return updatedTeaserList;
 }
