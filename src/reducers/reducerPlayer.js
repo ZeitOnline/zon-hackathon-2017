@@ -2,7 +2,7 @@ import { PLAYER_PLAY, PLAYER_PAUSE, PLAYER_RESET } from '../actions/player';
 
 const initialState = {
     isPlaying: false,
-    currentUUID: '',
+    currentUUID: null,
 };
 
 export default function (state = initialState, action) {
@@ -22,7 +22,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isPlaying: false,
-                currentUUID: '',
+                currentUUID: null,
             };
         default:
             return state;

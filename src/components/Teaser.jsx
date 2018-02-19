@@ -6,15 +6,20 @@ import { play } from 'app/actions/player';
 import { updateTeaser } from 'app/actions/teasers';
 import { TEASER } from 'app/shapes';
 import { distanceToNow, countWords } from 'app/utilities';
+import { TimeEstimate } from 'app/components';
 
 class Teaser extends PureComponent {
     static propTypes = {
         teaser: PropTypes.shape(TEASER).isRequired,
         isPlaying: PropTypes.bool.isRequired,
-        currentUUID: PropTypes.string.isRequired,
+        currentUUID: PropTypes.string,
         play: PropTypes.func.isRequired,
         updateTeaser: PropTypes.func.isRequired,
     };
+
+    static defaultProps = {
+        currentUUID: null,
+    }
 
     constructor(props) {
         super(props);
@@ -53,6 +58,11 @@ class Teaser extends PureComponent {
                 <div className="teaser__date">
                     {distanceToNow(this.props.teaser.release_date)}
                 </div>
+                {this.props.teaser.wordCount && (
+                    <TimeEstimate
+                        wordCount={this.props.teaser.wordCount}
+                    />
+                )}
                 <p className="teaser__intro">{this.props.teaser.teaser_text}</p>
                 <a className="teaser__link" href={this.props.teaser.href}>Auf ZEIT ONLINE lesen</a>
             </article>

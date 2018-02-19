@@ -4,40 +4,52 @@ import { connect } from 'react-redux';
 
 import { play, pause, resetPlayer } from 'app/actions/player';
 import { TEASER, AUDIO_SETTINGS } from 'app/shapes';
-import { Timer, TimeEstimate } from 'app/components';
+import { Timer, TimeEstimateDynamic } from 'app/components';
 import { countWords } from 'app/utilities';
 
 class Player extends Component {
     static propTypes = {
         teaserList: PropTypes.arrayOf(PropTypes.shape(TEASER)).isRequired,
         isPlaying: PropTypes.bool.isRequired,
-        currentUUID: PropTypes.string.isRequired,
+        currentUUID: PropTypes.string,
         play: PropTypes.func.isRequired,
         pause: PropTypes.func.isRequired,
         resetPlayer: PropTypes.func.isRequired,
         audioSettings: PropTypes.shape(AUDIO_SETTINGS).isRequired,
     };
 
-    state = {
-        currentTeaser: undefined,
-        charIndex: 0,
-        elapsedTime: 0,
+    static defaultProps = {
+        currentUUID: null,
     }
 
-    componentWillReceiveProps({ currentUUID }) {
-        const currentTeaser = this.getTeaser(currentUUID);
-        this.setState({ currentTeaser });
+    constructor(props) {
+        super(props);
+
+        this.currentUtterance = null;
+        this.state = {
+            currentTeaser: null,
+            charIndex: 0,
+            elapsedTime: 0,
+        };
     }
 
-    componentDidUpdate({ currentUUID }) {
-        if (this.props.currentUUID.length &&
-            (currentUUID !== this.props.currentUUID)) {
-            this.startSpeech(this.getUtterance());
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentUUID !== this.props.currentUUID) {
+            const currentTeaser = this.getTeaser(nextProps.currentUUID);
+            this.setState({ currentTeaser });
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.currentUUID &&
+            (prevProps.currentUUID !== this.props.currentUUID)) {
+            this.startSpeech();
         }
     }
 
     render() {
         const hasTrack = !!this.state.currentTeaser;
+        // console.log(this.state.currentTeaser);
 
         return (
             <div className="player-wrapper">
@@ -74,21 +86,19 @@ class Player extends Component {
                 <div className="player__progress">
                     <Timer
                         running={this.props.isPlaying}
-                        reset={!this.state.elapsedTime || this.props.currentUUID === ''}
+                        reset={!this.state.elapsedTime}
                     />
                     <progress
                         className="player__progress-bar"
                         value={this.state.charIndex}
                         max={this.state.currentTeaser.playerText.length}
                     />
-                    <TimeEstimate
+                    <TimeEstimateDynamic
                         wordCount={this.state.currentTeaser.wordCount}
                         readWords={countWords(
                             this.state.currentTeaser.playerText,
                             this.state.charIndex,
                         )}
-                        speechRate={this.props.audioSettings.rate}
-                        running={this.props.isPlaying}
                     />
                 </div>
             </div>
@@ -124,13 +134,22 @@ class Player extends Component {
         utterance.rate = rate;
         utterance.volume = volume;
         utterance.onboundary = this.setProgress;
-        utterance.onend = this.stopSpeech;
+        utterance.onend = this.onSpeechEnd;
         return utterance;
     }
 
     startSpeech = () => {
+        if (this.currentUtterance) {
+            // interrupting current speech, avoid triggering onSpeechEnd
+            // that is triggered on the current utterance after
+            // speechSynthesis.cancel()
+            this.currentUtterance.onend = null;
+        }
         speechSynthesis.cancel();
-        speechSynthesis.speak(this.getUtterance());
+        this.setState({ elapsedTime: 0 });
+        this.props.play(this.state.currentTeaser.uuid);
+        this.currentUtterance = this.getUtterance();
+        speechSynthesis.speak(this.currentUtterance);
     }
 
     resumeSpeech = () => {
@@ -145,8 +164,7 @@ class Player extends Component {
         }
     }
 
-    stopSpeech = () => {
-        speechSynthesis.cancel();
+    onSpeechEnd = () => {
         this.props.resetPlayer();
     }
 
