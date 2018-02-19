@@ -54,7 +54,6 @@ class Player extends Component {
             <div className="player-wrapper">
                 <div className={`player ${hasTrack ? '' : 'player--inactive'}`}>
                     <PlayButton
-                        className="player__playbutton"
                         isPlaying={this.props.isPlaying}
                         onClick={this.handlePlayPause}
                         disabled={!hasTrack}

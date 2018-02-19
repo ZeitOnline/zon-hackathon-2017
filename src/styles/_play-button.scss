@@ -1,0 +1,44 @@
+$play-button-size: 40px;
+
+.play-button {
+    background-color: #fff;
+    border-radius: 50%;
+    border: 0;
+    color: $color-play-button;
+    font-size: 1rem;
+    height: $play-button-size;
+    line-height: $play-button-size;
+    text-align: center;
+    width: $play-button-size;
+
+    &[disabled] {
+        background-color: $color-play-button-disabled;
+    }
+
+}
+
+.play-button__pause {
+    display: inline-block;
+    height: 1em;
+    position: relative;
+    width: 1em;
+
+    &::before,
+    &::after {
+        background-color: $color-play-button;
+        border-radius: 3px;
+        content: '';
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 6px;
+    }
+
+    &::before {
+        left: 0;
+    }
+
+    &::after {
+        right: 0;
+    }
+}
