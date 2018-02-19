@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { play, pause, resetPlayer } from 'app/actions/player';
 import { TEASER, AUDIO_SETTINGS } from 'app/shapes';
-import { Timer, TimeEstimateDynamic } from 'app/components';
+import { Timer, TimeEstimateDynamic, PlayButton } from 'app/components';
 import { countWords } from 'app/utilities';
 
 class Player extends Component {
@@ -49,26 +49,20 @@ class Player extends Component {
 
     render() {
         const hasTrack = !!this.state.currentTeaser;
-        // console.log(this.state.currentTeaser);
 
         return (
             <div className="player-wrapper">
                 <div className={`player ${hasTrack ? '' : 'player--inactive'}`}>
-                    {this.renderPlayButton(hasTrack)}
+                    <PlayButton
+                        className="player__playbutton"
+                        isPlaying={this.props.isPlaying}
+                        onClick={this.handlePlayPause}
+                        disabled={!hasTrack}
+                    />
                     {hasTrack && this.renderTrackInfo()}
                     <button className="player__playlist-button" title="Playlist anzeigen" />
                 </div>
             </div>
-        );
-    }
-
-    renderPlayButton(hasTrack) {
-        const disabled = hasTrack ? '' : 'disabled';
-
-        return (
-            <button className="player__playbutton" onClick={this.handlePlayPause} disabled={disabled}>
-                {this.props.isPlaying ? <span className="player__pause" /> : '▶'}
-            </button>
         );
     }
 

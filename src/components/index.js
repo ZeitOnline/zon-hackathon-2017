@@ -9,3 +9,4 @@ export Player from './Player';
 export TimeEstimate from './TimeEstimate';
 export TimeEstimateDynamic from './TimeEstimateDynamic';
 export Header from './Header';
+export PlayButton from './PlayButton';
