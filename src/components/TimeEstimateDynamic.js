@@ -56,10 +56,6 @@ class TimeEstimateDynamic extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextState.estimatedTime !== this.state.estimatedTime;
-    }
-
     render() {
         return (
             <span className="time-estimate">{formatDate(this.state.estimatedTime, 'mm:ss')}</span>
