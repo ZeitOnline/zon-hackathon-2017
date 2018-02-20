@@ -2,11 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { play } from 'app/actions/player';
+import { play, pause } from 'app/actions/player';
 import { updateTeaser } from 'app/actions/teasers';
 import { TEASER } from 'app/shapes';
 import { distanceToNow, countWords } from 'app/utilities';
 import { TimeEstimate } from 'app/components';
+import PlayButton from './PlayButton';
 
 class Teaser extends PureComponent {
     static propTypes = {
@@ -14,6 +15,7 @@ class Teaser extends PureComponent {
         isPlaying: PropTypes.bool.isRequired,
         currentUUID: PropTypes.string,
         play: PropTypes.func.isRequired,
+        pause: PropTypes.func.isRequired,
         updateTeaser: PropTypes.func.isRequired,
     };
 
@@ -35,42 +37,69 @@ class Teaser extends PureComponent {
     }
 
     state = {
-        currentlyPlaying: false,
+        playing: false,
+        isActive: false,
     }
 
     componentWillReceiveProps(nextProps) {
+        const isActive = (nextProps.teaser.uuid === nextProps.currentUUID);
         this.setState({
-            currentlyPlaying: nextProps.isPlaying &&
-            (nextProps.teaser.uuid === nextProps.currentUUID),
+            playing: nextProps.isPlaying && isActive,
+            isActive,
         });
     }
 
     render() {
         return (
             <article className="teaser">
-                <h2>
-                    <button className="teaser__heading" onClick={this.playTeaser}>
-                        <div className={`teaser__state ${this.state.currentlyPlaying ? 'teaser__state--playing' : ''}`}>▶</div>
+                <div className={`teaser__state ${this.state.isActive ?
+                    'teaser__state--active' : ''}`}
+                >
+                    {this.renderState()}
+                </div>
+                <div className="teaser__content">
+                    <h2 className="teaser__heading">
                         <span className="teaser__kicker">{this.props.teaser.supertitle}</span>
                         <span className="teaser__title">{this.props.teaser.title}</span>
-                    </button>
-                </h2>
-                <div className="teaser__date">
-                    {distanceToNow(this.props.teaser.release_date)}
+                    </h2>
+                    <p className="teaser__intro">{this.props.teaser.teaser_text}</p>
+                    <div className="teaser__info">
+                        <span className="teaser__date">
+                            {distanceToNow(this.props.teaser.release_date)}
+                        </span>
+                        {this.props.teaser.wordCount && (
+                            <span>
+                                ca. <TimeEstimate
+                                    wordCount={this.props.teaser.wordCount}
+                                /> Min.
+                            </span>
+                        )}
+                        <a className="teaser__link" href={this.props.teaser.href}>Auf ZEIT ONLINE lesen</a>
+                    </div>
                 </div>
-                {this.props.teaser.wordCount && (
-                    <TimeEstimate
-                        wordCount={this.props.teaser.wordCount}
-                    />
-                )}
-                <p className="teaser__intro">{this.props.teaser.teaser_text}</p>
-                <a className="teaser__link" href={this.props.teaser.href}>Auf ZEIT ONLINE lesen</a>
             </article>
         );
     }
 
+    renderState() {
+        return (
+            <PlayButton
+                isPlaying={this.state.playing}
+                onClick={this.handlePlayPause}
+            />
+        );
+    }
+
     playTeaser = () => {
-        if (!this.state.currentlyPlaying) {
+        if (!this.state.playing) {
+            this.props.play(this.props.teaser.uuid);
+        }
+    }
+
+    handlePlayPause = () => {
+        if (this.state.playing) {
+            this.props.pause();
+        } else {
             this.props.play(this.props.teaser.uuid);
         }
     }
@@ -94,6 +123,7 @@ const mapStateToProps = ({ player }) => ({
 
 const mapDispatchToProps = {
     play,
+    pause,
     updateTeaser,
 };
 

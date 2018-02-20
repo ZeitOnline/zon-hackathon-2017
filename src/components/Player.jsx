@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { play, pause, resetPlayer } from 'app/actions/player';
 import { TEASER, AUDIO_SETTINGS } from 'app/shapes';
-import { Timer, TimeEstimateDynamic, PlayButton } from 'app/components';
+import { Timer, TimeEstimateDynamic, PlayButton, PlaylistButton, SettingsButton } from 'app/components';
 import { countWords } from 'app/utilities';
 
 class Player extends Component {
@@ -41,9 +41,21 @@ class Player extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.currentUUID &&
-            (prevProps.currentUUID !== this.props.currentUUID)) {
-            this.startSpeech();
+        // if (this.props.currentUUID &&
+        //     (prevProps.currentUUID !== this.props.currentUUID)) {
+        //     }
+
+        if (this.props.isPlaying !== prevProps.isPlaying) {
+            if (this.props.isPlaying) {
+                if (this.props.currentUUID &&
+                    this.props.currentUUID === prevProps.currentUUID) {
+                    this.resumeSpeech();
+                } else {
+                    this.startSpeech();
+                }
+            } else {
+                this.pauseSpeech();
+            }
         }
     }
 
@@ -59,7 +71,10 @@ class Player extends Component {
                         disabled={!hasTrack}
                     />
                     {hasTrack && this.renderTrackInfo()}
-                    <button className="player__playlist-button" title="Playlist anzeigen" />
+                    <div className="player__buttons">
+                        <PlaylistButton />
+                        <SettingsButton />
+                    </div>
                 </div>
             </div>
         );

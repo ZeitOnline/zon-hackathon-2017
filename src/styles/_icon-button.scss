@@ -1,0 +1,16 @@
+$button-size: 40px;
+
+.icon-button {
+    border-radius: 50%;
+    border: 0;
+    height: $button-size;
+    padding: 0;
+    width: $button-size;
+    color: currentColor;
+    margin: 0;
+
+    svg {
+        width: $button-size;
+        height: $button-size;
+    }
+}

@@ -15,9 +15,20 @@
     align-items: center;
     justify-content: space-between;
 
-    .play-button {
+    .icon-button {
+        background-color: $color-player-button-bg;
+        color: $color-player-button;
         margin: 24px 0;
         flex-shrink: 0;
+
+        &:disabled {
+            color: $color-player-button-disabled;
+            background-color: $color-player-button-bg-disabled;
+        }
+    }
+
+    .icon-button--settings {
+        margin-left: 12px;
     }
 }
 
@@ -94,20 +105,6 @@
     background-color: $color-progress-value;
 }
 
-.player__playlist-button {
-    background: none;
-    border: 0;
-    color: #fff;
-    border-top: 4px solid #fff;
-    padding: 0;
-
-    &::before,
-    &::after {
-        content: " ";
-        display: block;
-        width: 2rem;
-        height: 4px;
-        background: #fff;
-        margin-top: 4px;
-    }
+.player__buttons {
+    flex-shrink: 0;
 }

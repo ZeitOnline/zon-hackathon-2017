@@ -1,49 +1,50 @@
 .teaser {
-    padding: 16px 0;
+    padding: 24px 0;
+    display: flex;
 
-    h2 {
-        font-size: inherit;
-        margin: 0;
+    &:hover .teaser__state svg {
+        opacity: 1;
+    }
+
+    + .teaser {
+        border-top: 1px solid $color-teaser-separator;
     }
 }
 
 .teaser__state {
-    display: none;
-    position: absolute;
-    left: -24px;
-    top: 12px;
-}
-
-.teaser__state--playing {
     display: block;
-}
+    width: 48px;
+    padding: 0 4px;
 
-.teaser__heading {
-    background: none;
-    border: 0;
-    text-align: left;
-    color: inherit;
-    margin: 0;
-    padding: 0;
-    font-weight: unset;
-    position: relative;
-    font-size: inherit;
+    svg {
+        opacity: 0;
+        width: 40px;
+        height: 40px;
+        transition: opacity 0.1s ease;
 
-    &:hover {
-        text-decoration: underline;
-
-        .teaser__state {
-            display: block;
+        &:focus {
+            opacity: 1;
         }
     }
 }
 
-.teaser__intro {
-    margin: 8px 0 10px;
+.teaser__state--active {
+    svg {
+        opacity: 1;
+    }
 }
 
-.teaser + .teaser {
-    border-top: 1px solid #eee;
+.teaser__content {
+
+}
+
+.teaser__heading {
+    font-size: inherit;
+    margin: 0;
+}
+
+.teaser__intro {
+    margin: 8px 0 0 0;
 }
 
 .teaser__kicker {
@@ -59,10 +60,23 @@
     font-size: 20px;
 }
 
-.teaser__date {
-    color: #707070;
+.teaser__info {
+    color: $color-teaser-info;
     font-size: 13px;
-    margin-top: .5em;
+    margin-top: 8px;
+
+    > * + * {
+        &::before {
+            content: " | ";
+            color: $color-teaser-info;
+            display: inline-block;
+            margin: 0 8px;
+        }
+    }
+
+    .time-estimate {
+        font-size: inherit;
+    }
 }
 
 .teaser__text {
