@@ -44,6 +44,7 @@
     "react-router-dom": "^4.1.1",
     "react-test-renderer": "^16.2.0",
     "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.2",
     "svg-sprite-loader": "^3.6.2",
     "svgo": "^1.0.3",
     "svgo-loader": "^2.1.0",
@@ -58,7 +59,7 @@
   },
   "scripts": {
     "build": "webpack -p --env.production",
-    "dev": "webpack-dev-server --env.development",
+    "dev": "webpack-dev-server --hot --env.development",
     "test": "jest",
     "lint": "eslint src --fix",
     "tdd": "yarn test -- --watch",

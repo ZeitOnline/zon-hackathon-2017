@@ -56,7 +56,7 @@ const config = (env) => {
                 {
                     exclude,
                     test: /\.s*css$/,
-                    use: bundleCss.extract(styleLoader),
+                    use: isProduction ? bundleCss.extract(styleLoader) : ['style-loader', ...styleLoader],
                 },
                 {
                     exclude,
