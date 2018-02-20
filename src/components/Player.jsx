@@ -41,21 +41,47 @@ class Player extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // if (this.props.currentUUID &&
-        //     (prevProps.currentUUID !== this.props.currentUUID)) {
-        //     }
+        // CASES
+        //
+        // Start new Track
+        // 1.   isPlaying: false, currentUUID: null
+        // --> isPlaying: true, currentUUID: A
+        //
+        // Resume current track
+        // 2.   isPlaying: false, currentUUID: A
+        // --> isPlaying: true, currentUUID: A
+        //
+        // Pause current track
+        // 3.   isPlaying: true, currentUUID: A
+        // --> isPlaying: false, currentUUID: A
+        //
+        // Interrupt and start new track
+        // 4.   isPlaying: true, currentUUID: A
+        // --> isPlaying: true, currentUUID: B
+        //
+        // Track ended
+        // 5.   isPlaying: true, currentUUID: A
+        // --> isPlaying: false, currentUUID: null
+
 
         if (this.props.isPlaying !== prevProps.isPlaying) {
             if (this.props.isPlaying) {
                 if (this.props.currentUUID &&
                     this.props.currentUUID === prevProps.currentUUID) {
+                    // 2.
                     this.resumeSpeech();
                 } else {
+                    // 1.
                     this.startSpeech();
                 }
             } else {
+                // 3.
                 this.pauseSpeech();
             }
+        } else if (this.props.isPlaying &&
+            this.props.currentUUID !== prevProps.currentUUID) {
+            // 4.
+            this.startSpeech();
         }
     }
 

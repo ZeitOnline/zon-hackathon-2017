@@ -21,10 +21,10 @@
         width: 40px;
         height: 40px;
         transition: opacity 0.1s ease;
+    }
 
-        &:focus {
-            opacity: 1;
-        }
+    .icon-button:focus svg {
+        opacity: 1;
     }
 }
 
