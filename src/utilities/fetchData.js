@@ -19,18 +19,18 @@ const fetchData = async () => {
 const testJSON = {
     matches: [
         {
-            body: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
+            body: 'Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn Ein zwei drei vier fünf sechs sieben acht neun zehn.',
             uuid: 'test1',
-            title: 'Testtitel',
+            title: 'Testtitel 1',
             href: 'http://www.zeit.de/kultur/film/2018-02/dieter-wedel-sexuelle-uebergriffe-zdf',
             release_date: '2018-02-15T12:20:19Z',
             supertitle: 'Testkicker',
-            teaser_text: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
+            teaser_text: 'langer Text',
         },
         {
             body: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
             uuid: 'test2',
-            title: 'Testtitel',
+            title: 'Testtitel 2',
             href: 'http://www.zeit.de/kultur/film/2018-02/dieter-wedel-sexuelle-uebergriffe-zdf',
             release_date: '2018-02-15T12:20:19Z',
             supertitle: 'Testkicker',
@@ -39,7 +39,7 @@ const testJSON = {
         {
             body: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
             uuid: 'test3',
-            title: 'Testtitel',
+            title: 'Testtitel 3',
             href: 'http://www.zeit.de/kultur/film/2018-02/dieter-wedel-sexuelle-uebergriffe-zdf',
             release_date: '2018-02-15T12:20:19Z',
             supertitle: 'Testkicker',
@@ -48,7 +48,7 @@ const testJSON = {
         {
             body: 'Ein zwei drei vier fünf sechs sieben acht neun zehn',
             uuid: 'test4',
-            title: 'Testtitel',
+            title: 'Testtitel 4',
             href: 'http://www.zeit.de/kultur/film/2018-02/dieter-wedel-sexuelle-uebergriffe-zdf',
             release_date: '2018-02-15T12:20:19Z',
             supertitle: 'Testkicker',
