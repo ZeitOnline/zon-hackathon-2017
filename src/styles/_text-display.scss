@@ -1,0 +1,36 @@
+.text-display {
+    max-width: 900px;
+    color: #fff;
+    margin: 24px auto;
+    padding: 0 1em;
+    position: relative;
+}
+
+.text-display__content {
+    max-height: 30vh;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: none;
+        background-color: $color-player-bg;
+    }
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #fff;
+        border-radius: 2px;
+
+        &:hover {
+            background-color: red;
+        }
+    }
+}
+
+.text-display__marked {
+    background-color: $color-text-display-marked;
+    outline: 2px solid $color-text-display-marked;
+    color: currentColor;
+}

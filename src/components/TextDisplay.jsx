@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-export default class TeaserText extends PureComponent {
+export default class TextDisplay extends PureComponent {
     static propTypes = {
         text: PropTypes.string.isRequired,
         charIndex: PropTypes.number.isRequired,
@@ -25,16 +25,23 @@ export default class TeaserText extends PureComponent {
 
     render() {
         const { text, charIndex, hidden } = this.props;
-        const end = text.replace(/\s/g, ' ').indexOf(' ', charIndex);
+        const wordStart = text.lastIndexOf(' ', charIndex) + 1;
+        const wordEnd = text.indexOf(' ', charIndex);
+        // TODO ignore newlines (\n)
 
         return (
-            <p className="teaser__text" hidden={hidden}>
-                {text.slice(0, charIndex)}
-                <mark ref={(element) => { this.mark = element; }}>
-                    {text.slice(charIndex, end)}
-                </mark>
-                {text.slice(end)}
-            </p>
+            <div className="text-display">
+                <p className="text-display__content" hidden={hidden}>
+                    {text.slice(0, wordStart)}
+                    <mark
+                        className="text-display__marked"
+                        ref={(element) => { this.mark = element; }}
+                    >
+                        {text.slice(wordStart, wordEnd)}
+                    </mark>
+                    {text.slice(wordEnd)}
+                </p>
+            </div>
         );
     }
 }

@@ -3,7 +3,7 @@ export AudioSettingSlider from './AudioSettingSlider';
 export AudioSettings from './AudioSettings';
 export Teaser from './Teaser';
 export TeaserList from './TeaserList';
-export TeaserText from './TeaserText';
+export TextDisplay from './TextDisplay';
 export Timer from './Timer';
 export Player from './Player';
 export TimeEstimate from './TimeEstimate';

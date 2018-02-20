@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import { play, pause, resetPlayer } from 'app/actions/player';
 import { TEASER, AUDIO_SETTINGS } from 'app/shapes';
-import { Timer, TimeEstimateDynamic, PlayButton, PlaylistButton, SettingsButton } from 'app/components';
+import { Timer, TimeEstimateDynamic, PlayButton,
+    PlaylistButton, SettingsButton, TextDisplay } from 'app/components';
 import { countWords } from 'app/utilities';
 
 class Player extends Component {
@@ -102,7 +103,18 @@ class Player extends Component {
                         <SettingsButton />
                     </div>
                 </div>
+                {hasTrack && this.renderTextDisplay()}
             </div>
+        );
+    }
+
+    renderTextDisplay() {
+        return (
+            <TextDisplay
+                charIndex={this.state.charIndex}
+                hidden={false}
+                text={this.state.currentTeaser.playerText}
+            />
         );
     }
 
