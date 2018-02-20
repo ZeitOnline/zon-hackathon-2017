@@ -1,6 +1,6 @@
 import React from 'react';
 
-import playlist from 'app/svg/playlist.svg';
+import playlist from 'app/svg/playlist-2.svg';
 
 const PlaylistButton = () => (
     <button
