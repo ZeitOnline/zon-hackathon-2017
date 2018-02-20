@@ -26,6 +26,10 @@
     .icon-button:focus svg {
         opacity: 1;
     }
+
+    .icon-button:hover {
+        color: $color-play-button-hover;
+    }
 }
 
 .teaser__state--active {

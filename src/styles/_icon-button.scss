@@ -14,3 +14,9 @@ $button-size: 40px;
         height: $button-size;
     }
 }
+
+.icon-button--play-pause {
+    &:hover, &:focus {
+        color: $color-play-button-hover
+    }
+}
