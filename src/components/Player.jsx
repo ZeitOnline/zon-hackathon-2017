@@ -31,6 +31,7 @@ class Player extends Component {
             currentTeaser: null,
             charIndex: 0,
             elapsedTime: 0,
+            playlistVisible: false,
         };
     }
 
@@ -60,7 +61,7 @@ class Player extends Component {
         // 4.   isPlaying: true, currentUUID: A
         // --> isPlaying: true, currentUUID: B
         //
-        // Track ended
+        // Track ended (see onend Event of utterance)
         // 5.   isPlaying: true, currentUUID: A
         // --> isPlaying: false, currentUUID: null
 
@@ -99,11 +100,12 @@ class Player extends Component {
                     />
                     {hasTrack && this.renderTrackInfo()}
                     <div className="player__buttons">
-                        <PlaylistButton />
+                        <PlaylistButton onClick={this.togglePlaylist} />
                         <SettingsButton />
                     </div>
                 </div>
-                {hasTrack && this.renderTextDisplay()}
+                {hasTrack &&
+                    this.state.playlistVisible && this.renderTextDisplay()}
             </div>
         );
     }
@@ -221,6 +223,13 @@ class Player extends Component {
             elapsedTime,
         });
     };
+
+    togglePlaylist = () => {
+        console.log('toggle');
+        this.setState({
+            playlistVisible: !this.state.playlistVisible,
+        });
+    }
 }
 
 const mapStateToProps = ({ player, teasers, audioSettings }) => ({
