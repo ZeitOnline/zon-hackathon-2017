@@ -1,5 +1,4 @@
 .text-display-container {
-
     height: 30vh;
 
     &.slide-enter-active {
@@ -15,7 +14,7 @@
 .text-display {
     max-width: 900px;
     color: #fff;
-    padding: 1rem 0 2rem;
+    padding: 1rem 1rem 2rem;
     margin: 0 auto;
     height: 100%;
 }
