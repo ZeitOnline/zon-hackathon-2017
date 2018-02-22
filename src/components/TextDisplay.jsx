@@ -30,17 +30,19 @@ export default class TextDisplay extends PureComponent {
         // TODO ignore newlines (\n)
 
         return (
-            <div className="text-display">
-                <p className="text-display__content" hidden={hidden}>
-                    {text.slice(0, wordStart)}
-                    <mark
-                        className="text-display__marked"
-                        ref={(element) => { this.mark = element; }}
-                    >
-                        {text.slice(wordStart, wordEnd)}
-                    </mark>
-                    {text.slice(wordEnd)}
-                </p>
+            <div className="text-display-container">
+                <div className="text-display">
+                    <p className="text-display__content" hidden={hidden}>
+                        {text.slice(0, wordStart)}
+                        <mark
+                            className="text-display__marked"
+                            ref={(element) => { this.mark = element; }}
+                        >
+                            {text.slice(wordStart, wordEnd)}
+                        </mark>
+                        {text.slice(wordEnd)}
+                    </p>
+                </div>
             </div>
         );
     }

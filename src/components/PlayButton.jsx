@@ -1,33 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { IconButton } from 'app/components';
 import playIcon from 'app/svg/play.svg';
 import pauseIcon from 'app/svg/pause.svg';
 
-const PlayButton = props => (
-    <button
-        className="icon-button icon-button--play-pause"
-        onClick={props.onClick}
-        disabled={props.disabled ? 'disabled' : ''}
-        aria-label={props.isPlaying ? 'Pausieren' : 'Abspielen'}
-        title={props.isPlaying ? 'Pausieren' : 'Abspielen'}
-    >
-        <svg>
-            {props.isPlaying ?
-                <use xlinkHref={pauseIcon.url} /> :
-                <use xlinkHref={playIcon.url} />}
-        </svg>
-    </button>
-);
+const PlayButton = ({ isPlaying, ...props }) => {
+    if (isPlaying) {
+        return <IconButton {...props} icon={pauseIcon} title="Pausieren" />;
+    }
+    return <IconButton {...props} icon={playIcon} title="Abspielen" />;
+};
 
 PlayButton.propTypes = {
     onClick: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
     isPlaying: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool,
+    modifiers: PropTypes.arrayOf(PropTypes.string),
 };
 
 PlayButton.defaultProps = {
     disabled: false,
+    modifiers: ['play-pause'],
 };
 
 export default PlayButton;

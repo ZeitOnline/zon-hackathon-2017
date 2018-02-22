@@ -9,6 +9,5 @@ export Player from './Player';
 export TimeEstimate from './TimeEstimate';
 export TimeEstimateDynamic from './TimeEstimateDynamic';
 export Header from './Header';
+export IconButton from './IconButton';
 export PlayButton from './PlayButton';
-export PlaylistButton from './PlaylistButton';
-export SettingsButton from './SettingsButton';

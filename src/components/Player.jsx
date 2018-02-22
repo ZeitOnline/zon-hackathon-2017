@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { CSSTransition } from 'react-transition-group';
 
 import { play, pause, resetPlayer } from 'app/actions/player';
 import { TEASER, AUDIO_SETTINGS } from 'app/shapes';
-import { Timer, TimeEstimateDynamic, PlayButton,
-    PlaylistButton, SettingsButton, TextDisplay } from 'app/components';
+import { Timer, TimeEstimateDynamic, PlayButton, IconButton, TextDisplay } from 'app/components';
 import { countWords } from 'app/utilities';
+import settingsIcon from 'app/svg/settings.svg';
+import playlistIcon from 'app/svg/playlist.svg';
 
 class Player extends Component {
     static propTypes = {
@@ -31,7 +33,7 @@ class Player extends Component {
             currentTeaser: null,
             charIndex: 0,
             elapsedTime: 0,
-            playlistVisible: false,
+            textDisplay: false,
         };
     }
 
@@ -100,23 +102,36 @@ class Player extends Component {
                     />
                     {hasTrack && this.renderTrackInfo()}
                     <div className="player__buttons">
-                        <PlaylistButton onClick={this.togglePlaylist} />
-                        <SettingsButton />
+                        <IconButton
+                            icon={playlistIcon}
+                            title="Playlist anzeigen"
+                            onClick={this.toggleTextDisplay}
+                            disabled={!hasTrack}
+                            modifiers={['playlist']}
+                        />
+                        <IconButton
+                            icon={settingsIcon}
+                            title="Einstellungen anzeigen"
+                            onClick={null}
+                        />
                     </div>
                 </div>
-                {hasTrack &&
-                    this.state.playlistVisible && this.renderTextDisplay()}
+                {hasTrack && (
+                    <CSSTransition
+                        classNames="slide"
+                        timeout={300}
+                        mountOnEnter
+                        unmountOnExit
+                        in={this.state.textDisplay}
+                    >
+                        <TextDisplay
+                            charIndex={this.state.charIndex}
+                            hidden={false}
+                            text={this.state.currentTeaser.playerText}
+                        />
+                    </CSSTransition>
+                )}
             </div>
-        );
-    }
-
-    renderTextDisplay() {
-        return (
-            <TextDisplay
-                charIndex={this.state.charIndex}
-                hidden={false}
-                text={this.state.currentTeaser.playerText}
-            />
         );
     }
 
@@ -224,10 +239,10 @@ class Player extends Component {
         });
     };
 
-    togglePlaylist = () => {
+    toggleTextDisplay = () => {
         console.log('toggle');
         this.setState({
-            playlistVisible: !this.state.playlistVisible,
+            textDisplay: !this.state.textDisplay,
         });
     }
 }

@@ -1,14 +1,29 @@
+.text-display-container {
+
+    height: 30vh;
+
+    &.slide-enter-active {
+        height: 30vh;
+    }
+
+    &.slide-enter,
+    &.slide-exit {
+        transition-duration: 300ms;
+    }
+}
+
 .text-display {
     max-width: 900px;
     color: #fff;
-    margin: 24px auto;
-    padding: 0 1em;
-    position: relative;
+    padding: 1rem 0 2rem;
+    margin: 0 auto;
+    height: 100%;
 }
 
 .text-display__content {
-    max-height: 30vh;
     overflow-y: scroll;
+    margin: 0;
+    height: 100%;
 
     &::-webkit-scrollbar-track {
         -webkit-box-shadow: none;
