@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
+import debounce from 'lodash.debounce';
 
 import { play, pause, resetPlayer } from 'app/actions/player';
 import { TEASER, AUDIO_SETTINGS } from 'app/shapes';
@@ -29,18 +30,31 @@ class Player extends Component {
         super(props);
 
         this.currentUtterance = null;
+        this.debouncedSettingsUpdate = debounce(() => {
+            this.updateSettingsAndResume();
+        }, 250);
         this.state = {
             currentTeaser: null,
             charIndex: 0,
             elapsedTime: 0,
             textDisplay: false,
+            remainingText: null,
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.currentUUID !== this.props.currentUUID) {
             const currentTeaser = this.getTeaser(nextProps.currentUUID);
-            this.setState({ currentTeaser });
+            this.setState({
+                currentTeaser,
+                remainingText: currentTeaser && currentTeaser.playerText,
+            });
+        }
+
+        if (nextProps.audioSettings !== this.props.audioSettings) {
+            if (this.state.remainingText) {
+                this.debouncedSettingsUpdate();
+            }
         }
     }
 
@@ -189,8 +203,7 @@ class Player extends Component {
             volume,
             voiceList,
         } = this.props.audioSettings;
-        const { playerText } = this.state.currentTeaser;
-        const utterance = new SpeechSynthesisUtterance(playerText);
+        const utterance = new SpeechSynthesisUtterance(this.state.remainingText);
 
         utterance.voice = voiceList.find(v => v.name === voice);
         utterance.pitch = pitch;
@@ -199,6 +212,17 @@ class Player extends Component {
         utterance.onboundary = this.setProgress;
         utterance.onend = this.onSpeechEnd;
         return utterance;
+    }
+
+    updateSettingsAndResume = () => {
+        const lastSpace = this.state.remainingText.lastIndexOf(' ', this.state.charIndex);
+        const remainingText = this.state.remainingText.slice(lastSpace);
+
+        this.setState({
+            remainingText,
+        }, () => {
+            this.startSpeech(this.getUtterance());
+        });
     }
 
     startSpeech = () => {
