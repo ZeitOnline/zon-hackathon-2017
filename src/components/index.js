@@ -6,6 +6,7 @@ export TeaserList from './TeaserList';
 export TextDisplay from './TextDisplay';
 export Timer from './Timer';
 export Player from './Player';
+export PlayerContainer from './PlayerContainer';
 export TimeEstimate from './TimeEstimate';
 export TimeEstimateDynamic from './TimeEstimateDynamic';
 export Header from './Header';

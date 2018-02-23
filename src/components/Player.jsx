@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import debounce from 'lodash.debounce';
 
-import { play, pause, resetPlayer } from 'app/actions/player';
-import { TEASER, AUDIO_SETTINGS } from 'app/shapes';
+import { TEASER } from 'app/shapes';
 import { Timer, TimeEstimateDynamic, PlayButton, IconButton, TextDisplay } from 'app/components';
 import { countWords } from 'app/utilities';
 import settingsIcon from 'app/svg/settings.svg';
@@ -13,135 +10,67 @@ import playlistIcon from 'app/svg/playlist.svg';
 
 class Player extends Component {
     static propTypes = {
-        teaserList: PropTypes.arrayOf(PropTypes.shape(TEASER)).isRequired,
+        currentTeaser: PropTypes.shape(TEASER),
         isPlaying: PropTypes.bool.isRequired,
-        currentUUID: PropTypes.string,
-        play: PropTypes.func.isRequired,
-        pause: PropTypes.func.isRequired,
-        resetPlayer: PropTypes.func.isRequired,
-        audioSettings: PropTypes.shape(AUDIO_SETTINGS).isRequired,
+        handlePlayPause: PropTypes.func.isRequired,
+        charIndex: PropTypes.number.isRequired,
+        elapsedTime: PropTypes.number.isRequired,
     };
 
     static defaultProps = {
-        currentUUID: null,
+        currentTeaser: null,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.currentUtterance = null;
-        this.debouncedSettingsUpdate = debounce(() => {
-            this.updateSettingsAndResume();
-        }, 250);
-        this.state = {
-            currentTeaser: null,
-            charIndex: 0,
-            elapsedTime: 0,
-            textDisplay: false,
-            remainingText: null,
-        };
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.currentUUID !== this.props.currentUUID) {
-            const currentTeaser = this.getTeaser(nextProps.currentUUID);
-            this.setState({
-                currentTeaser,
-                remainingText: currentTeaser && currentTeaser.playerText,
-            });
-        }
-
-        if (nextProps.audioSettings !== this.props.audioSettings) {
-            if (this.state.remainingText) {
-                this.debouncedSettingsUpdate();
-            }
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        // CASES
-        //
-        // Start new Track
-        // 1.   isPlaying: false, currentUUID: null
-        // --> isPlaying: true, currentUUID: A
-        //
-        // Resume current track
-        // 2.   isPlaying: false, currentUUID: A
-        // --> isPlaying: true, currentUUID: A
-        //
-        // Pause current track
-        // 3.   isPlaying: true, currentUUID: A
-        // --> isPlaying: false, currentUUID: A
-        //
-        // Interrupt and start new track
-        // 4.   isPlaying: true, currentUUID: A
-        // --> isPlaying: true, currentUUID: B
-        //
-        // Track ended (see onend Event of utterance)
-        // 5.   isPlaying: true, currentUUID: A
-        // --> isPlaying: false, currentUUID: null
-
-
-        if (this.props.isPlaying !== prevProps.isPlaying) {
-            if (this.props.isPlaying) {
-                if (this.props.currentUUID &&
-                    this.props.currentUUID === prevProps.currentUUID) {
-                    // 2.
-                    this.resumeSpeech();
-                } else {
-                    // 1.
-                    this.startSpeech();
-                }
-            } else {
-                // 3.
-                this.pauseSpeech();
-            }
-        } else if (this.props.isPlaying &&
-            this.props.currentUUID !== prevProps.currentUUID) {
-            // 4.
-            this.startSpeech();
-        }
+    state = {
+        showText: false,
     }
 
     render() {
-        const hasTrack = !!this.state.currentTeaser;
+        const {
+            isPlaying,
+            handlePlayPause,
+            charIndex,
+            currentTeaser,
+        } = this.props;
+
+        const disabled = !this.props.currentTeaser;
 
         return (
             <div className="player-wrapper">
-                <div className={`player ${hasTrack ? '' : 'player--inactive'}`}>
+                <div className={`player ${disabled ? 'player--inactive' : ''}`}>
                     <PlayButton
-                        isPlaying={this.props.isPlaying}
-                        onClick={this.handlePlayPause}
-                        disabled={!hasTrack}
+                        isPlaying={isPlaying}
+                        onClick={handlePlayPause}
+                        disabled={disabled}
                     />
-                    {hasTrack && this.renderTrackInfo()}
+                    {!disabled && this.renderTrackInfo()}
                     <div className="player__buttons">
                         <IconButton
                             icon={playlistIcon}
                             title="Playlist anzeigen"
                             onClick={this.toggleTextDisplay}
-                            disabled={!hasTrack}
+                            disabled={disabled}
                             modifiers={['playlist']}
                         />
                         <IconButton
                             icon={settingsIcon}
                             title="Einstellungen anzeigen"
-                            onClick={null}
+                            onClick={() => console.log('toggle settings')}
                         />
                     </div>
                 </div>
-                {hasTrack && (
+                {!disabled && (
                     <CSSTransition
                         classNames="slide"
                         timeout={300}
                         mountOnEnter
                         unmountOnExit
-                        in={this.state.textDisplay}
+                        in={this.state.showText}
                     >
                         <TextDisplay
-                            charIndex={this.state.charIndex}
+                            charIndex={charIndex}
                             hidden={false}
-                            text={this.state.currentTeaser.playerText}
+                            text={currentTeaser.playerText}
                         />
                     </CSSTransition>
                 )}
@@ -150,31 +79,38 @@ class Player extends Component {
     }
 
     renderTrackInfo() {
+        const {
+            isPlaying,
+            currentTeaser,
+            charIndex,
+            elapsedTime,
+        } = this.props;
+
         return (
             <div className="player__track-info">
                 <h2 className="player__track">
                     <span className="player__kicker">
-                        {this.state.currentTeaser.supertitle}
+                        {currentTeaser.supertitle}
                     </span>
                     <span className="player__title">
-                        {this.state.currentTeaser.title}
+                        {currentTeaser.title}
                     </span>
                 </h2>
                 <div className="player__progress">
                     <Timer
-                        running={this.props.isPlaying}
-                        reset={!this.state.elapsedTime}
+                        running={isPlaying}
+                        reset={!elapsedTime}
                     />
                     <progress
                         className="player__progress-bar"
-                        value={this.state.charIndex}
-                        max={this.state.currentTeaser.playerText.length}
+                        value={charIndex}
+                        max={currentTeaser.playerText.length}
                     />
                     <TimeEstimateDynamic
-                        wordCount={this.state.currentTeaser.wordCount}
+                        wordCount={currentTeaser.wordCount}
                         readWords={countWords(
-                            this.state.currentTeaser.playerText,
-                            this.state.charIndex,
+                            currentTeaser.playerText,
+                            charIndex,
                         )}
                     />
                 </div>
@@ -182,106 +118,12 @@ class Player extends Component {
         );
     }
 
-    getTeaser = uuid =>
-        this.props.teaserList.find(teaser => teaser.uuid === uuid)
-
-    handlePlayPause = () => {
-        if (this.props.isPlaying) {
-            this.props.pause();
-            this.pauseSpeech();
-        } else {
-            this.props.play(this.props.currentUUID);
-            this.resumeSpeech();
-        }
-    }
-
-    getUtterance() {
-        const {
-            voice,
-            rate,
-            pitch,
-            volume,
-            voiceList,
-        } = this.props.audioSettings;
-        const utterance = new SpeechSynthesisUtterance(this.state.remainingText);
-
-        utterance.voice = voiceList.find(v => v.name === voice);
-        utterance.pitch = pitch;
-        utterance.rate = rate;
-        utterance.volume = volume;
-        utterance.onboundary = this.setProgress;
-        utterance.onend = this.onSpeechEnd;
-        return utterance;
-    }
-
-    updateSettingsAndResume = () => {
-        const lastSpace = this.state.remainingText.lastIndexOf(' ', this.state.charIndex);
-        const remainingText = this.state.remainingText.slice(lastSpace);
-
-        this.setState({
-            remainingText,
-        }, () => {
-            this.startSpeech(this.getUtterance());
-        });
-    }
-
-    startSpeech = () => {
-        if (this.currentUtterance) {
-            // interrupting current speech, avoid triggering onSpeechEnd
-            // that is triggered on the current utterance after
-            // speechSynthesis.cancel()
-            this.currentUtterance.onend = null;
-        }
-        speechSynthesis.cancel();
-        this.setState({ elapsedTime: 0 });
-        this.props.play(this.state.currentTeaser.uuid);
-        this.currentUtterance = this.getUtterance();
-        speechSynthesis.speak(this.currentUtterance);
-    }
-
-    resumeSpeech = () => {
-        if (speechSynthesis.speaking && speechSynthesis.paused) {
-            speechSynthesis.resume();
-        }
-    }
-
-    pauseSpeech = () => {
-        if (speechSynthesis.speaking) {
-            speechSynthesis.pause();
-        }
-    }
-
-    onSpeechEnd = () => {
-        this.props.resetPlayer();
-    }
-
-    setProgress = (event) => {
-        const { charIndex, elapsedTime } = event;
-        this.setState({
-            charIndex,
-            elapsedTime,
-        });
-    };
-
     toggleTextDisplay = () => {
-        console.log('toggle');
+        console.log('toggle text-display');
         this.setState({
-            textDisplay: !this.state.textDisplay,
+            showText: !this.state.showText,
         });
     }
 }
 
-const mapStateToProps = ({ player, teasers, audioSettings }) => ({
-    isPlaying: player.isPlaying,
-    currentUUID: player.currentUUID,
-    teaserList: teasers.teaserList,
-    audioSettings,
-});
-
-const mapDispatchToProps = {
-    play,
-    pause,
-    resetPlayer,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Player);
+export default Player;
