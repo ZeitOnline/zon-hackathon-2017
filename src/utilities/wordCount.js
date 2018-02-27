@@ -2,9 +2,8 @@
  * Count the words in a given string.
  *
  * @param {string} text The string for counting the words.
- * @param {number} [untilIndex]
- *      If given, only the number of words up to the given
- *      character index are counted.
+ * @param {number} [untilIndex] If given, only the number
+ *      of words up to the given character index are counted.
  */
 export function countWords(text, untilIndex = undefined) {
     const cleanedText = text.trim().replace(/\s+/, ' ');
@@ -17,8 +16,8 @@ export function countWords(text, untilIndex = undefined) {
 
 /**
  * Get an estimated reading time for a given number of words, based
- * on the average words per minute when reading aloud in German of
- * about 145 words/min.
+ * on the average words per minute when reading aloud in German, that
+ * is about 150 words/min.
  *
  * @see https://de.wikipedia.org/wiki/Lesegeschwindigkeit#Lesen_von_Texten
  * @param {number} wordCount The number of words in the text.

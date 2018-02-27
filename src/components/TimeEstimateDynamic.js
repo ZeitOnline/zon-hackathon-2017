@@ -7,14 +7,12 @@ import { formatDate, estimatedReadingTime } from 'app/utilities';
 class TimeEstimateDynamic extends Component {
     static propTypes = {
         isPlaying: PropTypes.bool.isRequired,
-        currentUUID: PropTypes.string,
         wordCount: PropTypes.number.isRequired,
         speechRate: PropTypes.number.isRequired,
         readWords: PropTypes.number,
     };
 
     static defaultProps = {
-        currentUUID: null,
         readWords: 0,
     }
 
@@ -23,7 +21,7 @@ class TimeEstimateDynamic extends Component {
 
         this.startTime = Date.now();
         this.pausedAt = 0;
-        this.initialSpeechRate = props.speechRate;
+
         this.state = {
             estimatedTime: estimatedReadingTime(
                 props.wordCount,
@@ -33,12 +31,7 @@ class TimeEstimateDynamic extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { readWords, speechRate, isPlaying, currentUUID } = nextProps;
-
-        if (currentUUID !== this.props.currentUUID) {
-            // new track, thus speechRate may be changed
-            this.initialSpeechRate = speechRate;
-        }
+        const { readWords, isPlaying, speechRate } = nextProps;
 
         if (this.props.isPlaying !== isPlaying) {
             if (isPlaying) {
@@ -46,6 +39,16 @@ class TimeEstimateDynamic extends Component {
             } else {
                 this.pausedAt = Date.now();
             }
+        }
+
+        if (speechRate !== this.props.speechRate) {
+            // TODO When the speechRate was changed, we should
+            // use the time that has passed since starting the track
+            // as the minimum basis for the following calculation.
+            // This would assure that the estimated time is never lower
+            // than the actual time that has passed.
+
+            this.startTime = Date.now();
         }
 
         if (readWords !== this.props.readWords) {
@@ -63,13 +66,13 @@ class TimeEstimateDynamic extends Component {
     }
 
     getEstimatedTime(readWords) {
-        const updateInterval = Math.floor(this.props.wordCount / 10);
+        const updateInterval = Math.floor(this.props.wordCount / 5); // 20%
 
         if (this.props.wordCount < 20 || readWords < updateInterval) {
-            // Show static estimation until >= 10% of the text has been read
+            // Show static estimation until >= 20% of the text has been read
             return estimatedReadingTime(
                 this.props.wordCount,
-                this.initialSpeechRate,
+                this.props.speechRate,
             );
         } else if (readWords % updateInterval === 0) {
             return this.getDynamicEstimatedTime(readWords);
@@ -80,13 +83,12 @@ class TimeEstimateDynamic extends Component {
     getDynamicEstimatedTime(readWords) {
         const passedTime = Date.now() - this.startTime;
         const wordsPerMsEstimate = readWords / passedTime;
-        return Math.ceil(this.props.wordCount / (wordsPerMsEstimate));
+        return Math.ceil(this.props.wordCount / wordsPerMsEstimate);
     }
 }
 
 const mapStateToProps = ({ audioSettings, player }) => ({
     isPlaying: player.isPlaying,
-    currentUUID: player.currentUUID,
     speechRate: audioSettings.rate,
 });
 

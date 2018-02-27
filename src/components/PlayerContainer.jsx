@@ -26,13 +26,10 @@ class PlayerContainer extends Component {
         super(props);
 
         this.currentUtterance = null;
-        this.debouncedSettingsUpdate = debounce(() => {
-            this.updateSettingsAndResume();
-        }, 250);
-
         this.state = {
             currentTeaser: null,
             charIndex: 0,
+            readChars: 0,
             elapsedTime: 0,
             remainingText: null,
         };
@@ -45,6 +42,9 @@ class PlayerContainer extends Component {
             this.setState({
                 currentTeaser,
                 remainingText: currentTeaser && currentTeaser.playerText,
+                charIndex: 0,
+                elapsedTime: 0,
+                readChars: 0,
             });
         }
 
@@ -58,24 +58,24 @@ class PlayerContainer extends Component {
     componentDidUpdate(prevProps) {
         // CASES
         //
-        // Start new Track
-        // 1.   isPlaying: false, currentUUID: null
+        // 1. Start new Track
+        //      isPlaying: false, currentUUID: null
         // --> isPlaying: true, currentUUID: A
         //
-        // Resume current track
-        // 2.   isPlaying: false, currentUUID: A
+        // 2. Resume current track
+        //      isPlaying: false, currentUUID: A
         // --> isPlaying: true, currentUUID: A
         //
-        // Pause current track
-        // 3.   isPlaying: true, currentUUID: A
+        // 3. Pause current track
+        //      isPlaying: true, currentUUID: A
         // --> isPlaying: false, currentUUID: A
         //
-        // Interrupt and start new track
-        // 4.   isPlaying: true, currentUUID: A
+        // 4. Interrupt current and start new track
+        //      isPlaying: true, currentUUID: A
         // --> isPlaying: true, currentUUID: B
         //
-        // Track ended (see onend Event of utterance)
-        // 5.   isPlaying: true, currentUUID: A
+        // [5.] Track ended (see onend Event of utterance!)
+        //      isPlaying: true, currentUUID: A
         // --> isPlaying: false, currentUUID: null
 
 
@@ -83,19 +83,19 @@ class PlayerContainer extends Component {
             if (this.props.isPlaying) {
                 if (this.props.currentUUID &&
                     this.props.currentUUID === prevProps.currentUUID) {
-                    // 2.
+                    // 2. Resume current track
                     this.resumeSpeech();
                 } else {
-                    // 1.
+                    // 1. Start new Track
                     this.startSpeech();
                 }
             } else {
-                // 3.
+                // 3. Pause current track
                 this.pauseSpeech();
             }
         } else if (this.props.isPlaying &&
             this.props.currentUUID !== prevProps.currentUUID) {
-            // 4.
+            // 4. Interrupt current and start new track
             this.startSpeech();
         }
     }
@@ -106,9 +106,11 @@ class PlayerContainer extends Component {
         } = this.props;
 
         const {
-            charIndex,
             elapsedTime,
             currentTeaser,
+            readChars,
+            charIndex,
+            remainingText,
         } = this.state;
 
         return (
@@ -117,7 +119,9 @@ class PlayerContainer extends Component {
                 isPlaying={isPlaying}
                 handlePlayPause={this.handlePlayPause}
                 charIndex={charIndex}
+                readChars={readChars}
                 elapsedTime={elapsedTime}
+                remainingText={remainingText}
             />
         );
     }
@@ -145,6 +149,7 @@ class PlayerContainer extends Component {
         } = this.props.audioSettings;
         const utterance = new SpeechSynthesisUtterance(text);
 
+        utterance.onstart = this.onSpeechStart; // TODO ?
         utterance.voice = voiceList.find(v => v.name === voice);
         utterance.pitch = pitch;
         utterance.rate = rate;
@@ -154,39 +159,48 @@ class PlayerContainer extends Component {
         return utterance;
     }
 
+    debouncedSettingsUpdate = debounce(() => {
+        this.updateSettingsAndResume();
+    }, 250);
+
     updateSettingsAndResume = () => {
-        const lastSpace = this.state.currentTeaser.playerText.lastIndexOf(' ', this.state.charIndex);
-        const remainingText = this.state.remainingText.slice(lastSpace);
-        // const textIndex = this.state.currentTeaser.playerText.indexOf(this.stat);
-        // const remainingText = this.state.currentTeaser.playerText.slice(textIndex);
+        if (!this.state.remainingText) {
+            // Avoids problems when changing audio settings
+            // shortly before running track ends.
+            return;
+        }
+        const remainingText = this.state.remainingText.slice(this.state.charIndex);
 
         this.setState({
             remainingText,
         }, () => {
-            this.currentUtterance = this.getUtterance(this.state.remainingText);
+            if (this.props.isPlaying) {
+                this.startSpeech();
+            } else {
+                this.currentUtterance.onend = null;
+                speechSynthesis.cancel();
+            }
         });
     }
 
     startSpeech = () => {
         if (this.currentUtterance) {
-            // interrupting current speech, avoid triggering onSpeechEnd
-            // that is triggered on the current utterance after
-            // speechSynthesis.cancel()
+            // Avoid triggering onSpeechEnd Event that is triggered
+            // by speechSynthesis.cancel()
             this.currentUtterance.onend = null;
         }
         speechSynthesis.cancel();
-        // this.setState({ elapsedTime: 0 });
-        this.props.play(this.state.currentTeaser.uuid);
         this.currentUtterance = this.getUtterance(this.state.remainingText);
-        console.log(this.currentUtterance);
+        this.props.play(this.state.currentTeaser.uuid);
         speechSynthesis.speak(this.currentUtterance);
     }
 
     resumeSpeech = () => {
         if (speechSynthesis.speaking && speechSynthesis.paused) {
             speechSynthesis.resume();
-        } else if (this.state.currentTeaser) {
-            // Start a new speech when utterance changed
+        } else {
+            // Assuming audioSettings have changed, which means
+            // a new utterance must be played.
             this.startSpeech();
         }
     }
@@ -201,12 +215,20 @@ class PlayerContainer extends Component {
         this.props.resetPlayer();
     }
 
+    onSpeechStart = () => {
+        this.setState({
+            charIndex: 0,
+        });
+    }
+
     setProgress = (event) => {
         const { charIndex, elapsedTime } = event;
-        console.log(charIndex, elapsedTime);
+        const readSinceLastEvent = charIndex - this.state.charIndex;
+
         this.setState({
             charIndex,
-            elapsedTime: elapsedTime + this.state.elapsedTimeTotal,
+            readChars: this.state.readChars + readSinceLastEvent,
+            elapsedTime,
         });
     };
 }

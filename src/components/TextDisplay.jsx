@@ -28,7 +28,8 @@ export default class TextDisplay extends PureComponent {
         const wordStart = text.lastIndexOf(' ', charIndex) + 1;
         const wordEnd = text.indexOf(' ', charIndex);
         // TODO ignore newlines (\n)
-
+        // FIXME The word "E-Mail" in German texts
+        // breaks the onboundary events.
         return (
             <div className="text-display-container">
                 <div className="text-display">

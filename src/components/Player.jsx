@@ -14,7 +14,9 @@ class Player extends Component {
         isPlaying: PropTypes.bool.isRequired,
         handlePlayPause: PropTypes.func.isRequired,
         charIndex: PropTypes.number.isRequired,
+        readChars: PropTypes.number.isRequired,
         elapsedTime: PropTypes.number.isRequired,
+        remainingText: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
@@ -29,7 +31,7 @@ class Player extends Component {
         const {
             isPlaying,
             handlePlayPause,
-            charIndex,
+            readChars,
             currentTeaser,
         } = this.props;
 
@@ -68,7 +70,7 @@ class Player extends Component {
                         in={this.state.showText}
                     >
                         <TextDisplay
-                            charIndex={charIndex}
+                            charIndex={readChars}
                             hidden={false}
                             text={currentTeaser.playerText}
                         />
@@ -84,6 +86,8 @@ class Player extends Component {
             currentTeaser,
             charIndex,
             elapsedTime,
+            remainingText,
+            readChars,
         } = this.props;
 
         return (
@@ -103,13 +107,13 @@ class Player extends Component {
                     />
                     <progress
                         className="player__progress-bar"
-                        value={charIndex}
-                        max={currentTeaser.playerText.length}
+                        value={readChars}
+                        max={currentTeaser.playerText.length - 1}
                     />
                     <TimeEstimateDynamic
                         wordCount={currentTeaser.wordCount}
                         readWords={countWords(
-                            currentTeaser.playerText,
+                            remainingText,
                             charIndex,
                         )}
                     />
@@ -119,7 +123,6 @@ class Player extends Component {
     }
 
     toggleTextDisplay = () => {
-        console.log('toggle text-display');
         this.setState({
             showText: !this.state.showText,
         });

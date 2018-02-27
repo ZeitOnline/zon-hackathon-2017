@@ -23,6 +23,10 @@
         transition: opacity 0.1s ease;
     }
 
+    .icon-button {
+        background: none;
+    }
+
     .icon-button:focus svg {
         opacity: 1;
     }
