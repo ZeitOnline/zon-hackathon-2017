@@ -1,5 +1,7 @@
-import { FETCH_TEASERS, FETCH_TEASERS_ERROR,
-    FETCH_TEASERS_SUCCESS, UPDATE_TEASER } from '../actions/teasers';
+import {
+    FETCH_TEASERS, FETCH_TEASERS_ERROR,
+    FETCH_TEASERS_SUCCESS, UPDATE_TEASER,
+} from '../actions/teasers';
 
 const initialState = {
     loading: false,
