@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransition } from 'react-transition-group';
 
 import { TEASER } from 'app/shapes';
-import { Timer, TimeEstimateDynamic, PlayButton, IconButton, TextDisplay } from 'app/components';
-import { countWords } from 'app/utilities';
+import { TrackInfo, PlayerContext, PlayButton, IconButton } from 'app/components';
 import settingsIcon from 'app/svg/settings.svg';
 import playlistIcon from 'app/svg/playlist.svg';
 
@@ -24,15 +22,18 @@ class Player extends Component {
     }
 
     state = {
-        showText: false,
+        showPlayerContext: false,
     }
 
     render() {
         const {
             isPlaying,
-            handlePlayPause,
-            readChars,
             currentTeaser,
+            remainingText,
+            charIndex,
+            readChars,
+            elapsedTime,
+            handlePlayPause,
         } = this.props;
 
         const disabled = !this.props.currentTeaser;
@@ -45,12 +46,21 @@ class Player extends Component {
                         onClick={handlePlayPause}
                         disabled={disabled}
                     />
-                    {!disabled && this.renderTrackInfo()}
+
+                    {!disabled && <TrackInfo
+                        currentTeaser={currentTeaser}
+                        isPlaying={isPlaying}
+                        elapsedTime={elapsedTime}
+                        readChars={readChars}
+                        remainingText={remainingText}
+                        charIndex={charIndex}
+                    />}
+
                     <div className="player__buttons">
                         <IconButton
                             icon={playlistIcon}
                             title="Playlist anzeigen"
-                            onClick={this.toggleTextDisplay}
+                            onClick={this.togglePlayerContext}
                             disabled={disabled}
                             modifiers={['playlist']}
                         />
@@ -61,70 +71,20 @@ class Player extends Component {
                         />
                     </div>
                 </div>
-                {!disabled && (
-                    <CSSTransition
-                        classNames="slide"
-                        timeout={300}
-                        mountOnEnter
-                        unmountOnExit
-                        in={this.state.showText}
-                    >
-                        <TextDisplay
-                            charIndex={readChars}
-                            hidden={false}
-                            text={currentTeaser.playerText}
-                        />
-                    </CSSTransition>
-                )}
+
+                {!disabled && <PlayerContext
+                    show={this.state.showPlayerContext}
+                    currentTeaser={currentTeaser}
+                    readChars={readChars}
+                />}
+
             </div>
         );
     }
 
-    renderTrackInfo() {
-        const {
-            isPlaying,
-            currentTeaser,
-            charIndex,
-            elapsedTime,
-            remainingText,
-            readChars,
-        } = this.props;
-
-        return (
-            <div className="player__track-info">
-                <h2 className="player__track">
-                    <span className="player__kicker">
-                        {currentTeaser.supertitle}
-                    </span>
-                    <span className="player__title">
-                        {currentTeaser.title}
-                    </span>
-                </h2>
-                <div className="player__progress">
-                    <Timer
-                        running={isPlaying}
-                        reset={!elapsedTime}
-                    />
-                    <progress
-                        className="player__progress-bar"
-                        value={readChars}
-                        max={currentTeaser.playerText.length - 1}
-                    />
-                    <TimeEstimateDynamic
-                        wordCount={currentTeaser.wordCount}
-                        readWords={countWords(
-                            remainingText,
-                            charIndex,
-                        )}
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    toggleTextDisplay = () => {
+    togglePlayerContext = () => {
         this.setState({
-            showText: !this.state.showText,
+            showPlayerContext: !this.state.showPlayerContext,
         });
     }
 }

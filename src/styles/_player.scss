@@ -27,6 +27,12 @@
         }
     }
 
+    .icon-button--playlist:disabled,
+    .icon-button--playlist:disabled:hover {
+        background: none;
+        color: $color-player-button-bg-disabled;
+    }
+
     .icon-button--settings {
         margin-left: 12px;
     }
