@@ -1,6 +1,8 @@
 .settings {
-    margin: 16px 0;
-    max-width: 320px;
+    margin: 0 auto;
+    padding: 1rem 1rem 2rem;
+    max-width: 400px;
+    color: #fff;
 }
 
 .settings__summary {
@@ -9,10 +11,13 @@
 
 .settings__label {
     display: grid;
-    margin: 8px 0;
     grid-column-gap: 16px;
-    grid-template-columns: 52px 24px auto;
+    grid-template-columns: 125px auto 12px;
     text-transform: capitalize;
+
+    + .settings__label {
+        margin-top: 12px;
+    }
 }
 
 .settings__voices {
@@ -21,14 +26,11 @@
 }
 
 .settings__button {
-    background-color: #fff;
-    border-radius: 5px;
-    border: 2px solid #ddd;
+    background: none;
+    border: 0;
     color: inherit;
-    font-size: 16px;
-    margin: 8px 8px 0 0;
-    padding: 7px 12px 5px;
-    transition-duration: .15s;
-    transition-property: border-color, color;
-    transition-timing-function: ease-in-out;
+    text-decoration: underline;
+    padding: 0;
+    margin: 12px 0 0 0;
+    float: right;
 }

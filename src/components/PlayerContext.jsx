@@ -1,43 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
 import { TEASER } from 'app/shapes';
-import { TextDisplay } from 'app/components';
+import { TextDisplay, AudioSettings } from 'app/components';
 
-const PlayerContext = (props) => {
-    const {
-        readChars,
-        currentTeaser,
-        show,
-    } = props;
+export default class PlayerContext extends Component {
+    static propTypes = {
+        currentTeaser: PropTypes.shape(TEASER),
+        readChars: PropTypes.number.isRequired,
+        visibleContext: PropTypes.oneOf(['', 'settings', 'text']),
+    };
 
-    return (
-        <CSSTransition
-            classNames="slide"
-            timeout={300}
-            mountOnEnter
-            unmountOnExit
-            in={show}
-        >
-            <TextDisplay
-                charIndex={readChars}
-                hidden={false}
-                text={currentTeaser.playerText}
-            />
-        </CSSTransition>
-    );
-};
+    static defaultProps = {
+        currentTeaser: null,
+        visibleContext: '',
+    };
 
-PlayerContext.propTypes = {
-    currentTeaser: PropTypes.shape(TEASER),
-    readChars: PropTypes.number.isRequired,
-    show: PropTypes.bool,
-};
+    state = {
+        forceHide: false,
+    }
 
-PlayerContext.defaultProps = {
-    currentTeaser: null,
-    show: false,
-};
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.visibleContext === 'text') {
+            this.setState({
+                forceHide: !nextProps.currentTeaser,
+            });
+        }
+    }
 
-export default PlayerContext;
+    render() {
+        const {
+            readChars,
+            currentTeaser,
+            visibleContext,
+        } = this.props;
+
+        const show = (visibleContext !== '') && !this.state.forceHide;
+
+        return (
+            <CSSTransition
+                classNames="slide"
+                timeout={300}
+                mountOnEnter
+                unmountOnExit
+                in={show}
+                key="text-display"
+            >
+                <div className="player-context">
+                    { visibleContext === 'text' && currentTeaser && <TextDisplay
+                        charIndex={readChars}
+                        text={currentTeaser.playerText}
+                    />}
+                    { visibleContext === 'settings' && <AudioSettings /> }
+                </div>
+            </CSSTransition>
+        );
+    }
+}

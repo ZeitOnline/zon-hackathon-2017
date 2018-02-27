@@ -16,16 +16,11 @@ class AudioSettings extends Component {
         updateAudioSettings: PropTypes.func.isRequired,
     }
 
-    componentDidMount() {
-        speechSynthesis.addEventListener('voiceschanged', this.props.resetAudioSettings);
-    }
-
     render() {
         return (
-            <details className="settings" open>
-                <summary className="settings__summary">Settings</summary>
+            <div className="settings">
                 <label htmlFor="name" className="settings__label">
-                    <span>Voice</span>
+                    <span>Stimme</span>
                     <select
                         name="voice"
                         value={this.props.voice}
@@ -39,13 +34,31 @@ class AudioSettings extends Component {
                         )) }
                     </select>
                 </label>
-                <AudioSettingSlider name="rate" value={this.props.rate} min={0.5} max={3.5} onChange={this.handleAudioSettingChange} />
-                <AudioSettingSlider name="pitch" value={this.props.pitch} max={2} onChange={this.handleAudioSettingChange} />
-                <AudioSettingSlider name="volume" value={this.props.volume} onChange={this.handleAudioSettingChange} />
+                <AudioSettingSlider
+                    name="rate"
+                    label="Geschwindigkeit"
+                    value={this.props.rate}
+                    min={0.5}
+                    max={3}
+                    onChange={this.handleAudioSettingChange}
+                />
+                <AudioSettingSlider
+                    name="pitch"
+                    label="Tonhöhe"
+                    value={this.props.pitch}
+                    max={2}
+                    onChange={this.handleAudioSettingChange}
+                />
+                <AudioSettingSlider
+                    name="volume"
+                    label="Lautstärke"
+                    value={this.props.volume}
+                    onChange={this.handleAudioSettingChange}
+                />
                 <button onClick={this.reset} className="settings__button">
                     Reset
                 </button>
-            </details>
+            </div>
         );
     }
 

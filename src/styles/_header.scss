@@ -1,12 +1,15 @@
 .header {
+    border-bottom: 3px solid $color-header-border;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
 }
 
-$logo-width: 346px;
-$logo-height: 37px;
-$logo-scale: 200px;
+.header__logo {
+    display: inline;
+    height: 2rem;
+}
 
-.header_logo {
-    height: ceil(($logo-scale / $logo-width) * $logo-height);
-    max-width: 100%;
-    width: $logo-scale;
+.header__title {
+    margin: 0.5rem 0 0 0;
+    font-size: 1.5rem;
 }

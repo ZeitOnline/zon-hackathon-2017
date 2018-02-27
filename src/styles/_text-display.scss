@@ -1,16 +1,3 @@
-.text-display-container {
-    height: 30vh;
-
-    &.slide-enter-active {
-        height: 30vh;
-    }
-
-    &.slide-enter,
-    &.slide-exit {
-        transition-duration: 300ms;
-    }
-}
-
 .text-display {
     max-width: 900px;
     color: #fff;

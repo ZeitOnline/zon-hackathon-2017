@@ -1,0 +1,12 @@
+.player-context {
+    height: 30vh;
+
+    &.slide-enter-active {
+        height: 30vh;
+    }
+
+    &.slide-enter,
+    &.slide-exit {
+        transition-duration: 300ms;
+    }
+}

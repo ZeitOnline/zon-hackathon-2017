@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const IconButton = ({ icon, title, onClick, disabled, modifiers }) => (
+const ICON_BUTTON_CLASS = 'icon-button';
+
+const IconButton = ({ icon, title, onClick, disabled, modifiers, active }) => (
     <button
-        className={`icon-button ${mapToClassNames(modifiers)}`}
+        className={`${ICON_BUTTON_CLASS} ${mapToClassNames(modifiers, active)}`}
         title={title}
         aria-label={title}
         onClick={onClick}
@@ -20,18 +22,21 @@ IconButton.propTypes = {
     title: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    active: PropTypes.bool,
     modifiers: PropTypes.arrayOf(PropTypes.string),
 };
 
 IconButton.defaultProps = {
     disabled: false,
     modifiers: [],
+    active: false,
 };
 
-function mapToClassNames(modifiers) {
+function mapToClassNames(modifiers, active) {
     let classNames = '';
+    classNames += active ? ` ${ICON_BUTTON_CLASS}--active` : '';
     modifiers.forEach((m) => {
-        classNames += ` icon-button--${m}`;
+        classNames += ` ${ICON_BUTTON_CLASS}--${m}`;
     });
     return classNames;
 }

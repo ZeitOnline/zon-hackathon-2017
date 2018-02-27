@@ -14,15 +14,16 @@ class Player extends Component {
         charIndex: PropTypes.number.isRequired,
         readChars: PropTypes.number.isRequired,
         elapsedTime: PropTypes.number.isRequired,
-        remainingText: PropTypes.string.isRequired,
+        remainingText: PropTypes.string,
     };
 
     static defaultProps = {
         currentTeaser: null,
+        remainingText: '',
     }
 
     state = {
-        showPlayerContext: false,
+        visibleContext: '',
     }
 
     render() {
@@ -37,6 +38,7 @@ class Player extends Component {
         } = this.props;
 
         const disabled = !this.props.currentTeaser;
+
 
         return (
             <div className="player-wrapper">
@@ -59,32 +61,36 @@ class Player extends Component {
                     <div className="player__buttons">
                         <IconButton
                             icon={playlistIcon}
-                            title="Playlist anzeigen"
-                            onClick={this.togglePlayerContext}
+                            title="Text anzeigen"
+                            onClick={() => this.showContext('text')}
                             disabled={disabled}
-                            modifiers={['playlist']}
+                            active={this.state.visibleContext === 'text'}
+                            modifiers={['text', 'tab']}
                         />
                         <IconButton
                             icon={settingsIcon}
                             title="Einstellungen anzeigen"
-                            onClick={() => console.log('toggle settings')}
+                            onClick={() => this.showContext('settings')}
+                            active={this.state.visibleContext === 'settings'}
+                            modifiers={['settings', 'tab']}
                         />
                     </div>
+
                 </div>
 
-                {!disabled && <PlayerContext
-                    show={this.state.showPlayerContext}
+                <PlayerContext
+                    visibleContext={this.state.visibleContext}
                     currentTeaser={currentTeaser}
                     readChars={readChars}
-                />}
+                />
 
             </div>
         );
     }
 
-    togglePlayerContext = () => {
+    showContext = (name) => {
         this.setState({
-            showPlayerContext: !this.state.showPlayerContext,
+            visibleContext: this.state.visibleContext === name ? '' : name,
         });
     }
 }

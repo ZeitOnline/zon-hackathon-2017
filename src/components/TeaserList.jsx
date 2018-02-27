@@ -31,7 +31,6 @@ class TeaserList extends Component {
     render() {
         return (
             <div>
-                <h1>Audio Explorer</h1>
                 {this.props.loading && (<p>Laden ...</p>)}
                 {this.props.error && (<p>Fehler beim Laden.</p>)}
                 <div>{this.renderTeaser()}</div>

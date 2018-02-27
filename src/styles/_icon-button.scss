@@ -18,6 +18,17 @@ $button-size: 40px;
 
 .icon-button--play-pause {
     &:hover, &:focus {
-        color: $color-play-button-hover
+        color: $color-play-button-hover;
+    }
+}
+
+.icon-button--tab {
+    background: none;
+    color: white;
+
+    &.icon-button--active,
+    &:hover,
+    &:focus {
+        color: $color-player-button-hover;
     }
 }

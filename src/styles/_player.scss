@@ -16,7 +16,6 @@
     justify-content: space-between;
 
     .icon-button {
-        background-color: $color-player-button-bg;
         margin: 24px 0;
         flex-shrink: 0;
 
@@ -27,8 +26,8 @@
         }
     }
 
-    .icon-button--playlist:disabled,
-    .icon-button--playlist:disabled:hover {
+    .icon-button--tab:disabled,
+    .icon-button--tab:disabled:hover {
         background: none;
         color: $color-player-button-bg-disabled;
     }
@@ -115,13 +114,4 @@
 
 .player__buttons {
     flex-shrink: 0;
-
-    .icon-button {
-        background: none;
-        color: white;
-
-        &:hover {
-            color: $color-player-button-hover
-        }
-    }
 }
