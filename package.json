@@ -40,6 +40,7 @@
     "node-sass": "^4.7.2",
     "postcss-loader": "^2.0.9",
     "postcss-normalize": "^4.0.0",
+    "push-dir": "^0.4.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.1.1",
@@ -60,6 +61,7 @@
   },
   "scripts": {
     "build": "webpack -p --env.production",
+    "deploy:gh-pages": "push-dir --dir=public --branch=gh-pages --cleanup",
     "dev": "webpack-dev-server --hot --env.development",
     "test": "jest",
     "lint": "eslint src --fix",
