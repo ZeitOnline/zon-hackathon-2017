@@ -14,3 +14,4 @@ export IconButton from './IconButton';
 export PlayButton from './PlayButton';
 export TrackInfo from './TrackInfo';
 export PlayerContext from './PlayerContext';
+export ErrorScreen from './ErrorScreen';

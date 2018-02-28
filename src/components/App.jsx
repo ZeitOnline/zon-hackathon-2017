@@ -3,24 +3,44 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { resetAudioSettings } from 'app/actions/audioSettings';
-import { Header, TeaserList, PlayerContainer } from 'app/components';
+import { Header, TeaserList, PlayerContainer, ErrorScreen } from 'app/components';
 
 class App extends Component {
     static propTypes = {
         resetAudioSettings: PropTypes.func.isRequired,
     }
 
+    state = {
+        supportsSpeech: false,
+    }
+
     componentDidMount() {
-        speechSynthesis.addEventListener('voiceschanged', this.props.resetAudioSettings);
+        if (typeof speechSynthesis !== 'undefined') {
+            this.setState({ supportsSpeech: true }); // eslint-disable-line
+
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                // Chrome - wait for voiceschanged event
+                speechSynthesis.addEventListener('voiceschanged', this.props.resetAudioSettings);
+            } else {
+                // Firefox - should work immediately
+                this.props.resetAudioSettings();
+            }
+        }
     }
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <Header />
-                <TeaserList />
-                <PlayerContainer />
-            </div>
+                {this.state.supportsSpeech ? (
+                    <div>
+                        <TeaserList />
+                        <PlayerContainer />
+                    </div>
+                ) : (
+                    <ErrorScreen />
+                )}
+            </React.Fragment>
         );
     }
 }

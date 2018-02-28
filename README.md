@@ -28,3 +28,10 @@ apt-get install node yarn
 
 - `yarn build` generates a production-ready build to the `public` folder inside the root directory.
 - `yarn deploy:gh-pages` deploys the contents of the `public` folder to gh-pages. Make sure to have a clean git state and all changes are committed or stashed.
+
+## Bugs & Gotchas
+
+- Make sure Text-to-Speech Voices are installed on the OS.
+- The word highlighting breaks sometimes. Related bugs:
+    - https://bugzilla.mozilla.org/show_bug.cgi?id=1441503
+    - https://bugs.chromium.org/p/chromium/issues/detail?id=816891
