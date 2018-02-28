@@ -18,12 +18,10 @@ class App extends Component {
         if (typeof speechSynthesis !== 'undefined') {
             this.setState({ supportsSpeech: true }); // eslint-disable-line
 
+            this.props.resetAudioSettings();
             if (speechSynthesis.onvoiceschanged !== undefined) {
                 // Chrome - wait for voiceschanged event
                 speechSynthesis.addEventListener('voiceschanged', this.props.resetAudioSettings);
-            } else {
-                // Firefox - should work immediately
-                this.props.resetAudioSettings();
             }
         }
     }
