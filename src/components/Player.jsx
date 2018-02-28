@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { TEASER } from 'app/shapes';
 import { TrackInfo, PlayerContext, PlayButton, IconButton } from 'app/components';
 import settingsIcon from 'app/svg/settings.svg';
-import playlistIcon from 'app/svg/playlist.svg';
+import textIcon from 'app/svg/text-display.svg';
 
 class Player extends Component {
     static propTypes = {
@@ -60,7 +60,7 @@ class Player extends Component {
 
                     <div className="player__buttons">
                         <IconButton
-                            icon={playlistIcon}
+                            icon={textIcon}
                             title="Text anzeigen"
                             onClick={() => this.showContext('text')}
                             disabled={disabled}
