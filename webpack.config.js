@@ -105,7 +105,6 @@ const config = (env) => {
         output: {
             filename: '[name].js',
             path: publicPath,
-            publicPath: '/',
         },
         plugins: [
             new webpack.DefinePlugin({
