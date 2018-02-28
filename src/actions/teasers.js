@@ -1,16 +1,12 @@
-import fetchData from 'app/utilities/fetchData';
-
 export const FETCH_TEASERS = 'FETCH_TEASERS';
 export const FETCH_TEASERS_SUCCESS = 'FETCH_TEASERS_SUCCESS';
 export const FETCH_TEASERS_ERROR = 'FETCH_TEASERS_ERROR';
 export const UPDATE_TEASER = 'UPDATE_TEASER';
 
 export function fetchTeasers() {
-    const request = fetchData();
-
     return {
         type: FETCH_TEASERS,
-        payload: request,
+        payload: null,
     };
 }
 
