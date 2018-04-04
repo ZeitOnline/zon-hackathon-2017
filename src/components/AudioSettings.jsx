@@ -14,7 +14,7 @@ class AudioSettings extends Component {
         voiceList: PropTypes.arrayOf(PropTypes.object).isRequired,
         resetAudioSettings: PropTypes.func.isRequired,
         updateAudioSettings: PropTypes.func.isRequired,
-    }
+    };
 
     render() {
         return (

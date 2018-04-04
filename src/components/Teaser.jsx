@@ -21,7 +21,7 @@ class Teaser extends PureComponent {
 
     static defaultProps = {
         currentUUID: null,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -29,16 +29,16 @@ class Teaser extends PureComponent {
         const playerText = this.getPlayerText();
         const wordCount = countWords(playerText);
 
+        this.state = {
+            playing: false,
+            isActive: false,
+        };
+
         props.updateTeaser({
             ...props.teaser,
             playerText,
             wordCount,
         });
-    }
-
-    state = {
-        playing: false,
-        isActive: false,
     }
 
     componentWillReceiveProps(nextProps) {

@@ -14,7 +14,7 @@ class TeaserList extends Component {
         fetchTeasers: PropTypes.func.isRequired,
         fetchTeasersSuccess: PropTypes.func.isRequired,
         fetchTeasersError: PropTypes.func.isRequired,
-    }
+    };
 
     componentDidMount() {
         this.props.fetchTeasers();

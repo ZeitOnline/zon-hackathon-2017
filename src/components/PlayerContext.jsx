@@ -19,7 +19,7 @@ export default class PlayerContext extends Component {
 
     state = {
         forceHide: false,
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.visibleContext === 'text') {

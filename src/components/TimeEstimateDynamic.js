@@ -14,7 +14,7 @@ class TimeEstimateDynamic extends Component {
 
     static defaultProps = {
         readWords: 0,
-    }
+    };
 
     constructor(props) {
         super(props);

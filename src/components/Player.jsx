@@ -20,11 +20,11 @@ class Player extends Component {
     static defaultProps = {
         currentTeaser: null,
         remainingText: '',
-    }
+    };
 
     state = {
         visibleContext: '',
-    }
+    };
 
     render() {
         const {

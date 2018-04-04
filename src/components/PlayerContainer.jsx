@@ -20,7 +20,7 @@ class PlayerContainer extends Component {
 
     static defaultProps = {
         currentUUID: null,
-    }
+    };
 
     constructor(props) {
         super(props);

@@ -8,11 +8,11 @@ import { Header, TeaserList, PlayerContainer, ErrorScreen } from 'app/components
 class App extends Component {
     static propTypes = {
         resetAudioSettings: PropTypes.func.isRequired,
-    }
+    };
 
     state = {
         supportsSpeech: false,
-    }
+    };
 
     componentDidMount() {
         if (typeof speechSynthesis !== 'undefined') {
