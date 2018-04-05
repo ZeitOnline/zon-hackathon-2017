@@ -61,21 +61,14 @@
 }
 
 .player__progress {
-    display: flex;
+    display: grid;
     font-size: 12px;
-    justify-content: space-between;
+    grid-gap: 8px;
+    grid-template-columns: 42px 1fr 42px;
     margin: 8px 0;
-    position: relative;
-
-    .timer {
-        margin-right: 8px;
-        width: 50px;
-    }
 
     .time-estimate {
-        margin-left: 8px;
         text-align: right;
-        width: 50px;
 
         &::before {
             content: '~';
