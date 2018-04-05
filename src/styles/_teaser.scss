@@ -12,7 +12,6 @@
 }
 
 .teaser__state {
-    display: block;
     width: 48px;
     padding: 0 4px;
 
@@ -73,17 +72,13 @@
     font-size: 13px;
     margin-top: 8px;
 
-    > * + * {
-        &::before {
-            content: " | ";
-            color: $color-teaser-info;
-            display: inline-block;
+    > *:not(:last-child) {
+        display: inline-block;
+
+        &::after {
+            content: "|";
             margin: 0 8px;
         }
-    }
-
-    .time-estimate {
-        font-size: inherit;
     }
 }
 
@@ -108,5 +103,5 @@
 }
 
 .teaser__link {
-    font-size: 13px;
+    white-space: nowrap;
 }

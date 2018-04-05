@@ -1,8 +1,6 @@
 .player-wrapper {
-    position: fixed;
+    position: sticky;
     bottom: 0;
-    left: 0;
-    right: 0;
     background-color: $color-player-bg;
 }
 
@@ -64,21 +62,20 @@
 
 .player__progress {
     display: flex;
-    position: relative;
+    font-size: 12px;
     justify-content: space-between;
     margin: 8px 0;
+    position: relative;
 
     .timer {
-        font-size: 12px;
-        width: 50px;
         margin-right: 8px;
+        width: 50px;
     }
 
     .time-estimate {
-        font-size: 12px;
-        width: 50px;
         margin-left: 8px;
         text-align: right;
+        width: 50px;
 
         &::before {
             content: '~';

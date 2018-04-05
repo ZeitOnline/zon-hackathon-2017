@@ -29,15 +29,15 @@ class App extends Component {
     render() {
         return (
             <React.Fragment>
-                <Header />
-                {this.state.supportsSpeech ? (
-                    <div>
+                <main>
+                    <Header />
+                    {this.state.supportsSpeech ? (
                         <TeaserList />
-                        <PlayerContainer />
-                    </div>
-                ) : (
-                    <ErrorScreen />
-                )}
+                    ) : (
+                        <ErrorScreen />
+                    )}
+                </main>
+                {this.state.supportsSpeech && <PlayerContainer />}
             </React.Fragment>
         );
     }
