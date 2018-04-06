@@ -11,7 +11,7 @@ const PlayerContext = ({ readChars, currentTeaser, visibleContext }) => (
         timeout={300}
         mountOnEnter
         unmountOnExit
-        in={!!visibleContext && (visibleContext !== 'text' || currentTeaser)}
+        in={!!visibleContext && (visibleContext !== 'text' || !!currentTeaser)}
     >
         <div className="player-context">
             { visibleContext === 'text' && currentTeaser && (
