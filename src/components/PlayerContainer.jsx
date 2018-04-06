@@ -223,13 +223,12 @@ class PlayerContainer extends Component {
 
     setProgress = (event) => {
         const { charIndex, elapsedTime } = event;
-        const readSinceLastEvent = charIndex - this.state.charIndex;
 
-        this.setState({
+        this.setState(prevState => ({
             charIndex,
-            readChars: this.state.readChars + readSinceLastEvent,
             elapsedTime,
-        });
+            readChars: prevState.readChars + (charIndex - prevState.charIndex),
+        }));
     };
 }
 
