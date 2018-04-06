@@ -9,9 +9,9 @@ import { Player } from 'app/components';
 
 class PlayerContainer extends Component {
     static propTypes = {
-        teaserList: PropTypes.arrayOf(PropTypes.shape(TEASER)).isRequired,
         isPlaying: PropTypes.bool.isRequired,
         currentUUID: PropTypes.string,
+        currentTeaser: PropTypes.shape(TEASER),
         play: PropTypes.func.isRequired,
         pause: PropTypes.func.isRequired,
         resetPlayer: PropTypes.func.isRequired,
@@ -20,14 +20,29 @@ class PlayerContainer extends Component {
 
     static defaultProps = {
         currentUUID: null,
+        currentTeaser: null,
     };
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.currentUUID !== prevState.currentUUID) {
+            return {
+                currentUUID: nextProps.currentUUID,
+                remainingText: nextProps.currentTeaser && nextProps.currentTeaser.playerText,
+                charIndex: 0,
+                elapsedTime: 0,
+                readChars: 0,
+            };
+        }
+
+        return null;
+    }
 
     constructor(props) {
         super(props);
 
         this.currentUtterance = null;
         this.state = {
-            currentTeaser: null,
+            currentUUID: null,  // eslint-disable-line
             charIndex: 0,
             readChars: 0,
             elapsedTime: 0,
@@ -35,27 +50,7 @@ class PlayerContainer extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.currentUUID !== this.props.currentUUID) {
-            const currentTeaser = this.getTeaser(nextProps.currentUUID);
-
-            this.setState({
-                currentTeaser,
-                remainingText: currentTeaser && currentTeaser.playerText,
-                charIndex: 0,
-                elapsedTime: 0,
-                readChars: 0,
-            });
-        }
-
-        if (nextProps.audioSettings !== this.props.audioSettings) {
-            if (this.state.remainingText) {
-                this.debouncedSettingsUpdate();
-            }
-        }
-    }
-
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         // CASES
         //
         // 1. Start new Track
@@ -73,11 +68,12 @@ class PlayerContainer extends Component {
         // 4. Interrupt current and start new track
         //      isPlaying: true, currentUUID: A
         // --> isPlaying: true, currentUUID: B
+        //      isPlaying: true, currentUUID: A
+        // --> isPlaying: true, currentUUID: A
         //
-        // [5.] Track ended (see onend Event of utterance!)
+        // 5. Track ended (see onend Event of utterance!)
         //      isPlaying: true, currentUUID: A
         // --> isPlaying: false, currentUUID: null
-
 
         if (this.props.isPlaying !== prevProps.isPlaying) {
             if (this.props.isPlaying) {
@@ -93,21 +89,25 @@ class PlayerContainer extends Component {
                 // 3. Pause current track
                 this.pauseSpeech();
             }
-        } else if (this.props.isPlaying &&
-            this.props.currentUUID !== prevProps.currentUUID) {
+        } else if (this.props.isPlaying) {
             // 4. Interrupt current and start new track
-            this.startSpeech();
+            if (this.props.currentUUID !== prevProps.currentUUID
+                || this.state.remainingText !== prevState.remainingText) {
+                this.startSpeech();
+            } else if (this.props.audioSettings !== prevProps.audioSettings) {
+                this.debouncedSettingsUpdate();
+            }
         }
     }
 
     render() {
         const {
+            currentTeaser,
             isPlaying,
         } = this.props;
 
         const {
             elapsedTime,
-            currentTeaser,
             readChars,
             charIndex,
             remainingText,
@@ -125,9 +125,6 @@ class PlayerContainer extends Component {
             />
         );
     }
-
-    getTeaser = uuid =>
-        this.props.teaserList.find(teaser => teaser.uuid === uuid)
 
     handlePlayPause = () => {
         if (this.props.isPlaying) {
@@ -159,28 +156,18 @@ class PlayerContainer extends Component {
         return utterance;
     }
 
-    debouncedSettingsUpdate = debounce(() => {
-        this.updateSettingsAndResume();
-    }, 250);
+    debouncedSettingsUpdate = debounce(this.updateSettingsAndResume, 250);
 
-    updateSettingsAndResume = () => {
+    updateSettingsAndResume() {
         if (!this.state.remainingText) {
             // Avoids problems when changing audio settings
             // shortly before running track ends.
             return;
         }
-        const remainingText = this.state.remainingText.slice(this.state.charIndex);
 
-        this.setState({
-            remainingText,
-        }, () => {
-            if (this.props.isPlaying) {
-                this.startSpeech();
-            } else {
-                this.currentUtterance.onend = null;
-                speechSynthesis.cancel();
-            }
-        });
+        this.setState(prevState => ({
+            remainingText: prevState.remainingText.slice(prevState.charIndex),
+        }));
     }
 
     startSpeech = () => {
@@ -191,7 +178,7 @@ class PlayerContainer extends Component {
         }
         speechSynthesis.cancel();
         this.currentUtterance = this.getUtterance(this.state.remainingText);
-        this.props.play(this.state.currentTeaser.uuid);
+        this.props.play(this.props.currentUUID);
         speechSynthesis.speak(this.currentUtterance);
     }
 
@@ -232,12 +219,19 @@ class PlayerContainer extends Component {
     };
 }
 
-const mapStateToProps = ({ player, teasers, audioSettings }) => ({
-    isPlaying: player.isPlaying,
-    currentUUID: player.currentUUID,
-    teaserList: teasers.teaserList,
-    audioSettings,
-});
+const mapStateToProps = ({ player, teasers, audioSettings }) => {
+    const { isPlaying, currentUUID } = player;
+    const currentTeaser = currentUUID
+        ? teasers.teaserList.find(({ uuid }) => uuid === currentUUID)
+        : null;
+
+    return {
+        isPlaying,
+        currentUUID,
+        currentTeaser,
+        audioSettings,
+    };
+};
 
 const mapDispatchToProps = {
     play,
