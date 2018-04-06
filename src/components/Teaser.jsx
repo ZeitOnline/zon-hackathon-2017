@@ -13,14 +13,10 @@ class Teaser extends PureComponent {
     static propTypes = {
         teaser: PropTypes.shape(TEASER).isRequired,
         isPlaying: PropTypes.bool.isRequired,
-        currentUUID: PropTypes.string,
+        isActive: PropTypes.bool.isRequired,
         play: PropTypes.func.isRequired,
         pause: PropTypes.func.isRequired,
         updateTeaser: PropTypes.func.isRequired,
-    };
-
-    static defaultProps = {
-        currentUUID: null,
     };
 
     constructor(props) {
@@ -29,11 +25,6 @@ class Teaser extends PureComponent {
         const playerText = this.getPlayerText();
         const wordCount = countWords(playerText);
 
-        this.state = {
-            playing: false,
-            isActive: false,
-        };
-
         props.updateTeaser({
             ...props.teaser,
             playerText,
@@ -41,18 +32,10 @@ class Teaser extends PureComponent {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        const isActive = (nextProps.teaser.uuid === nextProps.currentUUID);
-        this.setState({
-            playing: nextProps.isPlaying && isActive,
-            isActive,
-        });
-    }
-
     render() {
         return (
             <article className="teaser">
-                <div className={`teaser__state ${this.state.isActive ?
+                <div className={`teaser__state ${this.props.isActive ?
                     'teaser__state--active' : ''}`}
                 >
                     {this.renderState()}
@@ -84,20 +67,20 @@ class Teaser extends PureComponent {
     renderState() {
         return (
             <PlayButton
-                isPlaying={this.state.playing}
+                isPlaying={this.props.isPlaying}
                 onClick={this.handlePlayPause}
             />
         );
     }
 
     playTeaser = () => {
-        if (!this.state.playing) {
+        if (!this.props.isPlaying) {
             this.props.play(this.props.teaser.uuid);
         }
     }
 
     handlePlayPause = () => {
-        if (this.state.playing) {
+        if (this.props.isPlaying) {
             this.props.pause();
         } else {
             this.props.play(this.props.teaser.uuid);
@@ -116,9 +99,9 @@ class Teaser extends PureComponent {
 }
 
 
-const mapStateToProps = ({ player }) => ({
-    isPlaying: player.isPlaying,
-    currentUUID: player.currentUUID,
+const mapStateToProps = ({ player }, { teaser }) => ({
+    isPlaying: player.isPlaying && player.currentUUID === teaser.uuid,
+    isActive: player.currentUUID === teaser.uuid,
 });
 
 const mapDispatchToProps = {
