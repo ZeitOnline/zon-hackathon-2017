@@ -6,7 +6,6 @@ export const UPDATE_TEASER = 'UPDATE_TEASER';
 export function fetchTeasers() {
     return {
         type: FETCH_TEASERS,
-        payload: null,
     };
 }
 
