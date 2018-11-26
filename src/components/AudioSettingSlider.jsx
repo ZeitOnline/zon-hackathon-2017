@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class AudioSetting extends Component {
+export default class AudioSettingSlider extends Component {
     static propTypes = {
         name: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
         min: PropTypes.number,
         max: PropTypes.number,
         step: PropTypes.number,
@@ -18,13 +19,12 @@ export default class AudioSetting extends Component {
     };
 
     render() {
-        const { name, value, min, max, step, onChange } = this.props;
+        const { name, value, min, max, step, onChange, label } = this.props;
         const listId = `datalist-${name}`;
 
         return (
             <label htmlFor={name} className="settings__label">
-                <span>{ name }</span>
-                <output htmlFor={name}>{ value }</output>
+                <span>{ label }</span>
                 <input
                     id={name}
                     name={name}
@@ -37,6 +37,7 @@ export default class AudioSetting extends Component {
                     list={listId}
                 />
                 {this.renderTickMarks(listId)}
+                <output htmlFor={name}>{ value }</output>
             </label>
         );
     }

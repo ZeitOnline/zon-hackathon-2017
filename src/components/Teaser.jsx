@@ -1,44 +1,113 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { TeaserText, Timer } from 'app/components';
+import { play, pause } from 'app/actions/player';
+import { updateTeaser } from 'app/actions/teasers';
 import { TEASER } from 'app/shapes';
-import { distanceToNow, formatDate } from 'app/utilities';
+import { distanceToNow, countWords } from 'app/utilities';
+import { TimeEstimate } from 'app/components';
+import PlayButton from './PlayButton';
 
-const Teaser = ({
-    teaser, charIndex, elapsedTime, text, toggleSpeech, isPlaying,
-}) => (
-    <article className="teaser">
-        <a href={teaser.href} tabIndex="-1">
-            <h2>
-                <span className="teaser__kicker">{teaser.supertitle}</span>
-                <span className="teaser__title">{teaser.teaser_title || teaser.title}</span>
-            </h2>
-        </a>
-        <div className="teaser__date">
-            {distanceToNow(teaser.release_date)}
-        </div>
-        <p className="teaser__intro">{teaser.teaser_text}</p>
-        <div className="teaser__player">
-            <button className="teaser__playbutton" onClick={toggleSpeech}>
-                {isPlaying ? <span className="teaser__pause" /> : '▶'}
-            </button>
-            <progress className="teaser__progress-bar" value={charIndex} max={text.length} />
-            <div>
-                <Timer running={isPlaying} reset={!elapsedTime} />
-                <time>{formatDate(elapsedTime, 'mm:ss')}</time>
-            </div>
-        </div>
-        <TeaserText text={text} charIndex={charIndex} hidden={!isPlaying} />
-    </article>
-);
+class Teaser extends PureComponent {
+    static propTypes = {
+        teaser: PropTypes.shape(TEASER).isRequired,
+        isPlaying: PropTypes.bool.isRequired,
+        isActive: PropTypes.bool.isRequired,
+        play: PropTypes.func.isRequired,
+        pause: PropTypes.func.isRequired,
+        updateTeaser: PropTypes.func.isRequired,
+    };
 
-Teaser.propTypes = {
-    teaser: PropTypes.shape(TEASER).isRequired,
-    charIndex: PropTypes.number.isRequired,
-    elapsedTime: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    toggleSpeech: PropTypes.func.isRequired,
-    isPlaying: PropTypes.bool.isRequired,
+    constructor(props) {
+        super(props);
+
+        const playerText = this.getPlayerText();
+        const wordCount = countWords(playerText);
+
+        props.updateTeaser({
+            ...props.teaser,
+            playerText,
+            wordCount,
+        });
+    }
+
+    render() {
+        return (
+            <article className="teaser">
+                <div className={`teaser__state ${this.props.isActive ?
+                    'teaser__state--active' : ''}`}
+                >
+                    {this.renderState()}
+                </div>
+                <div className="teaser__content">
+                    <h2 className="teaser__heading">
+                        <span className="teaser__kicker">{this.props.teaser.supertitle}</span>
+                        <span className="teaser__title">{this.props.teaser.title}</span>
+                    </h2>
+                    <p className="teaser__intro">{this.props.teaser.teaser_text}</p>
+                    <div className="teaser__info">
+                        <span className="teaser__date">
+                            {distanceToNow(this.props.teaser.release_date)}
+                        </span>
+                        {this.props.teaser.wordCount && (
+                            <span>
+                                ca. <TimeEstimate
+                                    wordCount={this.props.teaser.wordCount}
+                                /> Min.
+                            </span>
+                        )}
+                        <a className="teaser__link" href={this.props.teaser.href}>Auf ZEIT ONLINE lesen</a>
+                    </div>
+                </div>
+            </article>
+        );
+    }
+
+    renderState() {
+        return (
+            <PlayButton
+                isPlaying={this.props.isPlaying}
+                onClick={this.handlePlayPause}
+            />
+        );
+    }
+
+    playTeaser = () => {
+        if (!this.props.isPlaying) {
+            this.props.play(this.props.teaser.uuid);
+        }
+    }
+
+    handlePlayPause = () => {
+        if (this.props.isPlaying) {
+            this.props.pause();
+        } else {
+            this.props.play(this.props.teaser.uuid);
+        }
+    }
+
+    getPlayerText() {
+        const {
+            supertitle,
+            title,
+            body,
+            teaser_text: teaserText,
+        } = this.props.teaser;
+        return `${supertitle}: ${title}. ${body || teaserText}`;
+    }
+}
+
+
+const mapStateToProps = ({ player }, { teaser }) => ({
+    isPlaying: player.isPlaying && player.currentUUID === teaser.uuid,
+    isActive: player.currentUUID === teaser.uuid,
+});
+
+const mapDispatchToProps = {
+    play,
+    pause,
+    updateTeaser,
 };
-export default Teaser;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Teaser);

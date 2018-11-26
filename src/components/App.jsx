@@ -1,61 +1,50 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { TeaserList, AudioSettings } from 'app/components';
-import logo from 'app/svg/logo.svg';
-import { defaultAudioSettings, getDefaultName } from 'app/utilities';
+import { resetAudioSettings } from 'app/actions/audioSettings';
+import { Header, TeaserList, PlayerContainer, ErrorScreen } from 'app/components';
 
 class App extends Component {
+    static propTypes = {
+        resetAudioSettings: PropTypes.func.isRequired,
+    };
+
     state = {
-        name: defaultAudioSettings.name,
-        rate: defaultAudioSettings.rate,
-        pitch: defaultAudioSettings.pitch,
-        volume: defaultAudioSettings.volume,
+        supportsSpeech: false,
     };
 
     componentDidMount() {
-        speechSynthesis.addEventListener('voiceschanged', this.setDefaultName);
+        if (typeof speechSynthesis !== 'undefined') {
+            this.setState({ supportsSpeech: true }); // eslint-disable-line
+
+            this.props.resetAudioSettings();
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                // Chrome - wait for voiceschanged event
+                speechSynthesis.addEventListener('voiceschanged', this.props.resetAudioSettings);
+            }
+        }
     }
 
     render() {
         return (
-            <div>
-                <header className="header">
-                    <svg className="header_logo"><use xlinkHref={logo.url} /></svg>
-                </header>
-                <AudioSettings
-                    {...this.state}
-                    onChange={this.setAudioSetting}
-                    reset={this.resetAudioSettings}
-                />
-                <TeaserList {...this.state} />
-            </div>
+            <React.Fragment>
+                <main>
+                    <Header />
+                    {this.state.supportsSpeech ? (
+                        <TeaserList />
+                    ) : (
+                        <ErrorScreen />
+                    )}
+                </main>
+                {this.state.supportsSpeech && <PlayerContainer />}
+            </React.Fragment>
         );
     }
-
-    setAudioSetting = (event) => {
-        const { name, value } = event.target;
-
-        this.setState({ [name]: value });
-    };
-
-    resetAudioSettings = () => {
-        this.setState({
-            name: defaultAudioSettings.name,
-            rate: defaultAudioSettings.rate,
-            pitch: defaultAudioSettings.pitch,
-            volume: defaultAudioSettings.volume,
-        });
-    };
-
-    setDefaultName = () => {
-        if (!defaultAudioSettings.name) {
-            defaultAudioSettings.name = getDefaultName();
-
-            this.setState({
-                name: defaultAudioSettings.name,
-            });
-        }
-    };
 }
 
-export default App;
+const mapDispatchToProps = {
+    resetAudioSettings,
+};
+
+export default connect(null, mapDispatchToProps)(App);

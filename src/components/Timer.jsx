@@ -9,16 +9,27 @@ export default class Timer extends PureComponent {
         reset: PropTypes.bool.isRequired,
     };
 
-    componentWillUpdate({ running, reset }) {
-        if (running !== this.props.running) {
-            if (running) {
+    constructor(props) {
+        super(props);
+
+        this.elapsedTime = 0;
+        this.interval = 200;
+
+        if (this.props.running) {
+            this.setInterval();
+        }
+    }
+
+    componentWillUpdate(nextProps) {
+        if (nextProps.running !== this.props.running) {
+            if (nextProps.running) {
                 this.setInterval();
             } else {
                 this.clearInterval();
             }
         }
 
-        if (reset) {
+        if (nextProps.reset) {
             this.elapsedTime = 0;
         }
     }
@@ -29,17 +40,19 @@ export default class Timer extends PureComponent {
 
     render() {
         return (
-            <time>{formatDate(this.elapsedTime, 'mm:ss')}</time>
+            <span className="timer">{formatDate(this.elapsedTime, 'mm:ss')}</span>
         );
     }
-
-    elapsedTime = 0;
-    interval = 200;
 
     tick = () => {
         const seconds = this.getSeconds();
         this.elapsedTime += this.interval;
 
+        // NOTE: Even though the timer should only be updated every 1 second,
+        // the interval delay is set to 200ms. This enables us to prevent
+        // the interval getting out of sync, as setInterval is not guaranteed
+        // to execute every [delay] ms. Thus we check every 200ms if 1 second
+        // has passed (see getSeconds).
         if (seconds !== this.getSeconds()) {
             this.forceUpdate();
         }

@@ -1,4 +1,4 @@
-export function getDefaultName() {
+export function getDefaultVoice() {
     const voices = speechSynthesis.getVoices();
     const defaultVoice = voices.find(voice => voice.default);
 
@@ -6,14 +6,16 @@ export function getDefaultName() {
 }
 
 const utterance = new SpeechSynthesisUtterance('');
-const defaultAudioSettings = {
-    name: getDefaultName(),
-    rate: utterance.rate.toString(),
-    pitch: utterance.pitch.toString(),
-    volume: utterance.volume.toString(),
+
+// NOTE: voice will be populated with default voice *after* getVoices
+// is available (i. e. when onvoiceschanged is triggered)
+export const defaultAudioSettings = {
+    voice: getDefaultVoice(),
+    rate: utterance.rate,
+    pitch: utterance.pitch,
+    volume: utterance.volume,
 };
 
-export { defaultAudioSettings };
 
 function sortVoices(a, b) {
     return a.lang.localeCompare(b.lang);

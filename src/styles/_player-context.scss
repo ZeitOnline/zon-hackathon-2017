@@ -1,0 +1,18 @@
+.player-context {
+    height: 30vh;
+    will-change: height;
+
+    &.slide-enter-active,
+    &.slide-exit {
+        height: 30vh;
+    }
+
+    &.slide-enter,
+    &.slide-exit {
+        transition-duration: 300ms;
+    }
+
+    &.slide-exit-active {
+        height: 0;
+    }
+}

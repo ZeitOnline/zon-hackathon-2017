@@ -1,97 +1,85 @@
 .teaser {
-    padding: 16px 0 0;
+    padding: 24px 0;
+    display: flex;
 
-    h2 {
-        font-size: inherit;
-        margin: 0;
+    &:hover .teaser__state svg {
+        opacity: 1;
+    }
+
+    + .teaser {
+        border-top: 1px solid $color-teaser-separator;
     }
 }
 
-.teaser__intro {
-    margin: 8px 0 10px;
+.teaser__state {
+    width: 48px;
+    padding: 0 4px;
+
+    svg {
+        opacity: 0;
+        width: 40px;
+        height: 40px;
+        transition: opacity 0.1s ease;
+    }
+
+    .icon-button {
+        background: none;
+    }
+
+    .icon-button:focus svg {
+        opacity: 1;
+    }
+
+    .icon-button:hover {
+        color: $color-play-button-hover;
+    }
 }
 
-.teaser + .teaser {
-    border-top: 1px solid #eee;
+.teaser__state--active {
+    svg {
+        opacity: 1;
+    }
+}
+
+.teaser__content {
+
+}
+
+.teaser__heading {
+    font-size: inherit;
+    margin: 0;
+}
+
+.teaser__intro {
+    margin: 8px 0 0 0;
 }
 
 .teaser__kicker {
-    color: #252525;
+    color: $color-teaser-heading;
     font-size: 13px;
     letter-spacing: .05em;
 }
 
 .teaser__title {
+    color: $color-text;
     display: block;
     letter-spacing: .03em;
+    font-size: 20px;
 }
 
-.teaser__date {
-    color: #707070;
+.teaser__info {
+    color: $color-teaser-info;
     font-size: 13px;
-    margin-top: .5em;
-}
+    margin-top: 8px;
 
-.teaser__player {
-    align-items: center;
-    display: flex;
+    > *:not(:last-child) {
+        display: inline-block;
 
-    time {
-        display: block;
-        font-size: 14px;
+        &::after {
+            content: "|";
+            margin: 0 8px;
+        }
     }
-
-    time + time {
-        color: #ccc;
-    }
-}
-
-$play-button-size: 40px;
-
-.teaser__playbutton {
-    background-color: #fff;
-    border-radius: 50%;
-    border: 2px solid #ddd;
-    color: inherit;
-    font-size: 16px;
-    height: $play-button-size;
-    line-height: $play-button-size;
-    margin: 0 16px 0 0;
-    text-align: center;
-    transition-duration: .15s;
-    transition-property: border-color, color;
-    transition-timing-function: ease-in-out;
-    width: $play-button-size;
-}
-
-.teaser__pause {
-    display: inline-block;
-    height: 1em;
-    position: relative;
-    width: 1em;
-
-    &::before,
-    &::after {
-        background-color: currentColor;
-        border-radius: 3px;
-        content: '';
-        height: 100%;
-        position: absolute;
-        top: 0;
-        width: 6px;
-    }
-
-    &::before {
-        left: 0;
-    }
-
-    &::after {
-        right: 0;
-    }
-}
-
-.teaser__progress-bar {
-    margin-right: 16px;
 }
 
 .teaser__text {
@@ -112,4 +100,8 @@ $play-button-size: 40px;
     mark {
         letter-spacing: inherit;
     }
+}
+
+.teaser__link {
+    white-space: nowrap;
 }

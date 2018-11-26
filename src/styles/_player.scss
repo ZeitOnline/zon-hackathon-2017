@@ -1,0 +1,107 @@
+.player-wrapper {
+    position: sticky;
+    bottom: 0;
+    background-color: $color-player-bg;
+}
+
+.player {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .icon-button {
+        margin: 24px 0;
+        flex-shrink: 0;
+
+        &:disabled,
+        &:disabled:hover {
+            color: $color-player-button-disabled;
+            background-color: $color-player-button-bg-disabled;
+        }
+    }
+
+    .icon-button--tab:disabled,
+    .icon-button--tab:disabled:hover {
+        background: none;
+        color: $color-player-button-bg-disabled;
+    }
+
+    .icon-button--settings {
+        margin-left: 12px;
+    }
+}
+
+.player__track-info {
+    width: 100%;
+    color: #fff;
+    margin: 0 24px;
+}
+
+.player__track {
+    margin: 0;
+}
+
+.player__kicker {
+    display: inline-block;
+    height: 12px;
+    font-size: 12px;
+    letter-spacing: .05em;
+    font-weight: normal;
+}
+
+.player__title {
+    display: block;
+    letter-spacing: .03em;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.player__progress {
+    display: grid;
+    font-size: 12px;
+    grid-gap: 8px;
+    grid-template-columns: 42px 1fr 42px;
+    margin: 8px 0;
+
+    .time-estimate {
+        text-align: right;
+
+        &::before {
+            content: '~';
+            margin-right: 2px;
+        }
+    }
+}
+
+.player__progress-bar {
+    appearance: none;
+    width: 100%;
+    margin: 8px 0;
+    height: 4px;
+    background-color: $color-progress-background;
+    border: 0;
+    border-radius: 2px;
+}
+
+::-webkit-progress-bar {
+    border-radius: 2px; // needed repetition
+    background-color: $color-progress-background;
+}
+::-moz-progress-bar {
+    // equivalent to webkit-progress-value
+    border-radius: 2px;
+    background-color: $color-progress-value;
+}
+
+::-webkit-progress-value {
+    border-radius: 2px; // needed repetition
+    background-color: $color-progress-value;
+}
+
+.player__buttons {
+    flex-shrink: 0;
+}

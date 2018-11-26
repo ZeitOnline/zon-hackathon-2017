@@ -1,70 +1,103 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { AudioSetting } from 'app/components';
-import { getVoices } from 'app/utilities';
+import { resetAudioSettings, updateAudioSettings } from 'app/actions/audioSettings';
+import { AudioSettingSlider } from 'app/components';
 
-export default class AudioSettings extends Component {
+class AudioSettings extends Component {
     static propTypes = {
-        name: PropTypes.string.isRequired,
-        rate: PropTypes.string.isRequired,
-        pitch: PropTypes.string.isRequired,
-        volume: PropTypes.string.isRequired,
-        onChange: PropTypes.func.isRequired,
-        reset: PropTypes.func.isRequired,
-    }
-
-    state = {
-        voices: getVoices(),
+        voice: PropTypes.string.isRequired,
+        rate: PropTypes.number.isRequired,
+        pitch: PropTypes.number.isRequired,
+        volume: PropTypes.number.isRequired,
+        voiceList: PropTypes.arrayOf(PropTypes.object).isRequired,
+        resetAudioSettings: PropTypes.func.isRequired,
+        updateAudioSettings: PropTypes.func.isRequired,
     };
 
-    componentDidMount() {
-        speechSynthesis.addEventListener('voiceschanged', this.setVoices);
-    }
-
     render() {
-        const { name, rate, pitch, volume, onChange, reset } = this.props;
-
         return (
-            <details className="settings" open>
-                <summary className="settings__summary">Settings</summary>
+            <div className="settings">
+                {/* eslint-disable-next-line jsx-a11y/label-has-for */}
                 <label htmlFor="name" className="settings__label">
-                    <span>Voice</span>
+                    <span>Stimme</span>
                     <select
-                        name="name"
-                        value={name}
+                        name="voice"
+                        value={this.props.voice}
                         className="settings__voices"
-                        onChange={onChange}
+                        onChange={this.handleVoiceChange}
                     >
-                        { this.state.voices.map(voice => (
+                        { this.props.voiceList.map(voice => (
                             <option key={voice.voiceURI} value={voice.name}>
                                 { voice.name } ({ voice.lang })
                             </option>
                         )) }
                     </select>
                 </label>
-                <AudioSetting name="rate" value={rate} min={0.5} max={3.5} onChange={onChange} />
-                <AudioSetting name="pitch" value={pitch} max={2} onChange={onChange} />
-                <AudioSetting name="volume" value={volume} onChange={onChange} />
-                <button onClick={reset} className="settings__button">
-                    Default
+                <AudioSettingSlider
+                    name="rate"
+                    label="Geschwindigkeit"
+                    value={this.props.rate}
+                    min={0.5}
+                    max={3}
+                    onChange={this.handleAudioSettingChange}
+                />
+                <AudioSettingSlider
+                    name="pitch"
+                    label="Tonhöhe"
+                    value={this.props.pitch}
+                    min={0}
+                    max={2}
+                    onChange={this.handleAudioSettingChange}
+                />
+                <AudioSettingSlider
+                    name="volume"
+                    label="Lautstärke"
+                    value={this.props.volume}
+                    min={0}
+                    max={1}
+                    onChange={this.handleAudioSettingChange}
+                />
+                <button onClick={this.reset} className="settings__button">
+                    Reset
                 </button>
-                <button onClick={this.mute} className="settings__button">
-                    Mute
-                </button>
-            </details>
+            </div>
         );
     }
 
-    setVoices = () => {
-        if (!this.state.voices.length) {
-            this.setState({
-                voices: getVoices(),
-            });
-        }
-    };
+    reset = () => {
+        this.props.resetAudioSettings();
+    }
 
-    mute = () => {
-        speechSynthesis.cancel();
-    };
+    handleVoiceChange = (event) => {
+        const { name, value } = event.target;
+
+        this.props.updateAudioSettings({
+            [name]: value,
+        });
+    }
+
+    handleAudioSettingChange = (event) => {
+        const { name, value } = event.target;
+
+        this.props.updateAudioSettings({
+            [name]: Number.parseFloat(value),
+        });
+    }
 }
+
+const mapStateToProps = ({ audioSettings }) => ({
+    voice: audioSettings.voice,
+    rate: audioSettings.rate,
+    pitch: audioSettings.pitch,
+    volume: audioSettings.volume,
+    voiceList: audioSettings.voiceList,
+});
+
+const mapDispatchToProps = {
+    resetAudioSettings,
+    updateAudioSettings,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AudioSettings);

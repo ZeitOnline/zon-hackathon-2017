@@ -1,20 +1,33 @@
-* {
+*, *::after, *::before {
     box-sizing: border-box;
     letter-spacing: .01em;
 }
 
+html {
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+}
+
 body {
-    color: #252525;
+    color: $color-text;
     font-family: "Tablet Gothic", sans-serif;
     line-height: 1.5;
-    margin: auto;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    margin: 0 auto;
+    min-height: 100vh;
     min-width: 320px;
     max-width: 900px;
     padding: 1em;
 }
 
 a {
-    color: #b91109;
+    color: $color-link;
     text-decoration: none;
 
     @include hover {
@@ -54,4 +67,8 @@ button, input, select, textarea {
 
 button {
     cursor: pointer;
+
+    &[disabled] {
+        cursor: default;
+    }
 }

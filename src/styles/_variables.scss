@@ -2,3 +2,60 @@
 $min-width-tablet:   600px;
 $min-width-desktop:  900px;
 
+// Utility Colors
+$zon-silbergrau--1: #EEEEF0;
+$zon-silbergrau--2: #CCCCCF;
+$zon-silbergrau--3: #99999C;
+$zon-silbergrau--4: #252525;
+$zon-betongrau--1: #77777C;
+$zon-betongrau--2: #535560;
+$zon-betongrau--3: #44444C;
+$zon-betongrau--4: #33333C;
+$zon-warmgrau--1: #F0EEEC;
+$zon-warmgrau--2: #E4DED8;
+$zon-warmgrau--3: #B3AFA4;
+$zon-warmgrau--4: #5E534F;
+$zon-rubinrot--1: #FF7783;
+$zon-rubinrot--2: #FF014F;
+$zon-rubinrot--3: #B91109;
+$zon-rubinrot--4: #7C0E14;
+$zon-sonnengelb--1: #FFEB61;
+$zon-sonnengelb--2: #FFCC15;
+$zon-sonnengelb--3: #FFBB00;
+$zon-sonnengelb--4: #F76906;
+$zon-seegruen--1: #57C594;
+$zon-seegruen--2: #1CDE7E;
+$zon-seegruen--3: #259661;
+$zon-seegruen--4: #1D6847;
+$zon-ozeanblau--1: #6FA6B9;
+$zon-ozeanblau--2: #00CBDB;
+$zon-ozeanblau--3: #0088A0;
+$zon-ozeanblau--4: #085064;
+
+// General Colors
+$color-link: $zon-rubinrot--3;
+$color-text: $zon-silbergrau--4;
+$color-play-button-hover: $zon-rubinrot--3;
+
+// Header Colors
+$color-header-border: $zon-silbergrau--2;
+
+// Teaser Colors
+$color-teaser-heading: $zon-rubinrot--3;
+$color-teaser-info: $zon-betongrau--2;
+$color-teaser-separator: $zon-silbergrau--2;
+
+// Player Colors
+$color-player-bg: $zon-betongrau--3;
+$color-player-button: $zon-silbergrau--4;
+$color-player-button-hover: $zon-ozeanblau--2;
+$color-player-button-bg: $zon-silbergrau--1;
+$color-player-button-disabled: $zon-betongrau--3;
+$color-player-button-bg-disabled: $zon-betongrau--1;
+
+// Progress Bar Colors
+$color-progress-value: $zon-rubinrot--2;
+$color-progress-background: $zon-betongrau--1;
+
+// Text Display Colors
+$color-text-display-marked: $zon-rubinrot--3;

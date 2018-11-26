@@ -56,7 +56,7 @@ const config = (env) => {
                 {
                     exclude,
                     test: /\.s*css$/,
-                    use: bundleCss.extract(styleLoader),
+                    use: isProduction ? bundleCss.extract(styleLoader) : ['style-loader', ...styleLoader],
                 },
                 {
                     exclude,
@@ -105,7 +105,6 @@ const config = (env) => {
         output: {
             filename: '[name].js',
             path: publicPath,
-            publicPath: '/',
         },
         plugins: [
             new webpack.DefinePlugin({
@@ -116,8 +115,8 @@ const config = (env) => {
             bundleCss,
             htmlSinglePage,
             new Dotenv({
-                path: './.env', // Path to .env file (this is the default) 
-                // safe: true // load .env.example (defaults to "false" which does not use dotenv-safe) 
+                path: './.env', // Path to .env file (this is the default)
+                // safe: true // load .env.example (defaults to "false" which does not use dotenv-safe)
             }),
         ],
         devServer: {
