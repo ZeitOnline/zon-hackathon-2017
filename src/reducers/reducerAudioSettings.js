@@ -12,10 +12,17 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case UPDATE_AUDIO_SETTINGS:
         case RESET_AUDIO_SETTINGS:
-            return {
-                ...state,
-                ...action.payload,
-            };
+            if (
+                action.payload.rate >= 0.5
+                || action.payload.pitch >= 0
+                || action.payload.volume >= 0
+            ) {
+                return {
+                    ...state,
+                    ...action.payload,
+                };
+            }
+            return state;
         default:
             return state;
     }

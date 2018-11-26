@@ -19,6 +19,7 @@ class AudioSettings extends Component {
     render() {
         return (
             <div className="settings">
+                {/* eslint-disable-next-line jsx-a11y/label-has-for */}
                 <label htmlFor="name" className="settings__label">
                     <span>Stimme</span>
                     <select
@@ -46,6 +47,7 @@ class AudioSettings extends Component {
                     name="pitch"
                     label="Tonhöhe"
                     value={this.props.pitch}
+                    min={0}
                     max={2}
                     onChange={this.handleAudioSettingChange}
                 />
@@ -53,6 +55,8 @@ class AudioSettings extends Component {
                     name="volume"
                     label="Lautstärke"
                     value={this.props.volume}
+                    min={0}
+                    max={1}
                     onChange={this.handleAudioSettingChange}
                 />
                 <button onClick={this.reset} className="settings__button">
